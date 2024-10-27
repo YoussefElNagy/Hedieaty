@@ -3,15 +3,15 @@ import '../data/friends.dart';
 
 class Home extends StatelessWidget {
   final List<Friend> myFriends = [
-    Friend(username: "SnoopNogg69", upcomingEvents: 2, profilePic: "default_avatar.png", phoneNumber: "+201093255558"),
-    Friend(username: "CristianoRonaldoooooo", upcomingEvents: 6, profilePic: "nog.jpg", phoneNumber: "+201093255558"),
-    Friend(username: "Buk@yoS@k@", upcomingEvents: 0, profilePic: "buk.jpg", phoneNumber: "+201077777777"),
-    Friend(username: "HappyTheAir", upcomingEvents: 2, profilePic: "snoop.jpg", phoneNumber: "+201012345678"),
-    Friend(username: "Ghost", upcomingEvents: 0, profilePic: "nog.jpg", phoneNumber: "+201000000000"),
-    Friend(username: "EidSaeedRamadan", upcomingEvents: 19, profilePic: "buk.jpg", phoneNumber: "+201007775000"),
-    Friend(username: "NourElFouad", upcomingEvents: 1, profilePic: "snoop.jpg", phoneNumber: "+201012344045"),
-    Friend(username: "HamadaBelGanzabeel", upcomingEvents: 3, profilePic: "nog.jpg", phoneNumber: "+201094574821"),
-    Friend(username: "ItsMeBolbol", upcomingEvents: 0, profilePic: "buk.jpg", phoneNumber: "+201090008000"),
+    Friend(username: "SnoopNogg69", upcomingEvents: 2, profilePic: "default_avatar.png", phoneNumber: "+201093255558",events: []),
+    Friend(username: "CristianoRonaldoooooo", upcomingEvents: 6, profilePic: "nog.jpg", phoneNumber: "+201093255558",events: []),
+    Friend(username: "Buk@yoS@k@", upcomingEvents: 0, profilePic: "buk.jpg", phoneNumber: "+201077777777",events: []),
+    Friend(username: "HappyTheAir", upcomingEvents: 2, profilePic: "snoop.jpg", phoneNumber: "+201012345678",events: []),
+    Friend(username: "Ghost", upcomingEvents: 0, profilePic: "nog.jpg", phoneNumber: "+201000000000",events: []),
+    Friend(username: "EidSaeedRamadan", upcomingEvents: 19, profilePic: "buk.jpg", phoneNumber: "+201007775000",events: []),
+    Friend(username: "NourElFouad", upcomingEvents: 1, profilePic: "snoop.jpg", phoneNumber: "+201012344045",events: []),
+    Friend(username: "HamadaBelGanzabeel", upcomingEvents: 3, profilePic: "nog.jpg", phoneNumber: "+201094574821",events: []),
+    Friend(username: "ItsMeBolbol", upcomingEvents: 0, profilePic: "buk.jpg", phoneNumber: "+201090008000",events: []),
   ];
 
   @override

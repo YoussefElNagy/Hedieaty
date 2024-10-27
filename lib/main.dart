@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'components/Home.dart';
-import 'components/Events.dart';
+import 'components/EventPage.dart';
+import 'components/Profile.dart';
+
 
 
 void main() {
@@ -71,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     Home(),
     Events(),
-    PageThree(),
+    Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -114,14 +116,3 @@ class _HomeScreenState extends State<HomeScreen> {
 
 
 
-class PageThree extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Profile Page',
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
-    );
-  }
-}
