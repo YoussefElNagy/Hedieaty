@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'components/Home.dart';
+import 'components/Events.dart';
+
 
 void main() {
   runApp(Hedeyeti());
@@ -9,6 +12,7 @@ class Hedeyeti extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hedeyeti',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Color(0xFF4ecdc4),    // Teal for primary color (AppBar and main accents)
@@ -29,17 +33,25 @@ class Hedeyeti extends StatelessWidget {
 
         // Bottom Navigation Bar theme
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Color(0xFF4ecdc4), // Teal background color for the navbar
-          selectedItemColor: Color(0xFFBFEDEA), // Dark color for the selected item
-          unselectedItemColor: Colors.white,   // White for unselected items
+          backgroundColor: Color(0xFFfdfdf6), // Teal background color for the navbar
+          unselectedItemColor: Color(0xFF9FE5DF), // Dark color for the selected item
+          selectedItemColor: Color(0xFF4ecdc4),   // White for unselected items
         ),
 
         // Text theme with black as the default color for body text
         textTheme: TextTheme(
-          bodyLarge: TextStyle(color: Colors.black),  // Black color for main body text
-          bodyMedium: TextStyle(color: Colors.black),
+          bodyLarge: TextStyle(color: Color(0xFF292f36)),  // Black color for main body text
+          bodyMedium: TextStyle(color: Color(0xFF292f36)),
           titleLarge: TextStyle(
-            color: Colors.black, // Black for headers
+            color: Color(0xFF292f36), // Black for headers
+          ),
+          headlineLarge: TextStyle(
+            color: Color(0xFF292f36),
+            fontWeight: FontWeight.w600// Black for headers
+          ),
+          headlineMedium: TextStyle(
+              color: Color(0xFF292f36),
+              fontWeight: FontWeight.w500// Black for headers
           ),
         ),
       ),
@@ -57,8 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    PageOne(),
-    PageTwo(),
+    Home(),
+    Events(),
     PageThree(),
   ];
 
@@ -72,7 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hedeyeti'),
+        title: Text('Hedeyeti',style: TextStyle(
+          fontSize: 30
+        ),),
         centerTitle: true,
       ),
       body: _pages[_selectedIndex],
@@ -80,11 +94,11 @@ class _HomeScreenState extends State<HomeScreen> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Friends',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.calendar_month),
+            label: 'Events',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -98,29 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-class PageOne extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Home Page',
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
-    );
-  }
-}
 
-class PageTwo extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Search Page',
-        style: Theme.of(context).textTheme.titleLarge,
-      ),
-    );
-  }
-}
 
 class PageThree extends StatelessWidget {
   @override
