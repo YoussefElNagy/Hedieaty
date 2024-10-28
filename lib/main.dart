@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'components/Home.dart';
 import 'components/EventPage.dart';
 import 'components/Profile.dart';
-
-
 
 void main() {
   runApp(Hedeyeti());
@@ -17,17 +16,17 @@ class Hedeyeti extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Color(0xFF4ecdc4),    // Teal for primary color (AppBar and main accents)
+          primary: Color(0xFF4ecdc4),    // Teal for primary color
           secondary: Color(0xFF292f36),  // Dark color for highlights if needed
-          background: Color(0xFFfdfdfd), // Light background
+          surface: Color(0xFFfdfdfd), // Light background
         ),
 
         // Customize the AppBar
         appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xFF4ecdc4),  // Teal AppBar
-          iconTheme: IconThemeData(color: Colors.white), // White icons for contrast
-          titleTextStyle: TextStyle(
-            color: Colors.white,               // White title text
+          backgroundColor: Color(0xFF4ecdc4),
+          iconTheme: IconThemeData(color: Colors.white),
+          titleTextStyle: GoogleFonts.cairo(  // Google Font for AppBar title
+            color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -35,25 +34,29 @@ class Hedeyeti extends StatelessWidget {
 
         // Bottom Navigation Bar theme
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Color(0xFFfdfdf6), // Teal background color for the navbar
-          unselectedItemColor: Color(0xFF9FE5DF), // Dark color for the selected item
-          selectedItemColor: Color(0xFF4ecdc4),   // White for unselected items
+          backgroundColor: Color(0xFFfdfdf6),
+          unselectedItemColor: Color(0xFF9FE5DF),
+          selectedItemColor: Color(0xFF4ecdc4),
         ),
 
-        // Text theme with black as the default color for body text
-        textTheme: TextTheme(
-          bodyLarge: TextStyle(color: Color(0xFF292f36)),  // Black color for main body text
-          bodyMedium: TextStyle(color: Color(0xFF292f36)),
-          titleLarge: TextStyle(
-            color: Color(0xFF292f36), // Black for headers
-          ),
-          headlineLarge: TextStyle(
-            color: Color(0xFF292f36),
-            fontWeight: FontWeight.w600// Black for headers
-          ),
-          headlineMedium: TextStyle(
+        // Text theme with Google Fonts
+        textTheme: GoogleFonts.cairoTextTheme(  // Apply Google Font to the whole text theme
+          TextTheme(
+            bodyLarge: TextStyle(color: Color(0xFF292f36)),
+            bodyMedium: TextStyle(color: Color(0xFF292f36)),
+            titleLarge: TextStyle(
               color: Color(0xFF292f36),
-              fontWeight: FontWeight.w500// Black for headers
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+            headlineLarge: TextStyle(
+              color: Color(0xFF292f36),
+              fontWeight: FontWeight.w600,
+            ),
+            headlineMedium: TextStyle(
+              color: Color(0xFF292f36),
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ),
@@ -86,9 +89,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hedeyeti',style: TextStyle(
-          fontSize: 30
-        ),),
+        title: Text(
+          'Hedeyeti',
+          style: GoogleFonts.cairo(fontSize: 30),  // Google Font for AppBar title
+        ),
         centerTitle: true,
       ),
       body: _pages[_selectedIndex],
@@ -113,6 +117,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-
-

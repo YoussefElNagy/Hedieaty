@@ -3,7 +3,7 @@ import 'friends.dart';
 
 class Event{
   String eventName;
-  Friend owner;
+  String owner;
   DateTime dateTime;
   String category;
   String status;

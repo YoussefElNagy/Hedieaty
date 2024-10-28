@@ -4,14 +4,14 @@ import '../data/friends.dart';
 class Home extends StatelessWidget {
   final List<Friend> myFriends = [
     Friend(username: "SnoopNogg69", upcomingEvents: 2, profilePic: "default_avatar.png", phoneNumber: "+201093255558",events: []),
-    Friend(username: "CristianoRonaldoooooo", upcomingEvents: 6, profilePic: "nog.jpg", phoneNumber: "+201093255558",events: []),
-    Friend(username: "Buk@yoS@k@", upcomingEvents: 0, profilePic: "buk.jpg", phoneNumber: "+201077777777",events: []),
-    Friend(username: "HappyTheAir", upcomingEvents: 2, profilePic: "snoop.jpg", phoneNumber: "+201012345678",events: []),
-    Friend(username: "Ghost", upcomingEvents: 0, profilePic: "nog.jpg", phoneNumber: "+201000000000",events: []),
-    Friend(username: "EidSaeedRamadan", upcomingEvents: 19, profilePic: "buk.jpg", phoneNumber: "+201007775000",events: []),
-    Friend(username: "NourElFouad", upcomingEvents: 1, profilePic: "snoop.jpg", phoneNumber: "+201012344045",events: []),
-    Friend(username: "HamadaBelGanzabeel", upcomingEvents: 3, profilePic: "nog.jpg", phoneNumber: "+201094574821",events: []),
-    Friend(username: "ItsMeBolbol", upcomingEvents: 0, profilePic: "buk.jpg", phoneNumber: "+201090008000",events: []),
+    Friend(username: "CristianoRonaldoooooo", upcomingEvents: 6,  phoneNumber: "+201093255558",events: []),
+    Friend(username: "Buk@yoS@k@", upcomingEvents: 0,  phoneNumber: "+201077777777",events: []),
+    Friend(username: "HappyTheAir", upcomingEvents: 2,  phoneNumber: "+201012345678",events: []),
+    Friend(username: "Ghost", upcomingEvents: 0,  phoneNumber: "+201000000000",events: []),
+    Friend(username: "EidSaeedRamadan", upcomingEvents: 19, phoneNumber: "+201007775000",events: []),
+    Friend(username: "NourElFouad", upcomingEvents: 1, phoneNumber: "+201012344045",events: []),
+    Friend(username: "HamadaBelGanzabeel", upcomingEvents: 3, phoneNumber: "+201094574821",events: []),
+    Friend(username: "ItsMeBolbol", upcomingEvents: 0,  phoneNumber: "+201090008000",events: []),
   ];
 
   @override
@@ -95,8 +95,8 @@ class Home extends StatelessWidget {
                               style: theme.textTheme.bodyLarge,
                             ),
                             leading: CircleAvatar(
-                              backgroundImage: AssetImage('assets/${myFriends[index].profilePic}'),
-                              onBackgroundImageError: (_, __) => AssetImage('assets/default_avatar.png'),
+                              backgroundImage: AssetImage('assets/default_avatar.png'),
+                              // onBackgroundImageError: (_, __) => AssetImage('assets/default_avatar.png'),
                             ),
                             subtitle: myFriends[index].upcomingEvents == 0
                                 ? Text("No upcoming events", style: theme.textTheme.bodySmall)
