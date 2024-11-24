@@ -3,21 +3,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'components/Home.dart';
 import 'components/EventPage.dart';
 import 'components/Profile.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(Hedeyeti());
+void main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(Hedieaty());
 }
 
-class Hedeyeti extends StatelessWidget {
+class Hedieaty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Hedeyeti',
+      title: 'Hedieaty',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: Color(0xFF4ecdc4),    // Teal for primary color
           secondary: Color(0xFF292f36),  // Dark color for highlights if needed
+          tertiary: Color(0xFFBEEFEB),
           surface: Color(0xFFfdfdfd), // Light background
         ),
 
@@ -90,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Hedeyeti',
+          'Hedieaty',
           style: GoogleFonts.cairo(fontSize: 30),  // Google Font for AppBar title
         ),
         centerTitle: true,
