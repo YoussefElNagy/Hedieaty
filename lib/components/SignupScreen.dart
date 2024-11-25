@@ -1,0 +1,240 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:hedeyeti/components/LoginScreen.dart';
+
+import '../main.dart';
+import '../services/auth.dart';
+
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
+
+  @override
+  State<SignUpScreen> createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+
+  bool _isLoading = false;
+
+  Future<void> _signup() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final email = _emailController.text.trim();
+      final password = _passwordController.text.trim();
+      final confirmPassword = _confirmPasswordController.text.trim();
+
+      if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
+        throw FirebaseAuthException(
+          code: 'empty-fields',
+          message: 'Please fill in all fields.',
+        );
+      }
+
+      final auth = Auth();
+      await auth.signUp(email: email, password: password);
+      //await auth.saveUserData(name: name, email: email);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      ).then((_) {
+        // Clear the form fields after successful signup
+        _emailController.clear();
+        _passwordController.clear();
+        _confirmPasswordController.clear();
+      });
+    } on FirebaseAuthException catch (e) {
+      String errorMessage;
+      print(e.code);
+      switch (e.code) {
+        case 'email-already-in-use':
+          errorMessage = 'This email is already in use. Try logging in.';
+          break;
+        case 'weak-password':
+          errorMessage = 'Password should be at least 6 characters.';
+          break;
+        case 'invalid-email':
+          errorMessage = 'Please enter a valid email address.';
+          break;
+        default:
+          errorMessage = 'An unexpected error occurred. Please try again.';
+      }
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An unexpected error occurred: $e')),
+      );
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+
+    super.dispose();
+  }
+  GlobalKey <FormState> formKey= GlobalKey();
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch, // Ensures children fill available width
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1), // Adds top spacing
+                Text(
+                  "Welcome to Hedeiaty!",
+                  style: theme.textTheme.displaySmall,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 20),
+                Text(
+                  "Create your account now!",
+                  style: theme.textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 40),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
+                          labelText: 'Email',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        autocorrect: false,
+                        validator: (x) {
+                          if (x == null || x.isEmpty) {
+                            return 'Please enter your email';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Password',
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                        autocorrect: false,
+                        validator: (x) {
+                          if (x == null || x.isEmpty) {
+                            return 'Please enter your password';
+                          } else if (x.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        decoration: const InputDecoration(
+                          labelText: 'Confirm password',
+                          border: OutlineInputBorder(),
+                        ),
+                        obscureText: true,
+                        autocorrect: false,
+                        validator: (x) {
+                          if (x == null || x.isEmpty) {
+                            return 'Please enter your password';
+                          } else if (x.length < 6) {
+                            return 'Password must be at least 6 characters';
+                          } else if (x != _passwordController.text) {
+                            return 'Both passwords must match';
+                          } else {
+                            return null;
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                      _isLoading
+                          ? const CircularProgressIndicator()
+                          :
+                      AbsorbPointer(
+                            absorbing: _isLoading,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  _signup();
+                              }
+                                                    },
+                              child: const Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              ),
+                            ),
+                          ),
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Already have an account?"),
+                          TextButton(
+                            child: Text(
+                              "Sign in now!",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              ).then((_) {
+                                setState(() {
+                                  _isLoading = false;
+                                });
+                              });
+
+                            },
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1), // Adds bottom spacing
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+
+  }
+}

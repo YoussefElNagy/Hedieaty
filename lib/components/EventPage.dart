@@ -38,32 +38,34 @@ class Events extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-      child: ListView.builder(
-        itemCount: upcomingEvents.length,
-        itemBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
-            child: Card(
-              color: theme.colorScheme.surface,
-              elevation: 2,
-              child: Container(
-                color: theme.colorScheme.tertiary,
-                child: ListTile(
-                  title: Text(
-                    '${upcomingEvents[index].owner}\'s ${upcomingEvents[index].eventName}',
-                    style: theme.textTheme.bodyLarge,
-                  ),
-                  subtitle: Text(
-                    DateFormat('dd-MM-yyyy HH:mm').format(upcomingEvents[index].dateTime),
-                    style: theme.textTheme.bodySmall,
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+        child: ListView.builder(
+          itemCount: upcomingEvents.length,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
+              child: Card(
+                color: theme.colorScheme.surface,
+                elevation: 2,
+                child: Container(
+                  color: theme.colorScheme.tertiary,
+                  child: ListTile(
+                    title: Text(
+                      '${upcomingEvents[index].owner}\'s ${upcomingEvents[index].eventName}',
+                      style: theme.textTheme.bodyLarge,
+                    ),
+                    subtitle: Text(
+                      DateFormat('dd-MM-yyyy HH:mm').format(upcomingEvents[index].dateTime),
+                      style: theme.textTheme.bodySmall,
+                    ),
                   ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

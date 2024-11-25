@@ -5,11 +5,17 @@ import 'components/EventPage.dart';
 import 'components/Profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'components/LoginScreen.dart';
 
-void main() async {
+void firebaseInit() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+}
+
+void main() {
+  firebaseInit();
   runApp(Hedieaty());
 }
 
@@ -21,17 +27,17 @@ class Hedieaty extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: Color(0xFF4ecdc4),    // Teal for primary color
-          secondary: Color(0xFF292f36),  // Dark color for highlights if needed
-          tertiary: Color(0xFFBEEFEB),
+          primary: Color(0xFF4ecdc4), // Teal for primary color
+          secondary: Color(0xFF292f36), // Dark color for highlights if needed
+          tertiary: Color(0xFFBEEFEB), // Accent color for other UI elements
           surface: Color(0xFFfdfdfd), // Light background
         ),
 
-        // Customize the AppBar
+        // AppBar customization
         appBarTheme: AppBarTheme(
           backgroundColor: Color(0xFF4ecdc4),
           iconTheme: IconThemeData(color: Colors.white),
-          titleTextStyle: GoogleFonts.cairo(  // Google Font for AppBar title
+          titleTextStyle: GoogleFonts.cairo(
             color: Colors.white,
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -45,8 +51,8 @@ class Hedieaty extends StatelessWidget {
           selectedItemColor: Color(0xFF4ecdc4),
         ),
 
-        // Text theme with Google Fonts
-        textTheme: GoogleFonts.cairoTextTheme(  // Apply Google Font to the whole text theme
+        // Text theme using Google Fonts
+        textTheme: GoogleFonts.cairoTextTheme(
           TextTheme(
             bodyLarge: TextStyle(color: Color(0xFF292f36)),
             bodyMedium: TextStyle(color: Color(0xFF292f36)),
@@ -65,8 +71,31 @@ class Hedieaty extends StatelessWidget {
             ),
           ),
         ),
+
+        // Input Decoration Theme
+        inputDecorationTheme: InputDecorationTheme(
+          filled: true,
+          fillColor: Color(0xFFfdfdfd), // Background for input fields
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Color(0xFF4ecdc4), width: 2),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Color(0xFF4ecdc4), width: 2),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.grey, width: 2),
+          ),
+          labelStyle: TextStyle(color: Color(0x69292f36)),
+          floatingLabelStyle: TextStyle(
+            color: Color(0xFF4ecdc4), // Label color when focused
+          ),  // Label text style
+        ),
+
       ),
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
@@ -97,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           'Hedieaty',
-          style: GoogleFonts.cairo(fontSize: 30),  // Google Font for AppBar title
+          style: GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
         ),
         centerTitle: true,
       ),
@@ -105,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.group),
             label: 'Friends',
           ),
           BottomNavigationBarItem(
