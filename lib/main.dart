@@ -91,9 +91,8 @@ class Hedieaty extends StatelessWidget {
           labelStyle: TextStyle(color: Color(0x69292f36)),
           floatingLabelStyle: TextStyle(
             color: Color(0xFF4ecdc4), // Label color when focused
-          ),  // Label text style
+          ), // Label text style
         ),
-
       ),
       home: LoginScreen(),
     );
@@ -126,7 +125,8 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(
           'Hedieaty',
-          style: GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
+          style:
+              GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
         ),
         centerTitle: true,
       ),

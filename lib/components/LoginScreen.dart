@@ -34,32 +34,62 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       final auth = Auth();
-      await auth.signIn(email: email, password: password);
-      DocumentSnapshot currentUser=await auth.getUserData(); //sharedpref isA
-      Navigator.pushReplacement(context,MaterialPageRoute(builder: (context) => HomeScreen()));
+      // Attempt to sign in the user
+      var user = await auth.signIn(email: email, password: password);
+      if (user != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomeScreen()),
+        );
+      }
+      //TODO
+      // Get the user data from Firestore
+      // DocumentSnapshot currentUser = await auth.getUserData();
+      // print("User data: $currentUser");
+      //
+      // // Check if the user exists and navigate to the home screen
+      // if (currentUser.exists) {
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => HomeScreen()),
+      //   );
+      // }
 
+      else {
+        throw FirebaseAuthException(
+          code: 'user-not-found',
+          message: 'User not found in Firestore.',
+        );
+      }
     } on FirebaseAuthException catch (e) {
       String errorMessage;
       print(e.code);
       switch (e.code) {
         case 'invalid-credential':
-          errorMessage = 'Incorrect e-mail or password.';
+          errorMessage = 'Incorrect email or password.';
           break;
         case 'invalid-email':
-          errorMessage = 'Enter a valid e-mail!';
+          errorMessage = 'Enter a valid email!';
+          break;
+        case 'user-not-found':
+          errorMessage = 'No user found for that email.';
           break;
         default:
           errorMessage = 'An error occurred. Please try again.';
-        print(errorMessage) ;
-
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An unexpected error occurred: $e')),
+        SnackBar(
+          content: Text('An unexpected error occurred: $e'),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
       );
     } finally {
       setState(() {
@@ -74,7 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
     _passwordController.dispose();
     super.dispose();
   }
-  GlobalKey <FormState> formKey= GlobalKey();
+
+  GlobalKey<FormState> formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -83,19 +115,26 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1), // Top spacing
+              SizedBox(
+                  height:
+                      MediaQuery.of(context).size.height * 0.1), // Top spacing
               Text(
                 "Welcome Back!",
                 style: theme.textTheme.displayMedium,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 20),
+              Text(
+                "Catch up with your friends!",
+                style: theme.textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40),
               Form(
                 key: formKey,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(
@@ -135,21 +174,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 30),
                     _isLoading
-                        ? const CircularProgressIndicator()
+                        ? const Center(child: CircularProgressIndicator())
                         : ElevatedButton(
-                      onPressed: () {
-                        if (formKey.currentState!.validate()) {
-                          _login();
-                        }
-                      },
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: theme.colorScheme
+                                  .primary, // Directly set the color
+                            ),
+                            onPressed: _isLoading
+                                ? null
+                                : () {
+                                    if (formKey.currentState!.validate()) {
+                                      _login();
+                                    }
+                                  },
+                            child: Text(
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme
+                                    .onPrimary, // Text color matching button background
+                              ),
+                            ),
+                          ),
                     const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -161,9 +208,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           onPressed: () {
-                            Navigator.push(
+                            Navigator.pushReplacement(
                               context,
-                              MaterialPageRoute(builder: (context) => SignUpScreen()),
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpScreen()),
                             );
                           },
                         )
@@ -172,12 +220,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1), // Bottom spacing
+              SizedBox(
+                  height: MediaQuery.of(context).size.height *
+                      0.1), // Bottom spacing
             ],
           ),
         ),
       ),
     );
-
   }
 }

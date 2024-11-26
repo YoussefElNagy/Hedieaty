@@ -46,12 +46,12 @@ class Auth{
     }
   }
 
-  Future<void> saveUserData({required String name, required String email}) async{
+  Future<void> saveUserData({required String username, required String email}) async{
     User? user= _auth.currentUser;
     if(user!=null) {
       String uid= user.uid;
       FirebaseFirestore.instance.collection('users').doc(uid).set({
-        'name': name,
+        'username': username,
         'email': email
       });
     }

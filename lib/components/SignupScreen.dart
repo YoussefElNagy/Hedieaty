@@ -1,9 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hedeyeti/components/LoginScreen.dart';
-
-import '../main.dart';
 import '../services/auth.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -14,7 +11,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-
+  final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -27,6 +24,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
 
     try {
+      final username = _usernameController.text.trim();
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
       final confirmPassword = _confirmPasswordController.text.trim();
@@ -40,13 +38,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
       final auth = Auth();
       await auth.signUp(email: email, password: password);
-      //await auth.saveUserData(name: name, email: email);
+      await auth.saveUserData(username: username, email: email);
 
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen()),
       ).then((_) {
         // Clear the form fields after successful signup
+        _usernameController.clear();
         _emailController.clear();
         _passwordController.clear();
         _confirmPasswordController.clear();
@@ -69,11 +68,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(errorMessage)),
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('An unexpected error occurred: $e')),
+        SnackBar(
+          content: Text('An unexpected error occurred: $e'),
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
       );
     } finally {
       setState(() {
@@ -82,16 +87,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     }
   }
 
-
   @override
   void dispose() {
+    _usernameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
-
     super.dispose();
   }
-  GlobalKey <FormState> formKey= GlobalKey();
+
+  GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -102,9 +107,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch, // Ensures children fill available width
+              crossAxisAlignment: CrossAxisAlignment
+                  .stretch, // Ensures children fill available width
               children: [
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1), // Adds top spacing
+                SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.1), // Adds top spacing
                 Text(
                   "Welcome to Hedeiaty!",
                   style: theme.textTheme.displaySmall,
@@ -122,6 +130,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      TextFormField(
+                        controller: _usernameController,
+                        decoration: const InputDecoration(
+                          labelText: 'Username',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.name,
+                        autocorrect: false,
+                        validator: (x) {
+                          if (x == null || x.isEmpty) {
+                            return 'Please enter your username';
+                          }
+
+                          // Regular expression to allow letters, numbers, underscores, and dashes
+                          final regex = RegExp(r'^[a-zA-Z0-9_-]+$');
+                          if (!regex.hasMatch(x)) {
+                            return 'Enter valid characters.';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
                       TextFormField(
                         controller: _emailController,
                         decoration: const InputDecoration(
@@ -180,25 +211,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                       const SizedBox(height: 30),
                       _isLoading
-                          ? const CircularProgressIndicator()
-                          :
-                      AbsorbPointer(
-                            absorbing: _isLoading,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                if (formKey.currentState!.validate()) {
-                                  _signup();
-                              }
-                                                    },
-                              child: const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          ? Center(child: const CircularProgressIndicator())
+                          : AbsorbPointer(
+                              absorbing: _isLoading,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: theme.colorScheme
+                                      .primary, // Directly set the color
+                                ),
+                                onPressed: () {
+                                  if (formKey.currentState!.validate()) {
+                                    _signup();
+                                  }
+                                },
+                                child: Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: theme.colorScheme
+                                        .onPrimary, // Text color matching button background
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
                       const SizedBox(height: 30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -220,7 +256,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   _isLoading = false;
                                 });
                               });
-
                             },
                           )
                         ],
@@ -228,13 +263,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.1), // Adds bottom spacing
+                SizedBox(
+                    height: MediaQuery.of(context).size.height *
+                        0.1), // Adds bottom spacing
               ],
             ),
           ),
         ),
       ),
     );
-
   }
 }

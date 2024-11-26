@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
                               width: 240,
                               child: TextField(
                                 decoration: InputDecoration(
+                                  labelText: "Search for a friend..",
                                   contentPadding: EdgeInsets.symmetric(horizontal: 10), // Padding inside the TextField
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
