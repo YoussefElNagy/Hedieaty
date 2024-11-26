@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/friends.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../data/users.dart';
 
 class Home extends StatefulWidget {
 
@@ -10,16 +11,16 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Friend> myFriends = [
-    Friend(username: "SnoopNogg69", upcomingEvents: 2, profilePic: "default_avatar.png", phoneNumber: "+201093255558",events: []),
-    Friend(username: "CristianoRonaldoooooo", upcomingEvents: 6,  phoneNumber: "+201093255558",events: []),
-    Friend(username: "Buk@yoS@k@", upcomingEvents: 0,  phoneNumber: "+201077777777",events: []),
-    Friend(username: "HappyTheAir", upcomingEvents: 2,  phoneNumber: "+201012345678",events: []),
-    Friend(username: "Ghost", upcomingEvents: 0,  phoneNumber: "+201000000000",events: []),
-    Friend(username: "EidSaeedRamadan", upcomingEvents: 19, phoneNumber: "+201007775000",events: []),
-    Friend(username: "NourElFouad", upcomingEvents: 1, phoneNumber: "+201012344045",events: []),
-    Friend(username: "HamadaBelGanzabeel", upcomingEvents: 3, phoneNumber: "+201094574821",events: []),
-    Friend(username: "ItsMeBolbol", upcomingEvents: 0,  phoneNumber: "+201090008000",events: []),
+  final List<User> myFriends = [
+    User(username: "SnoopNogg69", upcomingEvents: 2, profilePic: "default_avatar.png", phoneNumber: "+201093255558",email: "snoop@nogg.com",events: []),
+    User(username: "CristianoRonaldoooooo", upcomingEvents: 6,  phoneNumber: "+201093255558",email: "suii@suii.com",events: []),
+    User(username: "Buk@yoS@k@", upcomingEvents: 0,  phoneNumber: "+201077777777",email: "saka@bukyo.com",events: []),
+    User(username: "HappyTheAir", upcomingEvents: 2,  phoneNumber: "+201012345678",email: "abaja@slsss.com",events: []),
+    User(username: "Ghost", upcomingEvents: 0,  phoneNumber: "+201000000000",email: "abc@abc.com",events: []),
+    User(username: "EidSaeedRamadan", upcomingEvents: 19, phoneNumber: "+201007775000",email: "shha@aaaa.com",events: []),
+    User(username: "NourElFouad", upcomingEvents: 1, phoneNumber: "+201012344045",email: "aaaaa@nogg.com",events: []),
+    User(username: "HamadaBelGanzabeel", upcomingEvents: 3, phoneNumber: "+201094574821",email: "abcde@nogg.com",events: []),
+    User(username: "ItsMeBolbol", upcomingEvents: 0,  phoneNumber: "+201090008000",email: "bala7@belaban.com",events: []),
   ];
 
   @override
@@ -27,6 +28,14 @@ class _HomeState extends State<Home> {
     final theme = Theme.of(context);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Hedieaty',
+          style:
+          GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
+        ),
+        centerTitle: true,
+      ),
       body: Stack(
         children: [
           Card(

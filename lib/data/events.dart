@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'friends.dart';
+import 'users.dart';
 
 class Event{
   String eventName;

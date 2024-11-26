@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../data/events.dart';
 import 'package:intl/intl.dart';
 
@@ -39,6 +40,14 @@ class Events extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Hedieaty',
+          style:
+          GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
+        ),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
         child: ListView.builder(
