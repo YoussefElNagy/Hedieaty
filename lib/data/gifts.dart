@@ -12,7 +12,9 @@ class Gift {
   GiftStatus status; // Enum for gift status
   bool isPledged; // Indicates whether the gift is pledged
   GiftCategory category; // Enum for gift type
-  String? eventId; // Reference to the Event the gift is associated with (optional)
+  String? eventId;
+
+  var ownerImage; // Reference to the Event the gift is associated with (optional)
 
   Gift({
     required this.id,

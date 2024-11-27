@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../data/users.dart';
 import '../data/events.dart';
+import 'PledgedGifts.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -169,7 +170,14 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PledgedGiftsPage(currentUserId: currentUser.id),
+                      ),
+                    );
+                  },
                   child: Text(
                     'Pledged Gifts',
                     style: TextStyle(

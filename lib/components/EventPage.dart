@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../data/events.dart';
 import '../data/users.dart';
+import 'EventDetails.dart';
 
 class Events extends StatefulWidget {
   @override
@@ -106,7 +107,7 @@ class _EventsState extends State<Events> {
       dateTime: DateTime(2028, 10, 30, 20, 10),
       category: EventCategory.other,
       status: EventStatus.active,
-      giftIds: [],
+      giftIds: ['1'],
     ),
     Event(
       id: "8",
@@ -136,9 +137,9 @@ class _EventsState extends State<Events> {
         child: ListView.builder(
           itemCount: upcomingEvents.length,
           itemBuilder: (context, index) {
-            // Fetch the user based on the event's ownerId
+            // Get user by ID
             User? user =
-                User.getUserById(upcomingEvents[index].ownerId, myFriends);
+            User.getUserById(upcomingEvents[index].ownerId, myFriends);
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
@@ -146,12 +147,11 @@ class _EventsState extends State<Events> {
                 color: theme.colorScheme.surface,
                 elevation: 10,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20), // Rounded corners
+                  borderRadius: BorderRadius.circular(20),
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    border:
-                        Border.all(color: theme.colorScheme.primary, width: 3),
+                    border: Border.all(color: theme.colorScheme.primary, width: 3),
                     borderRadius: BorderRadius.circular(20),
                     color: theme.colorScheme.tertiary,
                   ),
@@ -160,7 +160,8 @@ class _EventsState extends State<Events> {
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundImage: AssetImage(
-                            user!.profilePic ?? "assets/default_avatar.png"),
+                          user?.profilePic ?? "assets/default_avatar.png",
+                        ),
                       ),
                       title: Text(
                         '${user?.username ?? 'Unknown'}\'s ${upcomingEvents[index].eventName}',
@@ -174,6 +175,16 @@ class _EventsState extends State<Events> {
                           style: theme.textTheme.bodyMedium,
                         ),
                       ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => EventDetails(
+                              event: upcomingEvents[index],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -185,3 +196,4 @@ class _EventsState extends State<Events> {
     );
   }
 }
+
