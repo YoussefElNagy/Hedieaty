@@ -10,19 +10,41 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-
   final List<User> myFriends = [
-    User(id: "1", username: "HamadaBelGanzabeel", email: "hamadaginger@gmail.com"),
-    User(id: "2", username: "CristianoRonaldoooooo", email: "cristiano@ronaldo.com"),
+    User(
+        id: "1",
+        username: "HamadaBelGanzabeel",
+        email: "hamadaginger@gmail.com"),
+    User(
+        id: "2",
+        username: "Mehalabeya",
+        email: "Mehalabeya@Mehalabeya.com"),
     User(id: "3", username: "Buk@yoS@k@", email: "saka@bukyo.com"),
-    User(id: "4", username: "HappyTheAir", email: "sa3eed@elhawa.com",eventIds: ['3','5,','6'], profilePic: "assets/default_avatar.png",
+    User(
+      id: "4",
+      username: "HappyTheAir",
+      email: "sa3eed@elhawa.com",
+      eventIds: ['3', '5,', '6'],
+      profilePic: "assets/default_avatar.png",
     ),
     User(id: "5", username: "Watermel0n", email: "watermelon@bateekh.com"),
-    User(id: "6", username: "EidSaeedRamadan", email: "eidsaeed@ramadankareem.com"),
-    User(id: "7", username: "NourElFouad", email: "nour@nogg.com"),
-    User(id: "8", username: "HamadaBelGanzabeel", email: "hamada@nogg.com",eventIds: ['1']),
+    User(
+        id: "6",
+        username: "EidSaeedRamadan",
+        email: "eidsaeed@ramadankareem.com"),
+    User(id: "7", username: "AlragolAl3onab", email: "3enaby@3enabak.com"),
+    User(
+        id: "8",
+        username: "HamadaBelGanzabeel",
+        email: "hamada@nogg.com",
+        eventIds: ['1']),
     User(id: "9", username: "ItsMeBolbol", email: "bolbol@nogg.com"),
-    User(id: "10", username: "Nognog", email: "nognog@nogg.com",profilePic: "assets/sample.jpg",),
+    User(
+      id: "10",
+      username: "Nognog",
+      email: "nognog@nogg.com",
+      profilePic: "assets/sample.jpg",
+    ),
   ];
 
   final List<Event> upcomingEvents = [
@@ -80,6 +102,24 @@ class _EventsState extends State<Events> {
       status: EventStatus.active,
       giftIds: [],
     ),
+    Event(
+      id: "7",
+      eventName: "3enaba",
+      ownerId: "7", // ID of "HappyTheAir"
+      dateTime: DateTime(2028, 10, 30, 20, 10),
+      category: EventCategory.other,
+      status: EventStatus.active,
+      giftIds: [],
+    ),
+    Event(
+      id: "8",
+      eventName: "Mehalabeya",
+      ownerId: "2", // ID of "HappyTheAir"
+      dateTime: DateTime(2090, 1, 1, 23, 50),
+      category: EventCategory.other,
+      status: EventStatus.active,
+      giftIds: [],
+    ),
   ];
 
   @override
@@ -100,7 +140,8 @@ class _EventsState extends State<Events> {
           itemCount: upcomingEvents.length,
           itemBuilder: (context, index) {
             // Fetch the user based on the event's ownerId
-            User? user = User.getUserById(upcomingEvents[index].ownerId, myFriends);
+            User? user =
+                User.getUserById(upcomingEvents[index].ownerId, myFriends);
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
@@ -112,16 +153,17 @@ class _EventsState extends State<Events> {
                 ),
                 child: Container(
                   decoration: BoxDecoration(
-                    border: Border.all(color: theme.colorScheme.primary,width: 3),
+                    border:
+                        Border.all(color: theme.colorScheme.primary, width: 3),
                     borderRadius: BorderRadius.circular(20),
                     color: theme.colorScheme.tertiary,
                   ),
-
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: ListTile(
                       leading: CircleAvatar(
-                        backgroundImage: AssetImage(user!.profilePic??"assets/default_avatar.png"),
+                        backgroundImage: AssetImage(
+                            user!.profilePic ?? "assets/default_avatar.png"),
                       ),
                       title: Text(
                         '${user?.username ?? 'Unknown'}\'s ${upcomingEvents[index].eventName}',
@@ -130,7 +172,8 @@ class _EventsState extends State<Events> {
                       subtitle: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Text(
-                          DateFormat('dd-MM-yyyy HH:mm').format(upcomingEvents[index].dateTime),
+                          DateFormat('dd-MM-yyyy HH:mm')
+                              .format(upcomingEvents[index].dateTime),
                           style: theme.textTheme.bodyMedium,
                         ),
                       ),

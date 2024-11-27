@@ -19,4 +19,12 @@ class Event {
     required this.status,
     this.giftIds = const [],
   });
+
+  static Event? getEventById(String eventId, List<Event> events) {
+    try {
+      return events.firstWhere((event) => event.id == eventId);
+    } catch (e) {
+      return null; // If no event is found, return null
+    }
+  }
 }

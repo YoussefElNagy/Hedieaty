@@ -27,8 +27,19 @@ User currentUser = User(
     'Gift 1',
     'Gift 2',
     'Gift 3',
+    'Gift 4',
   ],
-  friendIds: [],
+  pledgedGiftIds: [
+    'Gift 1',
+    'Gift 2',
+    'Gift 3',
+    'Gift 4',
+    'Gift 5',
+    'Gift 6',
+    'Gift 7',
+    'Gift 8'
+  ],
+  friendIds: ['4','9','66','5','6','9'],
 );
 
 // Events corresponding to the above user ID (using event IDs to associate the events)
@@ -122,7 +133,7 @@ class _ProfileState extends State<Profile> {
             Text(
               currentUser.username ?? "Username", // Use a default if null
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 36,
                 fontWeight: FontWeight.bold,
                 color: theme.colorScheme.secondary,
               ),
@@ -177,6 +188,15 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("${currentUser.friendIds.length} friend${currentUser.friendIds.length==1? "": "s"} ",style: theme.textTheme.bodyLarge,),
+                Text("Wishlist: ${currentUser.giftIds?.length} gift${currentUser.friendIds.length==1? "": "s"}",style: theme.textTheme.bodyLarge),
+              ],
+            ),
+            SizedBox(height: 10),
             // Display Events List
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -251,7 +271,7 @@ class _ProfileState extends State<Profile> {
             ),
             // Gifts List
             Text(
-              'Pledged Gifts',
+              'My Wishlist',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -265,29 +285,35 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             // List of gifts
-            ListView.builder(
+            GridView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: currentUser.giftIds?.length ?? 0,
+              itemCount: currentUser.giftIds?.length ?? 0, // Use giftIds for itemCount
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // Number of items per row
+                crossAxisSpacing: 10.0, // Spacing between columns
+                mainAxisSpacing: 10.0, // Spacing between rows
+                childAspectRatio: 3, // Width to height ratio
+              ),
               itemBuilder: (context, index) {
-                final gift = currentUser.giftIds?[index] ?? "No gift found"; // Null-safe
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.secondary,
-                      border: Border.all(color: theme.colorScheme.primary, width: 1.5),
-                      borderRadius: BorderRadius.circular(20),
+                // Use giftIds for displaying items
+                final gift = currentUser.giftIds?[index] ?? "No gift found"; // Null-safe access
+                return Container(
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.secondary,
+                    border: Border.all(color: theme.colorScheme.primary, width: 1.5),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.card_giftcard,
+                      color: theme.colorScheme.surface,
                     ),
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.card_giftcard,
+                    title: Text(
+                      gift,
+                      style: TextStyle(
                         color: theme.colorScheme.surface,
-                      ),
-                      title: Text(
-                        gift,
-                        style: TextStyle(
-                            color: theme.colorScheme.surface, fontWeight: FontWeight.w700),
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),

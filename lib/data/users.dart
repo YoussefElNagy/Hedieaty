@@ -1,3 +1,5 @@
+import 'events.dart';
+
 class User {
   String id; // Unique identifier for the user
   String username;
@@ -6,7 +8,8 @@ class User {
   String? phoneNumber;
   bool isEmailVerified;
   List<String> eventIds; // References to events owned/participated
-  List<String> giftIds; // References to gifts owned/pledged
+  List<String> pledgedGiftIds; // References to gifts owned/pledged
+  List<String>? giftIds; // References to gifts owned/pledged
   List<String> friendIds; // References to friends (other User IDs)
 
   User({
@@ -18,6 +21,7 @@ class User {
     this.isEmailVerified = false,
     this.eventIds = const [],
     this.giftIds = const [],
+    this.pledgedGiftIds = const [],
     this.friendIds = const [],
   });
 
@@ -29,4 +33,17 @@ class User {
       return null; // If no user is found, return null
     }
   }
+
+  // List<Event> getUserEvents() {
+//   //   List<Event> userEvents = [];
+//   //
+//   //   // Iterate over the eventIds of the user and find corresponding events
+//   //   for (String eventId in eventIds) {
+//   //     Event? event = Event.getEventById(eventId); // Use the static method without passing a list
+//   //     if (event != null) {
+//   //       userEvents.add(event);
+//   //     }
+//   //   }
+//   //   return userEvents;
+//   // }
 }

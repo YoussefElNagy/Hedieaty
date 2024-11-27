@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../data/users.dart';
+import 'FriendProfile.dart';
 
 class Home extends StatefulWidget {
-
   Home({super.key});
 
   @override
@@ -19,19 +19,19 @@ class _HomeState extends State<Home> {
       profilePic: "assets/default_avatar.png",
       phoneNumber: "+201093255558",
       isEmailVerified: true,
-      eventIds: ['1','2','3'],
-      giftIds: [],
+      eventIds: ['1', '2', '3'],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
     User(
       id: "2",
-      username: "CristianoRonaldoooooo",
-      email: "suii@suii.com",
+      username: "AlragolAl3onab",
+      email: "3enaby@3enabak.com",
       profilePic: "assets/default_avatar.png",
-      phoneNumber: "+201093255558",
+      phoneNumber: "+201003255558",
       isEmailVerified: true,
-      eventIds: ['11','22','33'],
-      giftIds: [],
+      eventIds: ['11', '22', '33'],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
     User(
@@ -42,29 +42,30 @@ class _HomeState extends State<Home> {
       phoneNumber: "+201077777777",
       isEmailVerified: true,
       eventIds: [],
-      giftIds: [],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
     User(
       id: "4",
       username: "HappyTheAir",
-      profilePic: "assets/default_avatar.png",
-      email: "abaja@slsss.com",
+      profilePic: "assets/sample.jpg",
+      email: "sa3eed@elhawa.com",
       phoneNumber: "+201012345678",
       isEmailVerified: true,
-      eventIds: ['111','21','13','123'],
-      giftIds: [],
-      friendIds: [],
+      eventIds: ['111', '21', '13', '123'],
+      pledgedGiftIds: [],
+      giftIds: ['1','2'],
+      friendIds: ['1','2'],
     ),
     User(
       id: "5",
-      username: "Sword",
-      email: "seif@seif.com",
+      username: "Mehalabeya",
+      email: "Mehalabeya@Mehalabeya.com",
       profilePic: "assets/default_avatar.png",
       phoneNumber: "+201000000000",
       isEmailVerified: false,
       eventIds: ['9'],
-      giftIds: [],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
     User(
@@ -75,17 +76,17 @@ class _HomeState extends State<Home> {
       phoneNumber: "+201007775000",
       isEmailVerified: false,
       eventIds: [],
-      giftIds: [],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
     User(
       id: "7",
-      username: "NourElFouad",
+      username: "AmiraBe7egabi",
       email: "aaaaa@nogg.com",
       phoneNumber: "+201012344045",
       isEmailVerified: true,
       eventIds: [],
-      giftIds: [],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
     User(
@@ -95,7 +96,7 @@ class _HomeState extends State<Home> {
       phoneNumber: "+201094574821",
       isEmailVerified: true,
       eventIds: [],
-      giftIds: [],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
     User(
@@ -105,11 +106,11 @@ class _HomeState extends State<Home> {
       phoneNumber: "+201090008000",
       isEmailVerified: false,
       eventIds: ['5'],
-      giftIds: [],
+      pledgedGiftIds: [],
       friendIds: [],
     ),
+    User(id: "10", username: "Watermel0n", email: "watermelon@bateekh.com"),
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +121,7 @@ class _HomeState extends State<Home> {
         title: Text(
           'Hedieaty',
           style:
-          GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
+              GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
         ),
         centerTitle: true,
       ),
@@ -145,34 +146,41 @@ class _HomeState extends State<Home> {
                               child: TextField(
                                 decoration: InputDecoration(
                                   labelText: "Search for a friend..",
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 10), // Padding inside the TextField
+                                  labelStyle: TextStyle(
+                                      color: theme.colorScheme.primary),
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 10),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context).colorScheme.primary, // Border color when not active
-                                      width: 2, // Border width
+                                      color: theme.colorScheme
+                                          .primary, // Primary Teal border
+                                      width: 2,
                                     ),
-                                    borderRadius: BorderRadius.circular(8), // Rounded corners
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: Theme.of(context).colorScheme.primary, // Border color when active
-                                      width: 2, // Border width
+                                      color: theme.colorScheme
+                                          .primary, // Primary Teal border when focused
+                                      width: 2,
                                     ),
-                                    borderRadius: BorderRadius.circular(8), // Rounded corners
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
                                 keyboardType: TextInputType.text,
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 0),
+                              padding:
+                                  const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
                               child: IconButton(
                                 onPressed: () {
                                   // Your search action here
                                 },
                                 icon: Icon(
                                   Icons.search,
-                                  color: Color(0xFF4ecdc4),
+                                  color: theme.colorScheme
+                                      .primary, // Primary Teal search icon color
                                   size: 30,
                                 ),
                               ),
@@ -192,7 +200,8 @@ class _HomeState extends State<Home> {
                       itemCount: myFriends.length,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 1, vertical: 3),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 1, vertical: 3),
                           child: Card(
                             color: Color(0xFFFAFAFA),
                             elevation: 2,
@@ -202,12 +211,21 @@ class _HomeState extends State<Home> {
                                 style: theme.textTheme.bodyLarge,
                               ),
                               leading: CircleAvatar(
-                                backgroundImage: AssetImage(myFriends[index].profilePic??"assets/default_avatar.png"),
+                                backgroundImage: AssetImage(
+                                    myFriends[index].profilePic ??
+                                        "assets/default_avatar.png"),
                                 // onBackgroundImageError: (_, __) => AssetImage('assets/default_avatar.png'),
                               ),
-                              subtitle: myFriends[index].eventIds.length == 0
-                                  ? Text("No upcoming events", style: theme.textTheme.bodyMedium)
-                                  : Text('${myFriends[index].eventIds.length} upcoming events', style: theme.textTheme.bodyMedium),
+                              subtitle: Text(
+                                  '${myFriends[index].eventIds.length > 0 ? myFriends[index].eventIds.length : "No"} upcoming event${myFriends[index].eventIds.length == 1 ? "" : "s"}',
+                                  style: theme.textTheme.bodyMedium),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => FriendProfile(
+                                            friend: myFriends[index])));
+                              },
                             ),
                           ),
                         );
@@ -221,7 +239,6 @@ class _HomeState extends State<Home> {
           // Floating Action Button
         ],
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Your action here
