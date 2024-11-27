@@ -1,19 +1,22 @@
-import 'package:flutter/material.dart';
-import 'users.dart';
+enum EventStatus { active, canceled, completed, upcoming }
+enum EventCategory { birthday, wedding, corporate,  entertainment, graduation, eid, other }
 
-class Event{
+class Event {
+  String id; // Unique identifier for the event
   String eventName;
-  String owner;
+  String ownerId; // Reference to the User who owns the event
   DateTime dateTime;
-  String category;
-  String status;
+  EventCategory category; // Enum for event type
+  EventStatus status; // Enum for event status
+  List<String> giftIds; // References to associated gifts
 
   Event({
+    required this.id,
     required this.eventName,
-    required this.owner,
+    required this.ownerId,
     required this.dateTime,
     required this.category,
-    required this.status
+    required this.status,
+    this.giftIds = const [],
   });
 }
-

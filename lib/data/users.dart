@@ -1,22 +1,32 @@
-import 'events.dart';
-
-class User{
+class User {
+  String id; // Unique identifier for the user
   String username;
-  int upcomingEvents;
-  String? profilePic;
-  String phoneNumber;
   String email;
-  List <Event> events;
-  List <String>? gifts;
+  String? profilePic; // Defaults to a placeholder if not provided
+  String? phoneNumber;
+  bool isEmailVerified;
+  List<String> eventIds; // References to events owned/participated
+  List<String> giftIds; // References to gifts owned/pledged
+  List<String> friendIds; // References to friends (other User IDs)
 
   User({
+    required this.id,
     required this.username,
-    required this.upcomingEvents,
-    this.profilePic,
-    required this.phoneNumber,
     required this.email,
-    required this.events,
-    this.gifts
-});
-}
+    this.profilePic = "default_avatar.png", // Default profile picture
+    this.phoneNumber,
+    this.isEmailVerified = false,
+    this.eventIds = const [],
+    this.giftIds = const [],
+    this.friendIds = const [],
+  });
 
+  // Making getUserById static so it can be called without an instance of User
+  static User? getUserById(String userId, List<User> users) {
+    try {
+      return users.firstWhere((user) => user.id == userId);
+    } catch (e) {
+      return null; // If no user is found, return null
+    }
+  }
+}

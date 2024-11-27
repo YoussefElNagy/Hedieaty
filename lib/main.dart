@@ -35,10 +35,10 @@ class Hedieaty extends StatelessWidget {
 
         // AppBar customization
         appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xFF4ecdc4),
-          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Color(0xFFfdfdfd),
+          iconTheme: IconThemeData(color: Color(0xFF4ecdc4)),
           titleTextStyle: GoogleFonts.cairo(
-            color: Colors.white,
+            color: Color(0xFF4ecdc4),
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -54,8 +54,8 @@ class Hedieaty extends StatelessWidget {
         // Text theme using Google Fonts
         textTheme: GoogleFonts.cairoTextTheme(
           TextTheme(
-            bodyLarge: TextStyle(color: Color(0xFF292f36)),
-            bodyMedium: TextStyle(color: Color(0xFF292f36)),
+            bodyLarge: TextStyle(color: Color(0xFF292f36),fontSize: 18,fontWeight: FontWeight.w700),
+            bodyMedium: TextStyle(color: Color(0xFF292f36),fontSize: 16,fontWeight: FontWeight.w400),
             titleLarge: TextStyle(
               color: Color(0xFF292f36),
               fontSize: 24,

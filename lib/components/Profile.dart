@@ -1,8 +1,9 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hedeyeti/data/events.dart';
+import 'package:intl/intl.dart';
 import '../data/users.dart';
+import '../data/events.dart';
 
 class Profile extends StatefulWidget {
   @override
@@ -10,48 +11,72 @@ class Profile extends StatefulWidget {
 }
 
 User currentUser = User(
-    username: "Nognog",
-    upcomingEvents: 2,
-    profilePic: "default_avatar.png",
-    phoneNumber: "+201093255558",
-    email: "nognog@nognog.com",
-    events: [
-      Event(
-        eventName: "Wedding",
-        owner: "HamadaBelGanzabeel",
-        dateTime: DateTime(2024, 12, 5, 10, 0),
-        category: "Wedding",
-        status: "Upcoming",
-      ),
-      Event(
-        eventName: "Birthday",
-        owner: "Nognog",
-        dateTime: DateTime(2024, 11, 25, 18, 30),
-        category: "Entertainment",
-        status: "Upcoming",
-      ),
-      Event(
-        eventName: "Graduation",
-        owner: "HappyTheAir",
-        dateTime: DateTime(2025, 12, 5, 10, 0),
-        category: "Graduation",
-        status: "Upcoming",
-      ),
-      Event(
-        eventName: "Eid",
-        owner: "EidSaeedRamadan",
-        dateTime: DateTime(2024, 11, 25, 18, 30),
-        category: "Eid",
-        status: "Upcoming",
-      ),
-    ],
-    gifts: [
-      'Gift 1',
-      'Gift 2',
-      'Gift 3',
-    ]);
+  id: "1", // Assuming an ID for the user, as it's required in the User class
+  username: "Nognog",
+  email: "nognog@nognog.com",
+  profilePic: "assets/sample.jpg", // Default value, use a placeholder if null
+  phoneNumber: "+201093255558",
+  isEmailVerified: true, // Assuming email is verified
+  eventIds: [
+    "2", // Event ID for "Wedding"
+    "3", // Event ID for "Birthday"
+    "4", // Event ID for "Graduation"
+    "5", // Event ID for "Eid"
+  ],
+  giftIds: [
+    'Gift 1',
+    'Gift 2',
+    'Gift 3',
+  ],
+  friendIds: [],
+);
+
+// Events corresponding to the above user ID (using event IDs to associate the events)
+final List<Event> events = [
+  Event(
+    id: "2", // Event ID for "Wedding"
+    eventName: "Wedding",
+    ownerId: "8", // ID of "HamadaBelGanzabeel"
+    dateTime: DateTime(2024, 12, 5, 10, 0),
+    category: EventCategory.wedding,
+    status: EventStatus.upcoming,
+    giftIds: [],
+  ),
+  Event(
+    id: "3", // Event ID for "Birthday"
+    eventName: "Birthday Albi",
+    ownerId: "10", // ID of "Nognog"
+    dateTime: DateTime(2024, 11, 25, 18, 30),
+    category: EventCategory.entertainment,
+    status: EventStatus.upcoming,
+    giftIds: [],
+  ),
+  Event(
+    id: "4", // Event ID for "Graduation"
+    eventName: "Graduation",
+    ownerId: "4", // ID of "HappyTheAir"
+    dateTime: DateTime(2025, 12, 5, 10, 0),
+    category: EventCategory.graduation,
+    status: EventStatus.upcoming,
+    giftIds: [],
+  ),
+  Event(
+    id: "5", // Event ID for "Eid"
+    eventName: "Eid",
+    ownerId: "6", // ID of "EidSaeedRamadan"
+    dateTime: DateTime(2024, 11, 25, 18, 30),
+    category: EventCategory.eid,
+    status: EventStatus.upcoming,
+    giftIds: [],
+  ),
+];
 
 class _ProfileState extends State<Profile> {
+  // Fetching events for the current user based on eventIds
+  List<Event> getUserEvents() {
+    return events.where((event) => currentUser.eventIds.contains(event.id)).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -66,27 +91,28 @@ class _ProfileState extends State<Profile> {
               children: [
                 // Background image with blur effect
                 Image.asset(
-                  'assets/sample.jpg', // Replace with your image path
+                  currentUser.profilePic ?? 'assets/default_avatar.png', // Use a placeholder if null
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,
                 ),
                 // Apply the blur effect using BackdropFilter
                 BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5), // Adjust blur strength
+                  filter: ImageFilter.blur(sigmaX: 2.5, sigmaY: 2.5),
                   child: Container(
                     width: double.infinity,
                     height: 200,
-                    color: Colors.black.withOpacity(0), // Optional: for maintaining color overlay
+                    color: Colors.black.withOpacity(0),
                   ),
                 ),
                 // Profile image (circle avatar)
                 Positioned(
-                  top: 100, // Adjust position for the profile image
+                  top: 100,
                   child: CircleAvatar(
-                    radius: 50, // Profile image size
-                    backgroundColor: Colors.white, // Background color of the circle
-                    backgroundImage: AssetImage('assets/sample.jpg'), // Your profile pic
+                    radius: 50,
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage(
+                        currentUser.profilePic ?? 'assets/default.png'), // Use placeholder if null
                   ),
                 ),
               ],
@@ -94,7 +120,7 @@ class _ProfileState extends State<Profile> {
             SizedBox(height: 20),
             // Username and Email
             Text(
-              currentUser.username, // Replace with dynamic username
+              currentUser.username ?? "Username", // Use a default if null
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -102,7 +128,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Text(
-              currentUser.email, // Replace with dynamic email
+              currentUser.email ?? "No email provided", // Default if null
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey,
@@ -121,7 +147,7 @@ class _ProfileState extends State<Profile> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onPrimary, // Text color matching button background
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -138,7 +164,7 @@ class _ProfileState extends State<Profile> {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.onPrimary, // Text color matching button background
+                      color: theme.colorScheme.onPrimary,
                     ),
                   ),
                   style: ElevatedButton.styleFrom(
@@ -151,13 +177,18 @@ class _ProfileState extends State<Profile> {
               ],
             ),
             SizedBox(height: 20),
-
             // Display Events List
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: Divider(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
                   Text(
                     'Upcoming Events',
                     style: TextStyle(
@@ -166,24 +197,44 @@ class _ProfileState extends State<Profile> {
                       color: theme.colorScheme.primary,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: Divider(
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
                   // List of events
                   ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(), // Prevents scrolling inside the ListView
-                    itemCount: currentUser.events.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: getUserEvents().length,
                     itemBuilder: (context, index) {
+                      final event = getUserEvents()[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
                         child: Container(
                           decoration: BoxDecoration(
                             color: theme.colorScheme.secondary,
-                            border: Border.all(color: theme.colorScheme.primary,width: 1.5),
+                            border: Border.all(color: theme.colorScheme.primary, width: 1.5),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: ListTile(
-                            leading: Icon(Icons.event,color:theme.colorScheme.surface ,),
-                            title: Text(currentUser.events[index].eventName,style: TextStyle(color: theme.colorScheme.surface,fontWeight: FontWeight.w700),),
+                            leading: Icon(
+                              Icons.event,
+                              color: theme.colorScheme.surface,
+                            ),
+                            title: Text(
+                              event.eventName,
+                              style: TextStyle(
+                                  color: theme.colorScheme.surface,
+                                  fontWeight: FontWeight.w700),
+                            ),
+                            subtitle: Text(
+                              DateFormat('dd-MM-yyyy HH:mm').format(event.dateTime),
+                              style: TextStyle(
+                                  color: theme.colorScheme.surface,
+                                  fontWeight: FontWeight.w300),
+                            ),
                           ),
                         ),
                       );
@@ -192,49 +243,56 @@ class _ProfileState extends State<Profile> {
                 ],
               ),
             ),
-
-            SizedBox(height: 20),
-
-            // Display Gifts List
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    'My Gifts',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: theme.colorScheme.primary,
-
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              child: Divider(
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            // Gifts List
+            Text(
+              'Pledged Gifts',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              child: Divider(
+                color: theme.colorScheme.primary,
+              ),
+            ),
+            // List of gifts
+            ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: currentUser.giftIds?.length ?? 0,
+              itemBuilder: (context, index) {
+                final gift = currentUser.giftIds?[index] ?? "No gift found"; // Null-safe
+                return Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.secondary,
+                      border: Border.all(color: theme.colorScheme.primary, width: 1.5),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: ListTile(
+                      leading: Icon(
+                        Icons.card_giftcard,
+                        color: theme.colorScheme.surface,
+                      ),
+                      title: Text(
+                        gift,
+                        style: TextStyle(
+                            color: theme.colorScheme.surface, fontWeight: FontWeight.w700),
+                      ),
                     ),
                   ),
-                  SizedBox(height: 10),
-                  // List of pledged gifts
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(), // Prevents scrolling inside the ListView
-                    itemCount: currentUser.gifts!.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
-                        child: Container(
-                            decoration: BoxDecoration(
-                            color: theme.colorScheme.secondary,
-                            border: Border.all(color: theme.colorScheme.primary,width: 1.5),
-                            borderRadius: BorderRadius.circular(20),
-                            ),
-                          child: ListTile(
-                            leading: Icon(Icons.card_giftcard,color:theme.colorScheme.surface ,),
-                            title: Text(currentUser.gifts![index],style: TextStyle(color: theme.colorScheme.surface,fontWeight: FontWeight.w700),),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           ],
         ),
