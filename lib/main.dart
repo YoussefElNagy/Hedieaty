@@ -75,7 +75,7 @@ class Hedieaty extends StatelessWidget {
             ),
             headlineMedium: TextStyle(
               color: Color(0xFF292f36),
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
