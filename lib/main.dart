@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'components/Gifts.dart';
 import 'components/Home.dart';
 import 'components/EventPage.dart';
+import 'components/MyEvents.dart';
 import 'components/Profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -117,6 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     Home(),
     Events(),
+    MyEvents(),
     GiftsPage(), // Pass the list of gifts here
     Profile(),
   ];
@@ -139,11 +141,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
-            label: 'Events',
+            label: 'Upcoming Events',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.edit_calendar_rounded),
+            label: 'My Events',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.card_giftcard),
-            label: 'Gifts',
+            label: 'My Gifts',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

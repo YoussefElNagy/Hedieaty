@@ -21,7 +21,7 @@ class _GiftsPageState extends State<GiftsPage> {
       status: GiftStatus.available,
       isPledged: false,
       category: GiftCategory.electronics,
-      eventId: 'event1',
+      eventId: '1',
     ),
     Gift(
       id: '2',
@@ -132,6 +132,7 @@ class _GiftsPageState extends State<GiftsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme=Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -160,41 +161,59 @@ class _GiftsPageState extends State<GiftsPage> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
+                  color: theme.colorScheme.surface,
                   elevation: 5,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 25, // Size of the avatar
-                      backgroundImage: gift.image != null
-                          ? NetworkImage(gift.image!) // If image exists, use it
-                          : AssetImage('assets/default_gift.png')
-                              as ImageProvider, // Default image if no image
-                    ),
-                    title: Text(
-                      gift.giftName,
-                      style: GoogleFonts.cairo(
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF292f36),
-                        fontSize: 18,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 3,
+                        color: theme.colorScheme.primary,
                       ),
+                      borderRadius: BorderRadius.circular(10),
+
                     ),
-                    subtitle: Text(
-                      "Category: ${gift.category.toString().split('.').last} \nPrice: \$${gift.price}\nStatus: ${gift.status.toString().split('.').last}",
-                      style: GoogleFonts.cairo(
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF292f36),
-                        fontSize: 14,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        radius: 25, // Size of the avatar
+                        backgroundImage: gift.image != null
+                            ? NetworkImage(gift.image!) // If image exists, use it
+                            : AssetImage('assets/default_gift.png')
+                                as ImageProvider, // Default image if no image
                       ),
+                      title: Text(
+                        gift.giftName,
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF292f36),
+                          fontSize: 18,
+                        ),
+                      ),
+                      subtitle: Text(
+                        "Category: ${gift.category.toString().split('.').last} \nPrice: \$${gift.price}\nStatus: ${gift.status.toString().split('.').last}",
+                        style: GoogleFonts.cairo(
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xFF292f36),
+                          fontSize: 14,
+                        ),
+                      ),
+                      trailing: gift.isPledged
+                          ? Icon(Icons.check_circle, color: Colors.green)
+                          : Icon(Icons.remove_circle, color: Colors.red),
+                      onTap: () {
+                        // Handle on tap for more details or any action
+                      },
                     ),
-                    trailing: gift.isPledged
-                        ? Icon(Icons.check_circle, color: Colors.green)
-                        : Icon(Icons.remove_circle, color: Colors.red),
-                    onTap: () {
-                      // Handle on tap for more details or any action
-                    },
                   ),
                 );
               },
             ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Your action here
+        },
+        child: Icon(Icons.add),
+        backgroundColor: theme.colorScheme.primary,
+      ),
     );
   }
 }

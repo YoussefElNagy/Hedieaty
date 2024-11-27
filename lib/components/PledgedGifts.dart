@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hedeyeti/components/GiftDetails.dart';
 
 import '../data/gifts.dart';
 
@@ -216,7 +217,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
                 ),
 
                 onTap: () {
-                  // Handle on tap for more details or any action
+                  Navigator.push(context,MaterialPageRoute(builder: (context)=>GiftDetails(gift: gift,)));
                 },
               ),
             ),

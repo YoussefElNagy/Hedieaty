@@ -124,6 +124,17 @@ class _HomeState extends State<Home> {
               GoogleFonts.cairo(fontSize: 30), // Google Font for AppBar title
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.person_add,
+              color: theme.colorScheme.primary,
+            ), // Icon for unfriend button
+            onPressed: () {
+              print('Add friend logic');
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -238,13 +249,6 @@ class _HomeState extends State<Home> {
           ),
           // Floating Action Button
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Your action here
-        },
-        child: Icon(Icons.add),
-        backgroundColor: theme.colorScheme.primary,
       ),
     );
   }
