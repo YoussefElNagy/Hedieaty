@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'components/Gifts.dart';
 import 'components/Home.dart';
 import 'components/EventPage.dart';
 import 'components/Profile.dart';
@@ -54,8 +55,14 @@ class Hedieaty extends StatelessWidget {
         // Text theme using Google Fonts
         textTheme: GoogleFonts.cairoTextTheme(
           TextTheme(
-            bodyLarge: TextStyle(color: Color(0xFF292f36),fontSize: 18,fontWeight: FontWeight.w700),
-            bodyMedium: TextStyle(color: Color(0xFF292f36),fontSize: 16,fontWeight: FontWeight.w400),
+            bodyLarge: TextStyle(
+                color: Color(0xFF292f36),
+                fontSize: 18,
+                fontWeight: FontWeight.w700),
+            bodyMedium: TextStyle(
+                color: Color(0xFF292f36),
+                fontSize: 16,
+                fontWeight: FontWeight.w400),
             titleLarge: TextStyle(
               color: Color(0xFF292f36),
               fontSize: 24,
@@ -110,6 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     Home(),
     Events(),
+    GiftsPage(), // Pass the list of gifts here
     Profile(),
   ];
 
@@ -132,6 +140,10 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.calendar_month),
             label: 'Events',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.card_giftcard),
+            label: 'Gifts',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

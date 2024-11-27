@@ -19,7 +19,7 @@ class FriendProfile extends StatefulWidget {
 class _FriendProfileState extends State<FriendProfile> {
   @override
   Widget build(BuildContext context) {
-    final friend= widget.friend;
+    final friend = widget.friend;
     final theme = Theme.of(context);
 
     final List<Event> friendEvents = [
@@ -99,11 +99,14 @@ class _FriendProfileState extends State<FriendProfile> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(friend.username,style: TextStyle(fontSize: 30)),
+        title: Text(friend.username, style: TextStyle(fontSize: 30)),
         centerTitle: true,
         actions: [
           IconButton(
-            icon: Icon(Icons.person_remove,color: Colors.red,), // Icon for unfriend button
+            icon: Icon(
+              Icons.person_remove,
+              color: Colors.red,
+            ), // Icon for unfriend button
             onPressed: () {
               print('Unfriended ${friend.username}');
             },
@@ -120,7 +123,8 @@ class _FriendProfileState extends State<FriendProfile> {
               children: [
                 // Background image with blur effect
                 Image.asset(
-                  friend.profilePic ?? 'assets/sample.jpg', // Use a placeholder if null
+                  friend.profilePic ??
+                      'assets/sample.jpg', // Use a placeholder if null
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,
@@ -140,8 +144,8 @@ class _FriendProfileState extends State<FriendProfile> {
                   child: CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.white,
-                    backgroundImage: AssetImage(
-                        friend.profilePic ?? 'assets/default.png'), // Use placeholder if null
+                    backgroundImage: AssetImage(friend.profilePic ??
+                        'assets/default.png'), // Use placeholder if null
                   ),
                 ),
               ],
@@ -168,8 +172,13 @@ class _FriendProfileState extends State<FriendProfile> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("${friend.friendIds.length} friend${friend.friendIds.length==1? "": "s"} ",style: theme.textTheme.bodyLarge,),
-                Text("Wishlist: ${friend.giftIds?.length} gift${friend.friendIds.length==1? "": "s"}",style: theme.textTheme.bodyLarge),
+                Text(
+                  "${friend.friendIds.length} friend${friend.friendIds.length == 1 ? "" : "s"} ",
+                  style: theme.textTheme.bodyLarge,
+                ),
+                Text(
+                    "Wishlist: ${friend.giftIds?.length} gift${friend.friendIds.length == 1 ? "" : "s"}",
+                    style: theme.textTheme.bodyLarge),
               ],
             ),
             SizedBox(height: 10),
@@ -180,7 +189,8 @@ class _FriendProfileState extends State<FriendProfile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 10),
                     child: Divider(
                       color: theme.colorScheme.primary,
                     ),
@@ -194,7 +204,8 @@ class _FriendProfileState extends State<FriendProfile> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 10),
                     child: Divider(
                       color: theme.colorScheme.primary,
                     ),
@@ -207,11 +218,13 @@ class _FriendProfileState extends State<FriendProfile> {
                     itemBuilder: (context, index) {
                       final event = friendEvents[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 2.0),
                         child: Container(
                           decoration: BoxDecoration(
                             color: theme.colorScheme.secondary,
-                            border: Border.all(color: theme.colorScheme.primary, width: 1.5),
+                            border: Border.all(
+                                color: theme.colorScheme.primary, width: 1.5),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: ListTile(
@@ -226,7 +239,8 @@ class _FriendProfileState extends State<FriendProfile> {
                                   fontWeight: FontWeight.w700),
                             ),
                             subtitle: Text(
-                              DateFormat('dd-MM-yyyy HH:mm').format(event.dateTime),
+                              DateFormat('dd-MM-yyyy HH:mm')
+                                  .format(event.dateTime),
                               style: TextStyle(
                                   color: theme.colorScheme.surface,
                                   fontWeight: FontWeight.w300),
@@ -264,28 +278,32 @@ class _FriendProfileState extends State<FriendProfile> {
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: friend.giftIds?.length ?? 0, // Use giftIds for itemCount
+              itemCount:
+                  friend.giftIds?.length ?? 0, // Use giftIds for itemCount
               itemBuilder: (context, index) {
                 // Use giftIds for displaying items
-                final gift = friend.giftIds?[index] ?? "No gift found"; // Null-safe access
+                final gift = friend.giftIds?[index] ??
+                    "No gift found"; // Null-safe access
                 return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 8.0, horizontal: 16.0),
                   child: Container(
                     decoration: BoxDecoration(
                       color: theme.colorScheme.secondary,
-                      border: Border.all(color: theme.colorScheme.primary, width: 1.5),
+                      border: Border.all(
+                          color: theme.colorScheme.primary, width: 1.5),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: ListTile(
-                      contentPadding: EdgeInsets.symmetric(vertical: 5.0,horizontal: 18),
-
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 5.0, horizontal: 18),
                       title: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.fromLTRB(0,0,16,0),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
                               child: Icon(
                                 Icons.card_giftcard,
                                 color: theme.colorScheme.surface,
@@ -297,7 +315,8 @@ class _FriendProfileState extends State<FriendProfile> {
                                 color: theme.colorScheme.surface,
                                 fontWeight: FontWeight.w700,
                               ),
-                              overflow: TextOverflow.ellipsis, // Prevent overflow
+                              overflow:
+                                  TextOverflow.ellipsis, // Prevent overflow
                               maxLines: 1, // Limit to 1 line
                             ),
                           ],
@@ -313,23 +332,23 @@ class _FriendProfileState extends State<FriendProfile> {
                             ),
                           ),
                           Spacer(),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Pledge',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onPrimary,
+                          ElevatedButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Pledge',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onPrimary,
+                              ),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: theme.colorScheme.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                            ),
                           ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: theme.colorScheme.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                        ),
-                      ),
                         ],
                       ),
                     ),
@@ -337,7 +356,6 @@ class _FriendProfileState extends State<FriendProfile> {
                 );
               },
             )
-
           ],
         ),
       ),

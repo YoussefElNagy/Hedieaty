@@ -67,6 +67,7 @@ flutter:
   assets:
        - assets/default_avatar.png
        - assets/sample.jpg
+       - assets/default_gift.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

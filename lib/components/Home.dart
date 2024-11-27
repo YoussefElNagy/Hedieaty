@@ -54,8 +54,8 @@ class _HomeState extends State<Home> {
       isEmailVerified: true,
       eventIds: ['111', '21', '13', '123'],
       pledgedGiftIds: [],
-      giftIds: ['1','2'],
-      friendIds: ['1','2'],
+      giftIds: ['1', '2'],
+      friendIds: ['1', '2'],
     ),
     User(
       id: "5",

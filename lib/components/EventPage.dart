@@ -15,11 +15,8 @@ class _EventsState extends State<Events> {
         id: "1",
         username: "HamadaBelGanzabeel",
         email: "hamadaginger@gmail.com"),
-    User(
-        id: "2",
-        username: "Mehalabeya",
-        email: "Mehalabeya@Mehalabeya.com"),
-    User(id: "3", username: "Buk@yoS@k@", email: "saka@bukyo.com"),
+    User(id: "2", username: "Mehalabeya", email: "Mehalabeya@Mehalabeya.com"),
+    User(id: "3", username: "Buk@yoS@k@", email: "saka@bukayo.com"),
     User(
       id: "4",
       username: "HappyTheAir",
@@ -36,9 +33,9 @@ class _EventsState extends State<Events> {
     User(
         id: "8",
         username: "HamadaBelGanzabeel",
-        email: "hamada@nogg.com",
+        email: "hamada@ginger.com",
         eventIds: ['1']),
-    User(id: "9", username: "ItsMeBolbol", email: "bolbol@nogg.com"),
+    User(id: "9", username: "ItsMeBolbol", email: "bolbol@sesew.com"),
     User(
       id: "10",
       username: "Nognog",
