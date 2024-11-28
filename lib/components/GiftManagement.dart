@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/events.dart'; // Assuming you have Event and Gift models
-import '../data/gifts.dart';  // Import the gifts data model
+import '../data/gifts.dart';
+import 'GiftSettings.dart'; // Import the gifts data model
 
 class GiftManagement extends StatefulWidget {
   final Event event;
@@ -19,7 +20,7 @@ class _GiftManagementState extends State<GiftManagement> {
       appBar: AppBar(
         title: Text(
           '${widget.event.eventName} Gifts',
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: TextStyle(fontSize: 30),
         ),
         centerTitle: true,
       ),
@@ -27,18 +28,81 @@ class _GiftManagementState extends State<GiftManagement> {
         itemCount: widget.event.giftIds.length,
         itemBuilder: (context, index) {
           final giftId = widget.event.giftIds[index];
-          final gift = getGiftById(giftId); // This should fetch the gift data from your source
+          final gift = getGiftById(
+              giftId); // This should fetch the gift data from your source
 
-          return Card(
-            margin: const EdgeInsets.all(10),
-            child: ListTile(
-              title: Text(gift.giftName),
-              subtitle: Text('Price: \$${gift.price.toString()}'),
-              trailing: IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
-                onPressed: () {
-                  deleteGift(gift.id); // Call the delete method
-                },
+          return InkWell(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => GiftSettings(gift: gift)),
+              );
+            },
+            child: Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    // Image with fixed dimensions and constrained size
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: SizedBox(
+                        width: 80, // Constrained width
+                        height: 80, // Constrained height
+                        child: Image.asset(
+                          gift.image ?? 'https://example.com/defaultimage.jpg',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.broken_image,
+                            color: Colors.grey[400],
+                            size: 50,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16), // Spacing between image and text
+                    // Flexible content to prevent overflow
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            gift.giftName,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow:
+                                TextOverflow.ellipsis, // Prevent text overflow
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Price: \$${gift.price.toStringAsFixed(2)}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Colors.blueGrey,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'Category: ${gift.category.name}',
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.blueAccent,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -49,10 +113,12 @@ class _GiftManagementState extends State<GiftManagement> {
           // Navigate to a form to add a new gift to this event
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddGiftPage(event: widget.event)),
+            MaterialPageRoute(
+                builder: (context) => AddGiftPage(event: widget.event)),
           );
         },
         child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).colorScheme.primary,
       ),
     );
   }
@@ -65,7 +131,7 @@ class _GiftManagementState extends State<GiftManagement> {
       giftName: 'Shay Belaban',
       description: 'Lovely tea for lovely Nog',
       price: 100000.0,
-      image: 'https://example.com/toyrobot.jpg',
+      image: 'assets/default_gift.png',
       ownerId: '1',
       pledgedById: null,
       status: GiftStatus.available,
@@ -86,19 +152,28 @@ class _GiftManagementState extends State<GiftManagement> {
   }
 }
 
-class AddGiftPage extends StatelessWidget {
+class AddGiftPage extends StatefulWidget {
   final Event event;
 
   const AddGiftPage({Key? key, required this.event}) : super(key: key);
 
   @override
+  State<AddGiftPage> createState() => _AddGiftPageState();
+}
+
+class _AddGiftPageState extends State<AddGiftPage> {
+  @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final TextEditingController giftNameController = TextEditingController();
     final TextEditingController giftPriceController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Gift'),
+        title: const Text(
+          'Hedieaty',
+          style: TextStyle(fontSize: 30),
+        ),
         centerTitle: true,
       ),
       body: Padding(
@@ -109,6 +184,9 @@ class AddGiftPage extends StatelessWidget {
               controller: giftNameController,
               decoration: const InputDecoration(labelText: 'Gift Name'),
             ),
+            SizedBox(
+              height: 20,
+            ),
             TextField(
               controller: giftPriceController,
               decoration: const InputDecoration(labelText: 'Price'),
@@ -118,7 +196,8 @@ class AddGiftPage extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 final giftName = giftNameController.text;
-                final giftPrice = double.tryParse(giftPriceController.text) ?? 0;
+                final giftPrice =
+                    double.tryParse(giftPriceController.text) ?? 0;
 
                 // Add the new gift
                 final newGift = Gift(
@@ -126,22 +205,30 @@ class AddGiftPage extends StatelessWidget {
                   giftName: giftName,
                   description: 'New gift description',
                   price: giftPrice,
-                  image: 'https://example.com/newgift.jpg', // Set the image as required
-                  ownerId: event.ownerId,
+                  image:
+                      'https://example.com/newgift.jpg', // Set the image as required
+                  ownerId: widget.event.ownerId,
                   pledgedById: null,
                   status: GiftStatus.available,
                   isPledged: false,
                   category: GiftCategory.other,
-                  eventId: event.id,
+                  eventId: widget.event.id,
                 );
-
                 // Add the new gift to the event's gift list
-                event.giftIds.add(newGift.id);
-
+                widget.event.giftIds.add(newGift.id);
                 // Notify the parent widget to update the state
                 Navigator.pop(context);
               },
-              child: const Text('Add Gift'),
+              child: Text(
+                'Add Gift',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: theme.colorScheme.onPrimary,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary),
             ),
           ],
         ),

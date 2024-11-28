@@ -201,7 +201,7 @@ class _MyEventsState extends State<MyEvents> {
                               final eventDate = DateFormat('yyyy-MM-dd HH:mm')
                                   .parse(dateController.text);
                               if (isEditing) {
-                                event!.eventName = nameController.text;
+                                event.eventName = nameController.text;
                                 event.dateTime = eventDate;
                                 event.category = selectedCategory;
                                 event.status = selectedStatus;
@@ -268,7 +268,7 @@ class _MyEventsState extends State<MyEvents> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Hedeyeti',
+          'Hedieaty',
           style: GoogleFonts.cairo(fontSize: 30),
         ),
         centerTitle: true,

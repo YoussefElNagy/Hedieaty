@@ -1,4 +1,4 @@
-enum EventStatus { active, canceled, completed, upcoming }
+enum EventStatus { active, cancelled, completed, upcoming }
 enum EventCategory { birthday, wedding, corporate,  entertainment, graduation, eid, other }
 
 class Event {

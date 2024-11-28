@@ -14,8 +14,6 @@ class Gift {
   GiftCategory category; // Enum for gift type
   String? eventId;
 
-  var ownerImage; // Reference to the Event the gift is associated with (optional)
-
   Gift({
     required this.id,
     required this.giftName,
@@ -29,4 +27,32 @@ class Gift {
     required this.category,
     this.eventId,
   });
+
+  Gift copyWith({
+    String? id,
+    String? giftName,
+    String? description,
+    double? price,
+    String? image,
+    String? ownerId,
+    String? pledgedById,
+    GiftStatus? status,
+    bool? isPledged,
+    GiftCategory? category,
+    String? eventId,
+  }) {
+    return Gift(
+      id: id ?? this.id,
+      giftName: giftName ?? this.giftName,
+      description: description ?? this.description,
+      price: price ?? this.price,
+      image: image ?? this.image,
+      ownerId: ownerId ?? this.ownerId,
+      pledgedById: pledgedById ?? this.pledgedById,
+      status: status ?? this.status,
+      isPledged: isPledged ?? this.isPledged,
+      category: category ?? this.category,
+      eventId: eventId ?? this.eventId,
+    );
+  }
 }

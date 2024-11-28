@@ -132,7 +132,7 @@ class _ProfileState extends State<Profile> {
             SizedBox(height: 20),
             // Username and Email
             Text(
-              currentUser.username ?? "Username", // Use a default if null
+              currentUser.username,
               style: TextStyle(
                 fontSize: 36,
                 fontWeight: FontWeight.bold,

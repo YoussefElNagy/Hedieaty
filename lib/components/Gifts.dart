@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../data/gifts.dart';
+import 'GiftSettings.dart';
 
 class GiftsPage extends StatefulWidget {
   @override
@@ -199,8 +200,12 @@ class _GiftsPageState extends State<GiftsPage> {
                       trailing: gift.isPledged
                           ? Icon(Icons.check_circle, color: Colors.green)
                           : Icon(Icons.remove_circle, color: Colors.red),
-                      onTap: () {
-                        // Handle on tap for more details or any action
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => GiftSettings(gift: gift)),
+                        );
                       },
                     ),
                   ),
