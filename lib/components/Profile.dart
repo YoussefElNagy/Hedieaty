@@ -97,7 +97,6 @@ class _ProfileState extends State<Profile> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Background Image as a Stack (simulating a background for the profile)
             Stack(
               alignment: Alignment.center,
               children: [
@@ -117,7 +116,6 @@ class _ProfileState extends State<Profile> {
                     color: Colors.black.withOpacity(0),
                   ),
                 ),
-                // Profile image (circle avatar)
                 Positioned(
                   top: 100,
                   child: CircleAvatar(
@@ -140,7 +138,7 @@ class _ProfileState extends State<Profile> {
               ),
             ),
             Text(
-              currentUser.email ?? "No email provided", // Default if null
+              currentUser.email,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey,

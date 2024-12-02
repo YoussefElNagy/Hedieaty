@@ -123,18 +123,17 @@ class EventDetails extends StatelessWidget {
         eventId: '4',
       ),
 
-      // Gifts for Wedding Event (id: 5)
       Gift(
         id: '9',
-        giftName: 'Smart Watch',
-        description: 'A smart watch with fitness tracking features.',
-        price: 199.99,
+        giftName: 'Nognog Teddy Bear',
+        description: 'A small teddy bear.',
+        price: 22199.99,
         image: 'assets/images/smartwatch.png',
-        ownerId: 'user123',
+        ownerId: '3',
         status: GiftStatus.available,
         isPledged: false,
-        category: GiftCategory.electronics,
-        eventId: '5',
+        category: GiftCategory.toys,
+        eventId: '10',
       ),
       Gift(
         id: '10',

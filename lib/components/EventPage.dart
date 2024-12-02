@@ -17,7 +17,7 @@ class _EventsState extends State<Events> {
         username: "HamadaBelGanzabeel",
         email: "hamadaginger@gmail.com"),
     User(id: "2", username: "Mehalabeya", email: "Mehalabeya@Mehalabeya.com"),
-    User(id: "3", username: "Buk@yoS@k@", email: "saka@bukayo.com"),
+    User(id: "3", username: "Julie", email: "julie@shobrawy.com",profilePic: 'assets/sample.jpg'),
     User(
       id: "4",
       username: "HappyTheAir",
@@ -116,6 +116,24 @@ class _EventsState extends State<Events> {
       dateTime: DateTime(2090, 1, 1, 23, 50),
       category: EventCategory.other,
       status: EventStatus.active,
+      giftIds: [],
+    ),
+    Event(
+      id: "9",
+      eventName: "Engagement",
+      ownerId: "3", // ID of "HappyTheAir"
+      dateTime: DateTime(2290, 1, 1, 23, 50),
+      category: EventCategory.other,
+      status: EventStatus.active,
+      giftIds: [],
+    ),
+    Event(
+      id: "10",
+      eventName: "Wedding",
+      ownerId: "3",
+      dateTime: DateTime(2021, 1, 1, 23, 50),
+      category: EventCategory.wedding,
+      status: EventStatus.upcoming,
       giftIds: [],
     ),
   ];

@@ -36,9 +36,9 @@ class _HomeState extends State<Home> {
     ),
     User(
       id: "3",
-      username: "Buk@yoS@k@",
-      email: "saka@bukyo.com",
-      profilePic: "assets/default_avatar.png",
+      username: "Julie",
+      email: "julie@shobrawy.com",
+      profilePic: "assets/sample.jpg",
       phoneNumber: "+201077777777",
       isEmailVerified: true,
       eventIds: [],
@@ -110,6 +110,10 @@ class _HomeState extends State<Home> {
       friendIds: [],
     ),
     User(id: "10", username: "Watermel0n", email: "watermelon@bateekh.com"),
+    User(id: "11", username: "MohamedMagdyAfsha", email: "afsha8545@qadeya.com"),
+    User(id: "11", username: "Mokattamawy", email: "OO@mokattam.com"),
+    User(id: "11", username: "Weeeeeeeee", email: "weeeee@nooo.com"),
+
   ];
 
   @override
