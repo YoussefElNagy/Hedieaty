@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../model/events.dart';
 import '../model/gifts.dart';
 
@@ -26,13 +25,13 @@ class GiftService {
     try {
       QuerySnapshot snapshot =
       await _firestore.collection(_collectionRef).where('ownerId', isEqualTo: userId).get();
-      print("Fetched ${snapshot.docs.length} events");
+      print("Fetched ${snapshot.docs.length} gifts");
 
       return snapshot.docs.map((doc) {
         return Gift.fromMap(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
     } catch (e) {
-      print("Error fetching all events: $e");
+      print("Error fetching all gifts: $e");
       return [];
     }
   }

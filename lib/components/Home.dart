@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hedeyeti/components/Profile.dart';
-import 'package:hedeyeti/services/events_services.dart';
+import 'package:hedeyeti/components/profile/Profile.dart';
+import 'package:hedeyeti/services/events_service.dart';
 import 'package:hedeyeti/services/users_service.dart';
 import '../model/users.dart';
 import 'FriendProfile.dart';
@@ -130,8 +130,6 @@ class _HomeState extends State<Home> {
             ), // Icon for unfriend button
             onPressed: ()async {
               print('Add friend logic');
-              var events= await EventsServices().getUserEvents('McsavChpJ0OR5XjW9KFRJdbVXMC3');  // Call this method to fetch and print the user data
-              print(events.first.eventName);
             },
           ),
         ],

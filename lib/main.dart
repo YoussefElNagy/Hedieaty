@@ -4,7 +4,7 @@ import 'components/Gifts.dart';
 import 'components/Home.dart';
 import 'components/EventPage.dart';
 import 'components/MyEvents.dart';
-import 'components/Profile.dart';
+import 'components/profile/Profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'components/(auth)/LoginScreen.dart';

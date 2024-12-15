@@ -76,7 +76,10 @@ class Gift {
       ownerId: map['ownerId'],
       pledgedById: map['pledgedById'] ?? null,
       isPledged: map['isPledged'] ?? false,
-      category: map['category'],
+      category: GiftCategory.values.firstWhere(
+        (e) => e.toString() == map['category'],
+        orElse: () => GiftCategory.other, // Default if no match
+      ),
       eventId: map['eventId'],
     );
   }
