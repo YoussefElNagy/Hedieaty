@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hedeyeti/services/users_service.dart';
 import '../data/users.dart';
 import 'FriendProfile.dart';
 
@@ -11,108 +12,99 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<User> myFriends = [
-    User(
+  final List<UserModel> myFriends = [
+    UserModel(
       id: "1",
       username: "SnoopNogg69",
       email: "snoop@nogg.com",
       profilePic: "assets/default_avatar.png",
-      phoneNumber: "+201093255558",
-      isEmailVerified: true,
+      phone: "+201093255558",
       eventIds: ['1', '2', '3'],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(
+    UserModel(
       id: "2",
       username: "AlragolAl3onab",
       email: "3enaby@3enabak.com",
       profilePic: "assets/default_avatar.png",
-      phoneNumber: "+201003255558",
-      isEmailVerified: true,
+      phone: "+201003255558",
       eventIds: ['11', '22', '33'],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(
+    UserModel(
       id: "3",
       username: "Julie",
       email: "julie@shobrawy.com",
       profilePic: "assets/sample.jpg",
-      phoneNumber: "+201077777777",
-      isEmailVerified: true,
+      phone: "+201077777777",
       eventIds: [],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(
+    UserModel(
       id: "4",
       username: "HappyTheAir",
       profilePic: "assets/sample.jpg",
       email: "sa3eed@elhawa.com",
-      phoneNumber: "+201012345678",
-      isEmailVerified: true,
+      phone: "+201012345678",
       eventIds: ['111', '21', '13', '123'],
       pledgedGiftIds: [],
       giftIds: ['1', '2'],
       friendIds: ['1', '2'],
     ),
-    User(
+    UserModel(
       id: "5",
       username: "Mehalabeya",
       email: "Mehalabeya@Mehalabeya.com",
       profilePic: "assets/default_avatar.png",
-      phoneNumber: "+201000000000",
-      isEmailVerified: false,
+      phone: "+201000000000",
       eventIds: ['9'],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(
+    UserModel(
       id: "6",
       username: "EidSaeedRamadan",
       email: "shha@aaaa.com",
       profilePic: "assets/default_avatar.png",
-      phoneNumber: "+201007775000",
-      isEmailVerified: false,
+      phone: "+201007775000",
       eventIds: [],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(
+    UserModel(
       id: "7",
       username: "AmiraBe7egabi",
       email: "aaaaa@nogg.com",
-      phoneNumber: "+201012344045",
-      isEmailVerified: true,
+      phone: "+201012344045",
       eventIds: [],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(
+    UserModel(
       id: "8",
       username: "HamadaBelGanzabeel",
       email: "abcde@nogg.com",
-      phoneNumber: "+201094574821",
-      isEmailVerified: true,
+      phone: "+201094574821",
       eventIds: [],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(
+    UserModel(
       id: "9",
       username: "ItsMeBolbol",
       email: "bala7@belaban.com",
-      phoneNumber: "+201090008000",
-      isEmailVerified: false,
+      phone: "+201090008000",
       eventIds: ['5'],
       pledgedGiftIds: [],
       friendIds: [],
     ),
-    User(id: "10", username: "Watermel0n", email: "watermelon@bateekh.com"),
-    User(id: "11", username: "MohamedMagdyAfsha", email: "afsha8545@qadeya.com"),
-    User(id: "11", username: "Mokattamawy", email: "OO@mokattam.com"),
-    User(id: "11", username: "Weeeeeeeee", email: "weeeee@nooo.com"),
+    UserModel(id: "10", username: "Watermel0n", email: "watermelon@bateekh.com"),
+    UserModel(id: "11", username: "MohamedMagdyAfsha", email: "afsha8545@qadeya.com"),
+    UserModel(id: "11", username: "Mokattamawy", email: "OO@mokattam.com"),
+    UserModel(id: "11", username: "Weeeeeeeee", email: "weeeee@nooo.com"),
 
   ];
 
@@ -136,6 +128,7 @@ class _HomeState extends State<Home> {
             ), // Icon for unfriend button
             onPressed: () {
               print('Add friend logic');
+              UsersService().printUserFriends();  // Call this method to fetch and print the user data
             },
           ),
         ],

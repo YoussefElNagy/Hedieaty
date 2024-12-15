@@ -11,33 +11,33 @@ class Events extends StatefulWidget {
 }
 
 class _EventsState extends State<Events> {
-  final List<User> myFriends = [
-    User(
+  final List<UserModel> myFriends = [
+    UserModel(
         id: "1",
         username: "HamadaBelGanzabeel",
         email: "hamadaginger@gmail.com"),
-    User(id: "2", username: "Mehalabeya", email: "Mehalabeya@Mehalabeya.com"),
-    User(id: "3", username: "Julie", email: "julie@shobrawy.com",profilePic: 'assets/sample.jpg'),
-    User(
+    UserModel(id: "2", username: "Mehalabeya", email: "Mehalabeya@Mehalabeya.com"),
+    UserModel(id: "3", username: "Julie", email: "julie@shobrawy.com",profilePic: 'assets/sample.jpg'),
+    UserModel(
       id: "4",
       username: "HappyTheAir",
       email: "sa3eed@elhawa.com",
       eventIds: ['3', '5,', '6'],
       profilePic: "assets/default_avatar.png",
     ),
-    User(id: "5", username: "Watermel0n", email: "watermelon@bateekh.com"),
-    User(
+    UserModel(id: "5", username: "Watermel0n", email: "watermelon@bateekh.com"),
+    UserModel(
         id: "6",
         username: "EidSaeedRamadan",
         email: "eidsaeed@ramadankareem.com"),
-    User(id: "7", username: "AlragolAl3onab", email: "3enaby@3enabak.com"),
-    User(
+    UserModel(id: "7", username: "AlragolAl3onab", email: "3enaby@3enabak.com"),
+    UserModel(
         id: "8",
         username: "HamadaBelGanzabeel",
         email: "hamada@ginger.com",
         eventIds: ['1']),
-    User(id: "9", username: "ItsMeBolbol", email: "bolbol@sesew.com"),
-    User(
+    UserModel(id: "9", username: "ItsMeBolbol", email: "bolbol@sesew.com"),
+    UserModel(
       id: "10",
       username: "Nognog",
       email: "nognog@nogg.com",
@@ -52,7 +52,6 @@ class _EventsState extends State<Events> {
       ownerId: "8", // ID of "HamadaBelGanzabeel"
       dateTime: DateTime(2024, 12, 5, 10, 0),
       category: EventCategory.wedding,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -61,7 +60,6 @@ class _EventsState extends State<Events> {
       ownerId: "10", // ID of "Nognog"
       dateTime: DateTime(2025, 07, 23, 18, 30),
       category: EventCategory.birthday,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -70,7 +68,6 @@ class _EventsState extends State<Events> {
       ownerId: "4", // ID of "HappyTheAir"
       dateTime: DateTime(2025, 12, 5, 10, 0),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -79,7 +76,6 @@ class _EventsState extends State<Events> {
       ownerId: "6", // ID of "EidSaeedRamadan"
       dateTime: DateTime(2024, 11, 25, 18, 30),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -88,7 +84,6 @@ class _EventsState extends State<Events> {
       ownerId: "4", // ID of "HappyTheAir"
       dateTime: DateTime(2024, 12, 5, 10, 0),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -97,7 +92,6 @@ class _EventsState extends State<Events> {
       ownerId: "4", // ID of "HappyTheAir"
       dateTime: DateTime(2024, 12, 19, 10, 0),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -106,7 +100,6 @@ class _EventsState extends State<Events> {
       ownerId: "7", // ID of "HappyTheAir"
       dateTime: DateTime(2028, 10, 30, 20, 10),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: ['1'],
     ),
     Event(
@@ -115,7 +108,6 @@ class _EventsState extends State<Events> {
       ownerId: "2", // ID of "HappyTheAir"
       dateTime: DateTime(2090, 1, 1, 23, 50),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -124,7 +116,6 @@ class _EventsState extends State<Events> {
       ownerId: "3", // ID of "HappyTheAir"
       dateTime: DateTime(2290, 1, 1, 23, 50),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -133,7 +124,6 @@ class _EventsState extends State<Events> {
       ownerId: "3",
       dateTime: DateTime(2021, 1, 1, 23, 50),
       category: EventCategory.wedding,
-      status: EventStatus.upcoming,
       giftIds: [],
     ),
   ];
@@ -156,8 +146,8 @@ class _EventsState extends State<Events> {
           itemCount: upcomingEvents.length,
           itemBuilder: (context, index) {
             // Get user by ID
-            User? user =
-            User.getUserById(upcomingEvents[index].ownerId, myFriends);
+            UserModel? user =
+            UserModel.getUserById(upcomingEvents[index].ownerId, myFriends);
 
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),

@@ -15,7 +15,7 @@ class GiftDetails extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Gift Details',
-          style: GoogleFonts.cairo(fontSize:30),
+          style: GoogleFonts.cairo(fontSize: 30),
         ),
         centerTitle: true,
         backgroundColor: theme.colorScheme.surface,
@@ -30,7 +30,8 @@ class GiftDetails extends StatelessWidget {
               child: Container(
                 height: 300, // Increased height to prevent overflow
                 decoration: BoxDecoration(
-                  border: Border.all(color: theme.colorScheme.primary, width: 4),
+                  border:
+                      Border.all(color: theme.colorScheme.primary, width: 4),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: ClipRRect(
@@ -40,8 +41,10 @@ class GiftDetails extends StatelessWidget {
                     children: [
                       Image.asset(
                         gift.image ?? 'assets/default_gift.png',
-                        width: double.infinity, // Stretch the image to fill the container width
-                        height: double.infinity, // Stretch the image to fill the container height
+                        width: double
+                            .infinity, // Stretch the image to fill the container width
+                        height: double
+                            .infinity, // Stretch the image to fill the container height
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
@@ -56,7 +59,8 @@ class GiftDetails extends StatelessWidget {
                         bottom: 10,
                         child: Container(
                           color: Colors.black.withOpacity(0.5),
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
                           child: Text(
                             gift.giftName,
                             style: GoogleFonts.cairo(
@@ -86,18 +90,13 @@ class GiftDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildDetailRow('Category:', gift.category.name),
-                    _buildDetailRow('Price:', '\$${gift.price.toStringAsFixed(2)}'),
+                    _buildDetailRow(
+                        'Price:', '\$${gift.price.toStringAsFixed(2)}'),
                     SizedBox(height: 10),
-
                     Text(
-                      'Status: ${gift.status.name}',
+                      'Status: ${gift.isPledged ? "Pledged" : "Available"}',
                       style: TextStyle(
-                        color: gift.status == GiftStatus.pledged
-                            ? Colors.orange
-                            : gift.status == GiftStatus.delivered
-                            ? Colors.green
-                            : Colors.blueGrey,
-                      ),
+                          color: gift.isPledged ? Colors.orange : Colors.green),
                     ),
                   ],
                 ),
@@ -129,8 +128,10 @@ class GiftDetails extends StatelessWidget {
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: Colors.black87,
                         ),
-                        overflow: TextOverflow.ellipsis,  // Handle overflow in text
-                        maxLines: 4,  // Limit the number of lines for better overflow control
+                        overflow:
+                            TextOverflow.ellipsis, // Handle overflow in text
+                        maxLines:
+                            4, // Limit the number of lines for better overflow control
                       ),
                     ),
                   ],
@@ -154,7 +155,8 @@ class GiftDetails extends StatelessWidget {
                     Row(
                       children: [
                         CircleAvatar(
-                          backgroundImage: NetworkImage(gift.ownerId ?? 'assets/default_avatar.png'),
+                          backgroundImage: NetworkImage(
+                              gift.ownerId ?? 'assets/default_avatar.png'),
                           backgroundColor: theme.colorScheme.primary,
                         ),
                         SizedBox(width: 10),
@@ -239,6 +241,7 @@ class GiftDetails extends StatelessWidget {
       ),
     );
   }
+
   // Helper method to build detail rows
   Widget _buildDetailRow(String label, String value) {
     return Padding(

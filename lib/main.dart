@@ -7,7 +7,7 @@ import 'components/MyEvents.dart';
 import 'components/Profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'components/LoginScreen.dart';
+import 'components/(auth)/LoginScreen.dart';
 
 void firebaseInit() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Home(),
     Events(),
     MyEvents(),
-    GiftsPage(), // Pass the list of gifts here
+    GiftsPage(), // Pass th   ve list of gifts here
     Profile(),
   ];
 

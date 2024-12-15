@@ -56,7 +56,7 @@ class _GiftManagementState extends State<GiftManagement> {
                         width: 80, // Constrained width
                         height: 80, // Constrained height
                         child: Image.asset(
-                          gift.image ?? 'https://example.com/defaultimage.jpg',
+                          gift.image ?? 'assets/default_gift.png',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) => Icon(
                             Icons.broken_image,
@@ -134,7 +134,6 @@ class _GiftManagementState extends State<GiftManagement> {
       image: 'assets/default_gift.png',
       ownerId: '1',
       pledgedById: null,
-      status: GiftStatus.available,
       isPledged: false,
       category: GiftCategory.toys,
       eventId: '3',
@@ -209,7 +208,6 @@ class _AddGiftPageState extends State<AddGiftPage> {
                       'https://example.com/newgift.jpg', // Set the image as required
                   ownerId: widget.event.ownerId,
                   pledgedById: null,
-                  status: GiftStatus.available,
                   isPledged: false,
                   category: GiftCategory.other,
                   eventId: widget.event.id,

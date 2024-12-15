@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hedeyeti/components/LoginScreen.dart';
-import '../services/auth.dart';
+import 'package:hedeyeti/components/(auth)/AuthenticationVM.dart';
+import 'package:hedeyeti/components/(auth)/LoginScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -15,6 +15,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
+  final _phoneController = TextEditingController();
 
   bool _isLoading = false;
 
@@ -28,17 +29,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
       final confirmPassword = _confirmPasswordController.text.trim();
+      final phone = _phoneController.text.trim();
 
-      if (email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-        throw FirebaseAuthException(
-          code: 'empty-fields',
-          message: 'Please fill in all fields.',
-        );
-      }
 
-      final auth = Auth();
-      await auth.signUp(email: email, password: password);
-      await auth.saveUserData(username: username, email: email);
+      AuthenticationViewModel().signUp(email:email,password:password,username:username,phone:phone);
 
       Navigator.pushReplacement(
         context,
@@ -49,6 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _emailController.clear();
         _passwordController.clear();
         _confirmPasswordController.clear();
+        _phoneController.clear();
       });
     } on FirebaseAuthException catch (e) {
       String errorMessage;
@@ -91,6 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   void dispose() {
     _usernameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -142,11 +138,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           if (x == null || x.isEmpty) {
                             return 'Please enter your username';
                           }
-
-                          // Regular expression to allow letters, numbers, underscores, and dashes
                           final regex = RegExp(r'^[a-zA-Z0-9_-]+$');
                           if (!regex.hasMatch(x)) {
                             return 'Enter valid characters.';
+                          }
+
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _phoneController,
+                        decoration: const InputDecoration(
+                          labelText: 'Phone Number',
+                          border: OutlineInputBorder(),
+                        ),
+                        keyboardType: TextInputType.phone,
+                        autocorrect: false,
+                        validator: (x) {
+                          if (x == null || x.isEmpty) {
+                            return 'Please enter your phone';
+                          }
+
+                          if(x.length<11){
+                            return 'Enter a valid phone number';
                           }
 
                           return null;

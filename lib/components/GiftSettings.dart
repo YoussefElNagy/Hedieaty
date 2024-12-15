@@ -107,7 +107,7 @@ class _GiftSettingsState extends State<GiftSettings> {
               // Image Display
               if (widget.gift.image != null)
                 Center(
-                  child: Image.network(
+                  child: Image.asset(
                     widget.gift.image!,
                     width: 150,
                     height: 150,

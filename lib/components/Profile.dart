@@ -11,13 +11,12 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-User currentUser = User(
+UserModel currentUser = UserModel(
   id: "1", // Assuming an ID for the user, as it's required in the User class
   username: "Nognog",
   email: "nognog@nognog.com",
   profilePic: "assets/sample.jpg", // Default value, use a placeholder if null
-  phoneNumber: "+201093255558",
-  isEmailVerified: true, // Assuming email is verified
+  phone: "+201093255558",
   eventIds: [
     "2", // Event ID for "Wedding"
     "3", // Event ID for "Birthday"
@@ -51,7 +50,6 @@ final List<Event> events = [
     ownerId: "8", // ID of "HamadaBelGanzabeel"
     dateTime: DateTime(2024, 12, 5, 10, 0),
     category: EventCategory.wedding,
-    status: EventStatus.upcoming,
     giftIds: [],
   ),
   Event(
@@ -60,27 +58,26 @@ final List<Event> events = [
     ownerId: "10", // ID of "Nognog"
     dateTime: DateTime(2024, 11, 25, 18, 30),
     category: EventCategory.entertainment,
-    status: EventStatus.upcoming,
     giftIds: [],
   ),
-  Event(
-    id: "4", // Event ID for "Graduation"
-    eventName: "Graduation",
-    ownerId: "4", // ID of "HappyTheAir"
-    dateTime: DateTime(2025, 12, 5, 10, 0),
-    category: EventCategory.graduation,
-    status: EventStatus.upcoming,
-    giftIds: [],
-  ),
-  Event(
-    id: "5", // Event ID for "Eid"
-    eventName: "Eid",
-    ownerId: "6", // ID of "EidSaeedRamadan"
-    dateTime: DateTime(2024, 11, 25, 18, 30),
-    category: EventCategory.eid,
-    status: EventStatus.upcoming,
-    giftIds: [],
-  ),
+  // Event(
+  //   id: "4", // Event ID for "Graduation"
+  //   eventName: "Graduation",
+  //   ownerId: "4", // ID of "HappyTheAir"
+  //   dateTime: DateTime(2025, 12, 5, 10, 0),
+  //   category: EventCategory.graduation,
+  //   status: EventStatus.upcoming,
+  //   giftIds: [],
+  // ),
+  // Event(
+  //   id: "5", // Event ID for "Eid"
+  //   eventName: "Eid",
+  //   ownerId: "6", // ID of "EidSaeedRamadan"
+  //   dateTime: DateTime(2024, 11, 25, 18, 30),
+  //   category: EventCategory.eid,
+  //   status: EventStatus.upcoming,
+  //   giftIds: [],
+  // ),
 ];
 
 class _ProfileState extends State<Profile> {

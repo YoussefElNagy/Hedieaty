@@ -8,7 +8,7 @@ import '../data/events.dart';
 import '../data/users.dart';
 
 class FriendProfile extends StatefulWidget {
-  final User friend;
+  final UserModel friend;
 
   FriendProfile({required this.friend});
 
@@ -29,7 +29,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "8", // ID of "HamadaBelGanzabeel"
         dateTime: DateTime(2024, 12, 5, 10, 0),
         category: EventCategory.wedding,
-        status: EventStatus.active,
         giftIds: [],
       ),
       Event(
@@ -38,7 +37,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "10", // ID of "Nognog"
         dateTime: DateTime(2025, 07, 23, 18, 30),
         category: EventCategory.birthday,
-        status: EventStatus.active,
         giftIds: [],
       ),
       Event(
@@ -47,7 +45,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "4", // ID of "HappyTheAir"
         dateTime: DateTime(2025, 12, 5, 10, 0),
         category: EventCategory.other,
-        status: EventStatus.active,
         giftIds: [],
       ),
       Event(
@@ -56,7 +53,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "6", // ID of "EidSaeedRamadan"
         dateTime: DateTime(2024, 11, 25, 18, 30),
         category: EventCategory.other,
-        status: EventStatus.active,
         giftIds: [],
       ),
       Event(
@@ -65,7 +61,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "4", // ID of "HappyTheAir"
         dateTime: DateTime(2024, 12, 5, 10, 0),
         category: EventCategory.other,
-        status: EventStatus.active,
         giftIds: [],
       ),
       Event(
@@ -74,7 +69,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "4", // ID of "HappyTheAir"
         dateTime: DateTime(2024, 12, 19, 10, 0),
         category: EventCategory.other,
-        status: EventStatus.active,
         giftIds: [],
       ),
       Event(
@@ -83,7 +77,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "7", // ID of "HappyTheAir"
         dateTime: DateTime(2028, 10, 30, 20, 10),
         category: EventCategory.other,
-        status: EventStatus.active,
         giftIds: [],
       ),
       Event(
@@ -92,7 +85,6 @@ class _FriendProfileState extends State<FriendProfile> {
         ownerId: "2", // ID of "HappyTheAir"
         dateTime: DateTime(2090, 1, 1, 23, 50),
         category: EventCategory.other,
-        status: EventStatus.active,
         giftIds: [],
       ),
     ];

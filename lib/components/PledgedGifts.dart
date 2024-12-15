@@ -21,7 +21,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
       price: 500.0,
       ownerId: 'user123',
       pledgedById: 'user456', // This gift is pledged by user456
-      status: GiftStatus.available,
       isPledged: true,
       category: GiftCategory.electronics,
       eventId: 'event1',
@@ -34,7 +33,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
       image: null, // No image, will use default
       ownerId: 'user456',
       pledgedById: 'user789', // This gift is pledged by user789
-      status: GiftStatus.pledged,
       isPledged: true,
       category: GiftCategory.clothing,
       eventId: 'event2',
@@ -52,7 +50,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         price: 500.0,
         ownerId: 'user123',
         pledgedById: widget.currentUserId, // This gift is pledged by user456
-        status: GiftStatus.available,
         isPledged: true,
         category: GiftCategory.electronics,
         eventId: 'event1',
@@ -65,7 +62,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         image: null, // No image, will use default
         ownerId: 'user456',
         pledgedById: widget.currentUserId,
-        status: GiftStatus.pledged,
         isPledged: true,
         category: GiftCategory.clothing,
         eventId: 'event2',
@@ -78,7 +74,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         image: null, // No image, will use default
         ownerId: 'user123',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
-        status: GiftStatus.pledged,
         isPledged: true,
         category: GiftCategory.electronics,
         eventId: 'event3',
@@ -92,7 +87,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         image: null, // No image, will use default
         ownerId: 'user789',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
-        status: GiftStatus.pledged,
         isPledged: true,
         category: GiftCategory.clothing,
         eventId: 'event4',
@@ -106,7 +100,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         image: null, // No image, will use default
         ownerId: 'user456',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
-        status: GiftStatus.pledged,
         isPledged: true,
         category: GiftCategory.electronics,
         eventId: 'event5',
@@ -120,7 +113,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         image: null, // No image, will use default
         ownerId: 'user234',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
-        status: GiftStatus.pledged,
         isPledged: true,
         category: GiftCategory.clothing,
         eventId: 'event6',
@@ -134,7 +126,6 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         image: null, // No image, will use default
         ownerId: 'user567',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
-        status: GiftStatus.pledged,
         isPledged: true,
         category: GiftCategory.electronics,
         eventId: 'event7',

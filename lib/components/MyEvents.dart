@@ -11,7 +11,7 @@ class MyEvents extends StatefulWidget {
 }
 
 class _MyEventsState extends State<MyEvents> {
-  final User currentUser = User(
+  final UserModel currentUser = UserModel(
     id: "4",
     username: "HappyTheAir",
     email: "sa3eed@elhawa.com",
@@ -26,7 +26,6 @@ class _MyEventsState extends State<MyEvents> {
       ownerId: "4",
       dateTime: DateTime(2025, 12, 5, 10, 0),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: ['1','3'],
     ),
     Event(
@@ -35,7 +34,6 @@ class _MyEventsState extends State<MyEvents> {
       ownerId: "4",
       dateTime: DateTime(2025, 12, 5, 10, 0),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: [],
     ),
     Event(
@@ -44,7 +42,6 @@ class _MyEventsState extends State<MyEvents> {
       ownerId: "4",
       dateTime: DateTime(2025, 12, 5, 10, 0),
       category: EventCategory.other,
-      status: EventStatus.active,
       giftIds: ['1','2'],
     ),
   ];
@@ -57,14 +54,16 @@ class _MyEventsState extends State<MyEvents> {
     final isEditing = event != null;
     final TextEditingController nameController =
     TextEditingController(text: event?.eventName ?? '');
+    final TextEditingController locationController =
+    TextEditingController(text: event?.location ?? '');
     final TextEditingController dateController = TextEditingController(
       text: event != null
           ? DateFormat('yyyy-MM-dd HH:mm').format(event.dateTime)
           : '',
     );
 
+
     EventCategory selectedCategory = event?.category ?? EventCategory.other;
-    EventStatus selectedStatus = event?.status ?? EventStatus.active;
 
     showDialog(
       context: context,
@@ -135,6 +134,17 @@ class _MyEventsState extends State<MyEvents> {
                     },
                   ),
                   const SizedBox(height: 15),
+                  TextField(
+                    controller: locationController,
+                    decoration: InputDecoration(
+                      labelText: "Event Location",
+                      labelStyle: GoogleFonts.cairo(),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
                   DropdownButtonFormField<EventCategory>(
                     value: selectedCategory,
                     decoration: InputDecoration(
@@ -159,31 +169,6 @@ class _MyEventsState extends State<MyEvents> {
                       });
                     },
                   ),
-                  const SizedBox(height: 15),
-                  DropdownButtonFormField<EventStatus>(
-                    value: selectedStatus,
-                    decoration: InputDecoration(
-                      labelText: "Status",
-                      labelStyle: GoogleFonts.cairo(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    items: EventStatus.values.map((EventStatus status) {
-                      return DropdownMenuItem<EventStatus>(
-                        value: status,
-                        child: Text(
-                          status.toString().split('.').last,
-                          style: GoogleFonts.cairo(),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (EventStatus? value) {
-                      setState(() {
-                        selectedStatus = value!;
-                      });
-                    },
-                  ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -204,7 +189,6 @@ class _MyEventsState extends State<MyEvents> {
                                 event.eventName = nameController.text;
                                 event.dateTime = eventDate;
                                 event.category = selectedCategory;
-                                event.status = selectedStatus;
                               } else {
                                 allEvents.add(Event(
                                   id: DateTime.now().toString(),
@@ -212,7 +196,6 @@ class _MyEventsState extends State<MyEvents> {
                                   ownerId: currentUser.id,
                                   dateTime: eventDate,
                                   category: selectedCategory,
-                                  status: selectedStatus,
                                   giftIds: [],
                                 ));
                               }
@@ -309,10 +292,6 @@ class _MyEventsState extends State<MyEvents> {
                         ),
                         Text(
                           'Category: ${event.category.name}',
-                          style: GoogleFonts.cairo(),
-                        ),
-                        Text(
-                          'Status: ${event.status.name}',
                           style: GoogleFonts.cairo(),
                         ),
                       ],

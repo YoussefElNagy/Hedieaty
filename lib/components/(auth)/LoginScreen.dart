@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hedeyeti/components/(auth)/AuthenticationVM.dart';
 import 'package:hedeyeti/main.dart';
-import '../services/auth.dart';
-import 'Home.dart';
 import 'SignupScreen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -26,36 +24,15 @@ class _LoginScreenState extends State<LoginScreen> {
       final email = _emailController.text.trim();
       final password = _passwordController.text.trim();
 
-      if (email.isEmpty || password.isEmpty) {
-        throw FirebaseAuthException(
-          code: 'empty-fields',
-          message: 'Please fill in all fields.',
-        );
-      }
+      var user = await AuthenticationViewModel()
+          .signIn(email: email, password: password);
 
-      final auth = Auth();
-      // Attempt to sign in the user
-      var user = await auth.signIn(email: email, password: password);
       if (user != null) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => HomeScreen()),
         );
-      }
-      //TODO
-      // Get the user data from Firestore
-      // DocumentSnapshot currentUser = await auth.getUserData();
-      // print("User data: $currentUser");
-      //
-      // // Check if the user exists and navigate to the home screen
-      // if (currentUser.exists) {
-      //   Navigator.pushReplacement(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => HomeScreen()),
-      //   );
-      // }
-
-      else {
+      } else {
         throw FirebaseAuthException(
           code: 'user-not-found',
           message: 'User not found in Firestore.',
