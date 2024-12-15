@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../data/gifts.dart';
+import '../model/gifts.dart';
 import 'GiftSettings.dart';
 
 class GiftsPage extends StatefulWidget {

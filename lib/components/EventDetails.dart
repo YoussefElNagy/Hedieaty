@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import '../data/events.dart';
-import '../data/gifts.dart';
+import '../model/events.dart';
+import '../model/gifts.dart';
 import 'GiftDetails.dart'; // Assuming this is where the Gift model/data resides
 
 class EventDetails extends StatelessWidget {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hedeyeti/components/Profile.dart';
+import 'package:hedeyeti/services/events_services.dart';
 import 'package:hedeyeti/services/users_service.dart';
-import '../data/users.dart';
+import '../model/users.dart';
 import 'FriendProfile.dart';
 
 class Home extends StatefulWidget {
@@ -126,9 +128,10 @@ class _HomeState extends State<Home> {
               Icons.person_add,
               color: theme.colorScheme.primary,
             ), // Icon for unfriend button
-            onPressed: () {
+            onPressed: ()async {
               print('Add friend logic');
-              UsersService().printUserFriends();  // Call this method to fetch and print the user data
+              var events= await EventsServices().getUserEvents('McsavChpJ0OR5XjW9KFRJdbVXMC3');  // Call this method to fetch and print the user data
+              print(events.first.eventName);
             },
           ),
         ],

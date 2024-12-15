@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../data/events.dart'; // Assuming you have Event and Gift models
-import '../data/gifts.dart';
+import '../model/events.dart'; // Assuming you have Event and Gift models
+import '../model/gifts.dart';
 import 'GiftSettings.dart'; // Import the gifts data model
 
 class GiftManagement extends StatefulWidget {

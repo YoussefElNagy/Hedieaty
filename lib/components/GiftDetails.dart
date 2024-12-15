@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../data/gifts.dart'; // Assuming Gift model/data resides here
+import '../model/gifts.dart'; // Assuming Gift model/data resides here
 
 class GiftDetails extends StatelessWidget {
   final Gift gift;

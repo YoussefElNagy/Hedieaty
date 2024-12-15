@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hedeyeti/data/gifts.dart'; // Assuming this imports the Gift model and related data.
+import 'package:hedeyeti/model/gifts.dart'; // Assuming this imports the Gift model and related data.
 
 class GiftSettings extends StatefulWidget {
   final Gift gift;

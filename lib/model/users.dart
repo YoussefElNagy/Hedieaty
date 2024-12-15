@@ -1,4 +1,3 @@
-import 'events.dart';
 
 class UserModel {
   String id; // Unique identifier for the user

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hedeyeti/components/GiftDetails.dart';
 
-import '../data/gifts.dart';
+import '../model/gifts.dart';
 
 class PledgedGiftsPage extends StatefulWidget {
   final String currentUserId; // Pass current user's ID

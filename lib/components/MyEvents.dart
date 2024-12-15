@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import '../data/events.dart';
-import '../data/users.dart';
+import '../model/events.dart';
+import '../model/users.dart';
 import 'GiftManagement.dart';
 
 class MyEvents extends StatefulWidget {

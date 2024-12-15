@@ -1,9 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import '../data/users.dart';
-import '../data/events.dart';
+import '../model/users.dart';
+import '../model/events.dart';
 import 'PledgedGifts.dart';
 
 class Profile extends StatefulWidget {
@@ -99,7 +98,7 @@ class _ProfileState extends State<Profile> {
               children: [
                 // Background image with blur effect
                 Image.asset(
-                  currentUser.profilePic ?? 'assets/default_avatar.png', // Use a placeholder if null
+                  currentUser.profilePic ?? 'assets/sample.jpg', // Use a placeholder if null
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,

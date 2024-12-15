@@ -43,7 +43,7 @@ class Event {
       'eventName': eventName,
       'ownerId': ownerId,
       'dateTime': dateTime,
-      'category': category,
+      'category': category.toString(),
       'location': location,
       'giftIds': giftIds,
     };
@@ -55,7 +55,10 @@ class Event {
       eventName: map['eventName'] ?? '',
       ownerId: map['ownerId'] ?? '',
       dateTime: (map['dateTime'] as Timestamp).toDate(),
-      category: map['category'],
+      category: EventCategory.values.firstWhere(
+            (e) => e.toString() == map['category'],
+        orElse: () => EventCategory.other, // Default if no match
+      ),
       location: map['location'],
       giftIds: List<String>.from(map['giftIds'] ?? []),
     );
