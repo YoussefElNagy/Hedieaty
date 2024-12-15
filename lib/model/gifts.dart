@@ -1,4 +1,4 @@
-enum GiftCategory { electronics, clothing, toys, home, other }
+enum GiftCategory { electronics, clothing, toys, home, cosmetics, other }
 
 class Gift {
   String id; // Unique identifier for the gift
@@ -61,7 +61,7 @@ class Gift {
       'ownerId': ownerId,
       'pledgedById': pledgedById,
       'isPledged': isPledged,
-      'category': category,
+      'category': category.toString(),
       'eventId': eventId
     };
   }

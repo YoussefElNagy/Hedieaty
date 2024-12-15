@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hedeyeti/components/profile/Profile.dart';
-import 'package:hedeyeti/services/events_service.dart';
-import 'package:hedeyeti/services/users_service.dart';
 import '../model/users.dart';
 import 'FriendProfile.dart';
 

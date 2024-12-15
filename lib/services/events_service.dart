@@ -45,6 +45,14 @@ class EventsService {
       rethrow;
     }
   }
+  Future<void> setEvent(String eventId, Event event) async {
+    try {
+      await _firestore.collection(_collectionRef).doc(eventId).set(event.toMap());
+    } catch (e) {
+      print("Error saving event: $e");
+      rethrow;
+    }
+  }
 
   //user= kaza w user.field
   Future<Event?> getEvent(String eventId) async {

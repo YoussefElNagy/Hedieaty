@@ -29,6 +29,26 @@ class Event {
       this.giftIds = const [],
       this.location});
 
+  Event copyWith({
+    String? id,
+    String? eventName,
+    String? ownerId,
+    DateTime? dateTime,
+    String? location,
+    EventCategory? category,
+    List<String>? giftIds,
+  }) {
+    return Event(
+      id: id ?? this.id,
+      eventName: eventName ?? this.eventName,
+      ownerId: ownerId ?? this.ownerId,
+      dateTime: dateTime ?? this.dateTime,
+      location: location ?? this.location,
+      category: category ?? this.category,
+      giftIds: giftIds ?? this.giftIds,
+    );
+  }
+
   static Event? getEventById(String eventId, List<Event> events) {
     try {
       return events.firstWhere((event) => event.id == eventId);

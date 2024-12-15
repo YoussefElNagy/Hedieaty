@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'components/Gifts.dart';
 import 'components/Home.dart';
 import 'components/EventPage.dart';
-import 'components/MyEvents.dart';
+import 'components/myevents/MyEvents.dart';
 import 'components/profile/Profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
