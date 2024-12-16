@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hedeyeti/services/users_service.dart';
 import '../model/events.dart';
 
 class EventsService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final String _collectionRef = 'events'; // Updated collection name
-
+  UsersService usersService=UsersService();
   Future<List<Event>> getAllEvents() async {
     try {
       QuerySnapshot snapshot =
@@ -48,6 +49,7 @@ class EventsService {
   Future<void> setEvent(String eventId, Event event) async {
     try {
       await _firestore.collection(_collectionRef).doc(eventId).set(event.toMap());
+      await usersService.addEventToUser(event.ownerId, eventId); // Add to user
     } catch (e) {
       print("Error saving event: $e");
       rethrow;
@@ -72,9 +74,10 @@ class EventsService {
     }
   }
 
-  Future<void> deleteEvent(String eventId) async {
+  Future<void> deleteEvent(String eventId,String userId) async {
     try {
       await _firestore.collection(_collectionRef).doc(eventId).delete();
+      await usersService.removeEventFromUser(userId, eventId);
     } catch (e) {
       print("Error deleting event: $e");
       rethrow;

@@ -26,8 +26,12 @@ class MyEventsViewModel {
     await eventsService.setEvent(eventId,event);
   }
 
-  Future<void> deleteCurrentEvent(String eventId) async {
-    await eventsService.deleteEvent(eventId);
+  Future<void> deleteCurrentEvent(String eventId, String userId) async {
+    try {
+      await eventsService.deleteEvent(eventId, userId);
+    } catch (e) {
+      rethrow; // Handle exceptions
+    }
   }
 
   Future<void> updateCurrentEvent(String eventId,Event event)async{

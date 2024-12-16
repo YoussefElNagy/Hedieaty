@@ -12,7 +12,7 @@ class MyEvents extends StatefulWidget {
 }
 
 class _MyEventsState extends State<MyEvents> {
-  void _deleteEvent(String eventId) {
+  void _deleteEvent(String eventId,String userId) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -28,7 +28,7 @@ class _MyEventsState extends State<MyEvents> {
           ),
           ElevatedButton(
             onPressed: () {
-              MyEventsViewModel().deleteCurrentEvent(eventId);
+              MyEventsViewModel().deleteCurrentEvent(eventId,userId);
               Navigator.pop(context);
               refreshData();
             },
@@ -53,13 +53,12 @@ class _MyEventsState extends State<MyEvents> {
       futureData = MyEventsViewModel().initialiseData();
     });
   }
-
   Future<void> _createOrEditEvent({Event? event, UserModel? user}) async {
     final isEditing = event != null;
     final TextEditingController nameController =
-        TextEditingController(text: event?.eventName ?? '');
+    TextEditingController(text: event?.eventName ?? '');
     final TextEditingController locationController =
-        TextEditingController(text: event?.location ?? '');
+    TextEditingController(text: event?.location ?? '');
     final TextEditingController dateController = TextEditingController(
       text: event != null
           ? DateFormat('yyyy-MM-dd HH:mm').format(event.dateTime)
@@ -71,8 +70,7 @@ class _MyEventsState extends State<MyEvents> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             padding: const EdgeInsets.all(20.0),
@@ -129,8 +127,7 @@ class _MyEventsState extends State<MyEvents> {
                           );
                           if (pickedDate.isBefore(DateTime.now())) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text("Please select a valid date")),
+                              SnackBar(content: Text("Please select a valid date")),
                             );
                           }
                           setState(() {
@@ -193,6 +190,17 @@ class _MyEventsState extends State<MyEvents> {
                             final eventDate = DateFormat('yyyy-MM-dd HH:mm')
                                 .parse(dateController.text);
 
+                            // Check if event date is in the past
+                            if (eventDate.isBefore(DateTime.now())) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                  Text("The event date cannot be in the past."),
+                                ),
+                              );
+                              return; // Prevent event creation
+                            }
+
                             if (isEditing) {
                               // Update event using ViewModel
                               await MyEventsViewModel().updateEvent(
@@ -229,8 +237,7 @@ class _MyEventsState extends State<MyEvents> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                  content:
-                                      Text('Please fill all required fields.')),
+                                  content: Text('Please fill all required fields.')),
                             );
                           }
                         },
@@ -326,7 +333,7 @@ class _MyEventsState extends State<MyEvents> {
                                   color: Colors.red,
                                 ),
                                 onPressed: () {
-                                  _deleteEvent(event.id);
+                                  _deleteEvent(event.id,user.id);
                                   refreshData();
                                 },
                               ),

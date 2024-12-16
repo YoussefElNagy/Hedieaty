@@ -163,6 +163,31 @@ class UsersService {
     }
   }
 
+  Future<void> addEventToUser(String userId, String eventId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'eventIds': FieldValue.arrayUnion([eventId])
+      });
+      print("Event added successfully!");
+    } catch (e) {
+      print("Error adding event: $e");
+      rethrow;
+    }
+  }
+
+  Future<void> removeEventFromUser(String userId, String eventId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'eventIds': FieldValue.arrayRemove([eventId])
+      });
+      print("Event removed successfully!");
+    } catch (e) {
+      print("Error removing event: $e");
+      rethrow;
+    }
+  }
+
+
 
 
 }
