@@ -4,7 +4,7 @@ import 'package:hedeyeti/components/myevents/MyEventsVM.dart';
 import 'package:hedeyeti/model/users.dart';
 import 'package:intl/intl.dart';
 import '../../model/events.dart';
-import '../GiftManagement.dart';
+import '../mygifts/GiftManagement.dart';
 
 class MyEvents extends StatefulWidget {
   @override
@@ -27,8 +27,8 @@ class _MyEventsState extends State<MyEvents> {
             child: const Text("Cancel"),
           ),
           ElevatedButton(
-            onPressed: () {
-              MyEventsViewModel().deleteCurrentEvent(eventId,userId);
+            onPressed: () async{
+              await MyEventsViewModel().deleteCurrentEvent(eventId,userId);
               Navigator.pop(context);
               refreshData();
             },
@@ -294,9 +294,9 @@ class _MyEventsState extends State<MyEvents> {
                       ),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: theme.colorScheme.primary,
+                          color: theme.colorScheme.tertiary,
                           border: Border.all(
-                              color: theme.colorScheme.tertiary, width: 3),
+                              color: theme.colorScheme.primary, width: 3),
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: ListTile(
@@ -315,7 +315,21 @@ class _MyEventsState extends State<MyEvents> {
                               ),
                               Text(
                                 'Category: ${event.category.name}',
-                                style: GoogleFonts.cairo(),
+                                style: GoogleFonts.cairo(
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.pin_drop,color: theme.colorScheme.primary,),
+                                  Text(
+                                    '${event.location?? "Not defined..."}',
+                                    style: GoogleFonts.cairo(
+                                      fontWeight: FontWeight.w600
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

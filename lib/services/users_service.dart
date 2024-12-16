@@ -7,7 +7,9 @@ class UsersService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> saveUserData(
-      {required String username, required String email, required String phone}) async {
+      {required String username,
+      required String email,
+      required String phone}) async {
     User? user = _auth.currentUser;
     if (user != null) {
       String uid = user.uid;
@@ -44,14 +46,13 @@ class UsersService {
     print(user?.uid);
     try {
       if (user != null) {
-        DocumentSnapshot snapshot = await _firestore
-            .collection('users')
-            .doc(user.uid)
-            .get();
+        DocumentSnapshot snapshot =
+            await _firestore.collection('users').doc(user.uid).get();
 
         // Check if the document exists and map the data to a UserModel
         if (snapshot.exists) {
-          return UserModel.fromMap(snapshot.data() as Map<String, dynamic>, snapshot.id);
+          return UserModel.fromMap(
+              snapshot.data() as Map<String, dynamic>, snapshot.id);
         } else {
           print("No user data found!");
           return null;
@@ -80,10 +81,12 @@ class UsersService {
       print("Error fetching user data: $e");
     }
   }
+
   //user= kaza w user.field
   Future<UserModel?> getUser(String userId) async {
     try {
-      DocumentSnapshot doc = await _firestore.collection('users').doc(userId).get();
+      DocumentSnapshot doc =
+          await _firestore.collection('users').doc(userId).get();
 
       if (doc.exists && doc.data() != null) {
         return UserModel.fromMap(doc.data() as Map<String, dynamic>, doc.id);
@@ -96,6 +99,7 @@ class UsersService {
       return null;
     }
   }
+
   Future<void> deleteUser(String userId) async {
     try {
       await _firestore.collection('users').doc(userId).delete();
@@ -119,11 +123,13 @@ class UsersService {
       User? user = _auth.currentUser;
 
       // Fetch the user's document
-      DocumentSnapshot userDoc = await _firestore.collection('users').doc(user?.uid).get();
+      DocumentSnapshot userDoc =
+          await _firestore.collection('users').doc(user?.uid).get();
 
       if (userDoc.exists && userDoc.data() != null) {
         // Extract the list of friend IDs
-        List<String> friendIds = List<String>.from((userDoc.data() as Map<String, dynamic>)['friendIds'] ?? []);
+        List<String> friendIds = List<String>.from(
+            (userDoc.data() as Map<String, dynamic>)['friendIds'] ?? []);
 
         if (friendIds.isEmpty) {
           print("No friends found for user: ${user?.uid}");
@@ -131,10 +137,13 @@ class UsersService {
         }
 
         // Fetch friends' documents in parallel
-        List<UserModel?> friends = await Future.wait(friendIds.map((friendId) async {
-          DocumentSnapshot friendDoc = await _firestore.collection('users').doc(friendId).get();
+        List<UserModel?> friends =
+            await Future.wait(friendIds.map((friendId) async {
+          DocumentSnapshot friendDoc =
+              await _firestore.collection('users').doc(friendId).get();
           if (friendDoc.exists && friendDoc.data() != null) {
-            return UserModel.fromMap(friendDoc.data() as Map<String, dynamic>, friendDoc.id);
+            return UserModel.fromMap(
+                friendDoc.data() as Map<String, dynamic>, friendDoc.id);
           }
           return null; // If a friend document doesn't exist
         }));
@@ -187,7 +196,27 @@ class UsersService {
     }
   }
 
+  Future<void> addGiftToUser(String userId, String giftId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'giftIds': FieldValue.arrayUnion([giftId])
+      });
+      print("Gift added successfully to user $userId!");
+    } catch (e) {
+      print("Error adding gift: $e to user");
+      rethrow;
+    }
+  }
 
-
-
+  Future<void> removeGiftFromUser(String userId, String giftId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'giftIds': FieldValue.arrayRemove([giftId])
+      });
+      print("gift removed successfully from user!");
+    } catch (e) {
+      print("Error removing gift from user: $e");
+      rethrow;
+    }
+  }
 }

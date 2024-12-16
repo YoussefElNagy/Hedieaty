@@ -4,13 +4,13 @@ class Gift {
   String id; // Unique identifier for the gift
   String giftName;
   String description;
-  double price;
+  int price;
   String? image; // Path to the gift image (optional)
   String ownerId; // Reference to the User who owns the gift
   String? pledgedById; // Reference to the User who pledged the gift (optional)
   bool isPledged; // Indicates whether the gift is pledged
   GiftCategory category; // Enum for gift type
-  String? eventId;
+  String eventId;
 
   Gift({
     required this.id,
@@ -22,14 +22,14 @@ class Gift {
     this.pledgedById,
     this.isPledged = false,
     required this.category,
-    this.eventId,
+    required this.eventId,
   });
 
   Gift copyWith({
     String? id,
     String? giftName,
     String? description,
-    double? price,
+    int? price,
     String? image,
     String? ownerId,
     String? pledgedById,
@@ -61,7 +61,7 @@ class Gift {
       'ownerId': ownerId,
       'pledgedById': pledgedById,
       'isPledged': isPledged,
-      'category': category.toString(),
+      'category': category.toString().split('.').last,
       'eventId': eventId
     };
   }
@@ -77,8 +77,8 @@ class Gift {
       pledgedById: map['pledgedById'] ?? null,
       isPledged: map['isPledged'] ?? false,
       category: GiftCategory.values.firstWhere(
-        (e) => e.toString() == map['category'],
-        orElse: () => GiftCategory.other, // Default if no match
+            (e) => e.name == map['category'],  // Compare with `name` instead of `toString()`
+        orElse: () => GiftCategory.other,  // Default if no match
       ),
       eventId: map['eventId'],
     );

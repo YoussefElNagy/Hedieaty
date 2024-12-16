@@ -68,6 +68,12 @@ flutter:
        - assets/default_avatar.png
        - assets/sample.jpg
        - assets/default_gift.png
+       - assets/other.jpg
+       - assets/clothing.jpg
+       - assets/cosmetics.jpg
+       - assets/electronics.jpg
+       - assets/home.jpg
+       - assets/toys.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

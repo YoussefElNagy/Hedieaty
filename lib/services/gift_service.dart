@@ -38,11 +38,11 @@ class GiftService {
     }
   }
 
-  Future<List<Gift>> getEventGifts(String giftId) async {
+  Future<List<Gift>> getEventGifts(String eventId) async {
     try {
       QuerySnapshot snapshot = await _firestore
           .collection(_collectionRef)
-          .where('eventId', isEqualTo: giftId)
+          .where('eventId', isEqualTo: eventId)
           .get();
       print("Fetched ${snapshot.docs.length} gifts");
 
@@ -64,6 +64,17 @@ class GiftService {
     }
   }
 
+  Future<void> setGift(String giftId, Gift gift) async {
+    try {
+      await _firestore.collection(_collectionRef).doc(giftId).set(gift.toMap());
+      // await usersService.addEventToUser(event.ownerId, eventId); // Add to user
+    } catch (e) {
+      print("Error saving gift: $e");
+      rethrow;
+    }
+  }
+
+
   Future<void> deleteGiftsByUser(String userId) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -80,6 +91,7 @@ class GiftService {
       rethrow;
     }
   }
+
   Future<void> deleteGiftsByEvent(String eventId) async {
     try {
       // Fetch and delete all gifts linked to the event
@@ -88,7 +100,8 @@ class GiftService {
           .where('eventId', isEqualTo: eventId)
           .get();
 
-      List<String> giftIdsToDelete = snapshot.docs.map((doc) => doc.id).toList();
+      List<String> giftIdsToDelete =
+          snapshot.docs.map((doc) => doc.id).toList();
 
       for (var doc in snapshot.docs) {
         await doc.reference.delete();
@@ -101,9 +114,8 @@ class GiftService {
         List<dynamic> userGiftIds = userData['giftIds'] ?? [];
 
         if (userGiftIds.isNotEmpty) {
-          List<dynamic> updatedGiftIds = userGiftIds
-              .where((id) => !giftIdsToDelete.contains(id))
-              .toList();
+          List<dynamic> updatedGiftIds =
+              userGiftIds.where((id) => !giftIdsToDelete.contains(id)).toList();
 
           if (userGiftIds.length != updatedGiftIds.length) {
             await userDoc.reference.update({'giftIds': updatedGiftIds});
@@ -117,8 +129,6 @@ class GiftService {
       rethrow;
     }
   }
-
-
 
   //user= kaza w user.field
   Future<Gift?> getGift(String giftId) async {

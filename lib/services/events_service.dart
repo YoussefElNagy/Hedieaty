@@ -99,4 +99,28 @@ class EventsService {
       rethrow;
     }
   }
+
+  Future<void> addGiftToEvent(String eventId, String giftId) async {
+    try {
+      await _firestore.collection(_collectionRef).doc(eventId).update({
+        'giftIds': FieldValue.arrayUnion([giftId])
+      });
+      print("Gift added successfully to event $eventId!");
+    } catch (e) {
+      print("Error adding gift: $e to event");
+      rethrow;
+    }
+  }
+
+  Future<void> removeGiftFromEvent(String eventId, String giftId) async {
+    try {
+      await _firestore.collection(_collectionRef).doc(eventId).update({
+        'giftIds': FieldValue.arrayRemove([giftId])
+      });
+      print("gift removed successfully from event!");
+    } catch (e) {
+      print("Error removing gift from event: $e");
+      rethrow;
+    }
+  }
 }

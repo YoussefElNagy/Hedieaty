@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'components/Gifts.dart';
+import 'components/mygifts/MyGifts.dart';
 import 'components/Home.dart';
 import 'components/EventPage.dart';
 import 'components/myevents/MyEvents.dart';
@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Home(),
     Events(),
     MyEvents(),
-    GiftsPage(), // Pass th   ve list of gifts here
+    MyGiftsPage(), // Pass th   ve list of gifts here
     Profile(),
   ];
 

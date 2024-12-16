@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hedeyeti/components/(auth)/LoginScreen.dart';
-import 'package:hedeyeti/components/GiftManagement.dart';
-import 'package:hedeyeti/components/GiftSettings.dart';
+import 'package:hedeyeti/components/mygifts/GiftManagement.dart';
+import 'package:hedeyeti/components/giftsettings/GiftSettings.dart';
 import 'package:hedeyeti/components/profile/ProfileVM.dart';
 import 'package:intl/intl.dart';
 import '../PledgedGifts.dart';

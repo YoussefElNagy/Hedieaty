@@ -18,7 +18,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
       id: '1',
       giftName: 'Smartphone',
       description: 'Latest model with high-end features.',
-      price: 500.0,
+      price: 500,
       ownerId: 'user123',
       pledgedById: 'user456', // This gift is pledged by user456
       isPledged: true,
@@ -29,7 +29,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
       id: '2',
       giftName: 'Designer Shirt',
       description: 'Stylish shirt with premium fabric.',
-      price: 80.0,
+      price: 80,
       image: null, // No image, will use default
       ownerId: 'user456',
       pledgedById: 'user789', // This gift is pledged by user789
@@ -47,7 +47,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         id: '1',
         giftName: 'Smartphone',
         description: 'Latest model with high-end features.',
-        price: 500.0,
+        price: 500,
         ownerId: 'user123',
         pledgedById: widget.currentUserId, // This gift is pledged by user456
         isPledged: true,
@@ -58,7 +58,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         id: '2',
         giftName: 'Designer Shirt',
         description: 'Stylish shirt with premium fabric.',
-        price: 80.0,
+        price: 80,
         image: null, // No image, will use default
         ownerId: 'user456',
         pledgedById: widget.currentUserId,
@@ -70,7 +70,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         id: '3',
         giftName: 'Bluetooth Headphones',
         description: 'Noise-cancelling over-ear headphones with excellent sound quality.',
-        price: 120.0,
+        price: 120,
         image: null, // No image, will use default
         ownerId: 'user123',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
@@ -83,7 +83,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         id: '4',
         giftName: 'Luxury Watch',
         description: 'Elegant wristwatch with a stainless steel band.',
-        price: 250.0,
+        price: 250,
         image: null, // No image, will use default
         ownerId: 'user789',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
@@ -96,7 +96,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         id: '5',
         giftName: 'Gaming Laptop',
         description: 'High-performance gaming laptop with a powerful GPU.',
-        price: 1200.0,
+        price: 1200,
         image: null, // No image, will use default
         ownerId: 'user456',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
@@ -109,7 +109,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         id: '6',
         giftName: 'Designer Handbag',
         description: 'Luxurious leather handbag with a timeless design.',
-        price: 350.0,
+        price: 350,
         image: null, // No image, will use default
         ownerId: 'user234',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
@@ -122,7 +122,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
         id: '7',
         giftName: 'Smartwatch',
         description: 'Advanced smartwatch with health and fitness tracking features.',
-        price: 180.0,
+        price: 180,
         image: null, // No image, will use default
         ownerId: 'user567',
         pledgedById: widget.currentUserId, // This gift is pledged by the current user
