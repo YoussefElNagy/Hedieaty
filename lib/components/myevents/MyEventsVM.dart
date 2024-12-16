@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hedeyeti/services/common_service.dart';
+import 'package:hedeyeti/services/gift_service.dart';
 import 'package:hedeyeti/services/users_service.dart';
 import '../../model/events.dart';
 import '../../model/users.dart';
@@ -50,7 +51,7 @@ class MyEventsViewModel {
 
   Future<void> createEvent(Event event) async {
     try {
-      String eventId = generateEventId(); // Or handle this differently if needed
+      String eventId = event.id;
       await addNewEvent(eventId, event);
     } catch (e) {
       rethrow; // Handle exceptions

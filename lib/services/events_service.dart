@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hedeyeti/services/gift_service.dart';
 import 'package:hedeyeti/services/users_service.dart';
 import '../model/events.dart';
 
@@ -8,6 +9,8 @@ class EventsService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final String _collectionRef = 'events'; // Updated collection name
   UsersService usersService=UsersService();
+  GiftService giftService=GiftService();
+
   Future<List<Event>> getAllEvents() async {
     try {
       QuerySnapshot snapshot =
@@ -76,8 +79,9 @@ class EventsService {
 
   Future<void> deleteEvent(String eventId,String userId) async {
     try {
-      await _firestore.collection(_collectionRef).doc(eventId).delete();
+      await giftService.deleteGiftsByEvent(eventId);
       await usersService.removeEventFromUser(userId, eventId);
+      await _firestore.collection(_collectionRef).doc(eventId).delete();
     } catch (e) {
       print("Error deleting event: $e");
       rethrow;

@@ -9,22 +9,24 @@ class GiftService {
   Future<List<Gift>> getAllGifts() async {
     try {
       QuerySnapshot snapshot =
-      await _firestore.collection(_collectionRef).get();
+          await _firestore.collection(_collectionRef).get();
       print("Fetched ${snapshot.docs.length} Gifts");
 
       return snapshot.docs.map((doc) {
         return Gift.fromMap(doc.data() as Map<String, dynamic>, doc.id);
       }).toList();
     } catch (e) {
-      print("Error fetching all events: $e");
+      print("Error fetching all gifts: $e");
       return [];
     }
   }
 
   Future<List<Gift>> getUserGifts(String userId) async {
     try {
-      QuerySnapshot snapshot =
-      await _firestore.collection(_collectionRef).where('ownerId', isEqualTo: userId).get();
+      QuerySnapshot snapshot = await _firestore
+          .collection(_collectionRef)
+          .where('ownerId', isEqualTo: userId)
+          .get();
       print("Fetched ${snapshot.docs.length} gifts");
 
       return snapshot.docs.map((doc) {
@@ -36,10 +38,12 @@ class GiftService {
     }
   }
 
-  Future<List<Gift>> getEventGifts(String eventId) async {
+  Future<List<Gift>> getEventGifts(String giftId) async {
     try {
-      QuerySnapshot snapshot =
-      await _firestore.collection(_collectionRef).where('eventId', isEqualTo: eventId).get();
+      QuerySnapshot snapshot = await _firestore
+          .collection(_collectionRef)
+          .where('eventId', isEqualTo: giftId)
+          .get();
       print("Fetched ${snapshot.docs.length} gifts");
 
       return snapshot.docs.map((doc) {
@@ -51,25 +55,81 @@ class GiftService {
     }
   }
 
-  Future<void> addGift(Event event) async {
+  Future<void> addGift(Gift gift) async {
     try {
-      await _firestore.collection(_collectionRef).add(event.toMap());
+      await _firestore.collection(_collectionRef).add(gift.toMap());
     } catch (e) {
       print("Error adding gift: $e");
       rethrow;
     }
   }
 
+  Future<void> deleteGiftsByUser(String userId) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection(_collectionRef)
+          .where('ownerId', isEqualTo: userId)
+          .get();
+
+      for (var doc in snapshot.docs) {
+        await doc.reference.delete();
+      }
+      print("Deleted all gifts for user: \$userId");
+    } catch (e) {
+      print("Error deleting user gifts: \$e");
+      rethrow;
+    }
+  }
+  Future<void> deleteGiftsByEvent(String eventId) async {
+    try {
+      // Fetch and delete all gifts linked to the event
+      QuerySnapshot snapshot = await _firestore
+          .collection(_collectionRef)
+          .where('eventId', isEqualTo: eventId)
+          .get();
+
+      List<String> giftIdsToDelete = snapshot.docs.map((doc) => doc.id).toList();
+
+      for (var doc in snapshot.docs) {
+        await doc.reference.delete();
+      }
+
+      // Update users to remove deleted gift IDs
+      QuerySnapshot usersSnapshot = await _firestore.collection('users').get();
+      for (var userDoc in usersSnapshot.docs) {
+        Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>;
+        List<dynamic> userGiftIds = userData['giftIds'] ?? [];
+
+        if (userGiftIds.isNotEmpty) {
+          List<dynamic> updatedGiftIds = userGiftIds
+              .where((id) => !giftIdsToDelete.contains(id))
+              .toList();
+
+          if (userGiftIds.length != updatedGiftIds.length) {
+            await userDoc.reference.update({'giftIds': updatedGiftIds});
+          }
+        }
+      }
+      print(
+          "Deleted all gifts for event: $eventId and updated user gift lists");
+    } catch (e) {
+      print("Error deleting event gifts: $e");
+      rethrow;
+    }
+  }
+
+
+
   //user= kaza w user.field
-  Future<Gift?> getGift(String eventId) async {
+  Future<Gift?> getGift(String giftId) async {
     try {
       DocumentSnapshot doc =
-      await _firestore.collection(_collectionRef).doc(eventId).get();
+          await _firestore.collection(_collectionRef).doc(giftId).get();
 
       if (doc.exists && doc.data() != null) {
         return Gift.fromMap(doc.data() as Map<String, dynamic>, doc.id);
       } else {
-        print("No gift found with ID: $eventId");
+        print("No gift found with ID: $giftId");
         return null;
       }
     } catch (e) {
