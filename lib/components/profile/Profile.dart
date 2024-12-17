@@ -270,59 +270,93 @@ class _ProfileState extends State<Profile> {
                     ),
                   ),
                   // List of gifts
-                  GridView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: gifts.length ?? 0,
-                    // Use giftIds for itemCount
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, // Number of items per row
-                      crossAxisSpacing: 10.0, // Spacing between columns
-                      mainAxisSpacing: 10.0, // Spacing between rows
-                      childAspectRatio: 3, // Width to height ratio
-                    ),
-                    itemBuilder: (context, index) {
-                      // Use giftIds for displaying items
-                      final gift =
-                          gifts[index] ?? "No gift found"; // Null-safe access
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.secondary,
-                          border: Border.all(
-                              color: theme.colorScheme.primary, width: 1.5),
-                          borderRadius: BorderRadius.circular(20),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: gifts.length ?? 0,
+                itemBuilder: (context, index) {
+                  final gift = gifts[index] ?? "No gift found";
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.secondary,
+                      border: Border.all(
+                        color: theme.colorScheme.primary,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 5,
+                          offset: Offset(2, 2),
                         ),
-                        child: ListTile(
-                          leading: Icon(
-                            Icons.card_giftcard,
-                            color: theme.colorScheme.surface,
-                          ),
-                          title: Text(
-                            gift.giftName,
-                            style: TextStyle(
-                              color: theme.colorScheme.surface,
-                              fontWeight: FontWeight.w700,
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                          backgroundColor: theme.colorScheme.primary,
+                          child: CircleAvatar(
+                            radius: 28,
+                            backgroundImage: AssetImage(
+                              gift.image ?? "assets/default_gift.png",
                             ),
+                            backgroundColor: Colors.transparent,
                           ),
-                          subtitle: Text(
-                            gift.isPledged ? "Pledged" : "Not pledged",
-                            style: TextStyle(
-                                color: gift.isPledged
-                                    ? Colors.orangeAccent
-                                    : Colors.grey[300]),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                gift.giftName,
+                                style: TextStyle(
+                                  color: theme.colorScheme.surface,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                gift.isPledged ? "Pledged" : "Not pledged",
+                                style: TextStyle(
+                                  color: !gift.isPledged
+                                      ? Colors.orangeAccent
+                                      : theme.colorScheme.tertiary,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
-                          onTap: () {
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.settings,
+                            color: theme.colorScheme.primary,
+                          ),
+                          onPressed: () {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        GiftSettings(gift: gift)));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => GiftSettings(gift: gift),
+                              ),
+                            );
                           },
                         ),
-                      );
-                    },
-                  ),
-                  Row(
+                      ],
+                    ),
+                  );
+                },
+              ),
+
+              Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [

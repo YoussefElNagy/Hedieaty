@@ -57,6 +57,13 @@ class GiftSettingsViewModel {
     return null;
   }
 
-
+  Map<String, String> categoryImages = {
+    'electronics': 'assets/electronics.jpg',
+    'clothing': 'assets/clothing.jpg',
+    'cosmetics': 'assets/cosmetics.jpg',
+    'toys': 'assets/toys.jpg',
+    'home': 'assets/home.jpg',
+    'other': 'assets/other.jpg',
+  };
 
 }

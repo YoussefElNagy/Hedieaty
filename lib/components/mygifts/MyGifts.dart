@@ -70,7 +70,7 @@ class _MyGiftsPageState extends State<MyGiftsPage> {
                 SizedBox(width: 8),
                 DropdownButton<String>(
                   value: selectedFilter,
-                  items: ["All", "Available", "Pledged"].map((String value) {
+                  items: ["All", "Not Pledged", "Pledged"].map((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(value),
@@ -129,10 +129,14 @@ class _MyGiftsPageState extends State<MyGiftsPage> {
                           child: Row(
                             children: [
                               CircleAvatar(
-                                radius: 30, // Slightly larger avatar
-                                backgroundImage: AssetImage(
-                                        gift.image ?? "assets/default_gift.png")
-                                    as ImageProvider,
+                                radius: 42,
+                                backgroundColor: gift.isPledged? theme.colorScheme.primary: Colors.orange[200],
+                                child: CircleAvatar(
+                                  radius: 40, // Slightly larger avatar
+                                  backgroundImage: AssetImage(
+                                          gift.image ?? "assets/default_gift.png")
+                                      as ImageProvider,
+                                ),
                               ),
                               SizedBox(width: 16),
                               Expanded(
@@ -175,7 +179,7 @@ class _MyGiftsPageState extends State<MyGiftsPage> {
                                         ),
                                       ),
                                       Text(
-                                        "Status: ${gift.isPledged ? "Pledged" : "Available"}",
+                                        "Status: ${gift.isPledged ? "Pledged" : "Not Pledged"}",
                                         style: GoogleFonts.cairo(
                                           fontWeight: FontWeight.w500,
                                           color: gift.isPledged
@@ -186,12 +190,17 @@ class _MyGiftsPageState extends State<MyGiftsPage> {
                                       ),
                                     ],
                                   ),
-                                  onTap: () {
-                                    Navigator.push(
+                                  onTap: ()async {
+                                   final variable=await  Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 GiftSettings(gift: gift)));
+                                   if(variable==true){
+                                     setState(() {
+                                       futureData=MyGiftsViewModel().initialiseData();
+                                     });
+                                   }
                                   },
                                 ),
                               ),

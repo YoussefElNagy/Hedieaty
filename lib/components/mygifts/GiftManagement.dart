@@ -61,12 +61,17 @@ class _GiftManagementState extends State<GiftManagement> {
                 itemBuilder: (context, index) {
                   final gift = gifts[index];
                   return InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async{
+                      final variable = await Navigator.push(
                         context,
                         MaterialPageRoute(
                             builder: (context) => GiftSettings(gift: gift)),
                       );
+                      if(variable==true){
+                        setState(() {
+                          futureData=MyGiftsViewModel().initialiseEventData(widget.event.id);
+                        });
+                      }
                     },
                     child: Card(
                       margin: const EdgeInsets.symmetric(horizontal: 16,
@@ -168,13 +173,18 @@ class _GiftManagementState extends State<GiftManagement> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: ()async {
           // Navigate to a form to add a new gift to this event
-          Navigator.push(
+          final variable = await Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => AddGiftPage(event: widget.event)),
           );
+          if(variable==true){
+            setState(() {
+              futureData=MyGiftsViewModel().initialiseEventData(widget.event.id);
+            });
+          }
         },
         child: const Icon(Icons.add),
         backgroundColor: Theme.of(context).colorScheme.primary,

@@ -70,7 +70,7 @@ class _AddGiftPageState extends State<AddGiftPage> {
 
       // Return to previous screen
       if (mounted) {
-        Navigator.pop(context);
+        Navigator.pop(context,true);
       }
     } catch (e) {
       // Handle errors

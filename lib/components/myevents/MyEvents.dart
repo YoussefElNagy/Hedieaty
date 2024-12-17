@@ -309,27 +309,37 @@ class _MyEventsState extends State<MyEvents> {
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                '${DateFormat('dd-MM-yyyy HH:mm').format(event.dateTime)}',
-                                style: GoogleFonts.cairo(),
+                              Row(
+                                children: [
+                                  Icon(Icons.date_range_outlined,color: theme.colorScheme.primary,),
+                                  SizedBox(width: 5,),
+                                  Text(
+                                    '${DateFormat('dd-MM-yyyy HH:mm').format(event.dateTime)}',
+                                    style: GoogleFonts.cairo(),
+                                  ),
+                                ],
+                              ),
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.pin_drop,color: theme.colorScheme.primary,),
+                                    Text(
+                                      '${event.location?? "Not defined..."}',
+                                      style: GoogleFonts.cairo(
+                                        fontWeight: FontWeight.w600
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Text(
                                 'Category: ${event.category.name}',
                                 style: GoogleFonts.cairo(
                                     fontWeight: FontWeight.w600
                                 ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.pin_drop,color: theme.colorScheme.primary,),
-                                  Text(
-                                    '${event.location?? "Not defined..."}',
-                                    style: GoogleFonts.cairo(
-                                      fontWeight: FontWeight.w600
-                                    ),
-                                  ),
-                                ],
                               ),
                             ],
                           ),

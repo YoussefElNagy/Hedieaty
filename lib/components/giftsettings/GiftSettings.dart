@@ -29,12 +29,13 @@ class _GiftSettingsState extends State<GiftSettings> {
       giftName: _giftNameController.text,
       description: _giftDescriptionController.text,
       price: int.tryParse(_giftPriceController.text) ?? 0,
+      image: GiftSettingsViewModel().categoryImages[_selectedCategory] ?? 'assets/other.jpg',
       category: GiftCategory.values
           .firstWhere((cat) => cat.name == _selectedCategory),
     );
     try {
       await GiftSettingsViewModel().updateGift(updatedGift);
-      Navigator.pop(context, updatedGift);
+      Navigator.pop(context,true);
     } catch (e) {
       // Handle error (you could show a snackbar or an error message)
       print("Error updating gift: $e");
@@ -49,7 +50,7 @@ class _GiftSettingsState extends State<GiftSettings> {
   void _deleteGift() async {
     try {
       await GiftSettingsViewModel().deleteCurrentGift(widget.gift);
-      Navigator.pop(context);
+      Navigator.pop(context,true);
     } catch (e) {
       // Handle error (you could show a snackbar or an error message)
       print("Error deleting gift: $e");
@@ -163,7 +164,7 @@ class _GiftSettingsState extends State<GiftSettings> {
                       // Image Display
                       Center(
                         child: Image.asset(
-                          widget.gift.image ?? "assets/default_gift.png",
+                          GiftSettingsViewModel().categoryImages[_selectedCategory]!,
                           width: 150,
                           height: 150,
                           fit: BoxFit.cover,
