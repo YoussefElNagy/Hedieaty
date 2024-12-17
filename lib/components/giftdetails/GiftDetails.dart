@@ -44,23 +44,31 @@ class _GiftDetailsState extends State<GiftDetails> {
             // Gift Image Section with Primary Color Border
             Center(
               child: Container(
-                height: 300, // Increased height to prevent overflow
+                height: 300,
                 decoration: BoxDecoration(
-                  border:
-                      Border.all(color: theme.colorScheme.primary, width: 4),
+                  color: Colors.white, // Background to enhance border contrast
+                  border: Border.all(
+                    color: theme.colorScheme.primary,
+                    width: 3, // Thinner border for a cleaner look
+                  ),
                   borderRadius: BorderRadius.circular(16),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 6,
+                      offset: Offset(2, 2),
+                    ),
+                  ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(13), // Slightly inside the border
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       Image.asset(
                         widget.gift.image ?? 'assets/default_gift.png',
-                        width: double
-                            .infinity, // Stretch the image to fill the container width
-                        height: double
-                            .infinity, // Stretch the image to fill the container height
+                        width: double.infinity,
+                        height: double.infinity,
                         fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) {
                           return Image.asset(
@@ -74,9 +82,11 @@ class _GiftDetailsState extends State<GiftDetails> {
                       Positioned(
                         bottom: 10,
                         child: Container(
-                          color: Colors.black.withOpacity(0.5),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.6),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                           child: Text(
                             widget.gift.giftName,
                             style: GoogleFonts.cairo(

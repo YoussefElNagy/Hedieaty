@@ -121,7 +121,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
                           color: theme.colorScheme.secondary,
                           border: Border.all(
                             color: theme.colorScheme.primary,
-                            width: 1.5,
+                            width: 3,
                           ),
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [

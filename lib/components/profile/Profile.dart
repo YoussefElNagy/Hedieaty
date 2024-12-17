@@ -209,37 +209,75 @@ class _ProfileState extends State<Profile> {
                                 decoration: BoxDecoration(
                                   color: theme.colorScheme.secondary,
                                   border: Border.all(
-                                      color: theme.colorScheme.primary,
-                                      width: 1.5),
+                                    color: theme.colorScheme.primary,
+                                    width: 1.5,
+                                  ),
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: ListTile(
+                                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                                   leading: Icon(
                                     Icons.event,
-                                    color: theme.colorScheme.surface,
+                                    size: 42,
+                                    color: theme.colorScheme.primary,
                                   ),
                                   title: Text(
                                     event.eventName,
                                     style: TextStyle(
-                                        color: theme.colorScheme.surface,
-                                        fontWeight: FontWeight.w700),
+                                      color: theme.colorScheme.surface,
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 18,
+                                    ),
                                   ),
-                                  subtitle: Text(
-                                    DateFormat('dd-MM-yyyy HH:mm')
-                                        .format(event.dateTime),
-                                    style: TextStyle(
-                                        color: theme.colorScheme.surface,
-                                        fontWeight: FontWeight.w300),
+                                  subtitle: Padding(
+                                    padding: const EdgeInsets.only(top: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          DateFormat('dd-MM-yyyy HH:mm').format(event.dateTime),
+                                          style: TextStyle(
+                                            color: theme.colorScheme.surface,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                        SizedBox(height: 6),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.location_on,
+                                              color: theme.colorScheme.primary,
+                                              size: 20,
+                                            ),
+                                            SizedBox(width: 6),
+                                            Expanded(
+                                              child: Text(
+                                                event.location,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: theme.colorScheme.surface,
+                                                  fontWeight: FontWeight.w600,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   onTap: () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                GiftManagement(event: event)));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => GiftManagement(event: event),
+                                      ),
+                                    );
                                   },
                                 ),
-                              ),
+                              )
+
                             );
                           },
                         ),
