@@ -1,7 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hedeyeti/services/events_service.dart';
 import 'package:hedeyeti/services/gift_service.dart';
-
 import '../../model/gifts.dart';
 import '../../model/users.dart';
 import '../../services/common_service.dart';
@@ -11,7 +9,6 @@ class AddGiftViewModel {
   GiftService giftService = GiftService();
   EventsService eventsService = EventsService();
   UsersService usersService = UsersService();
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   CommonService commonService = CommonService();
 
   Future<UserModel?> fetchCurrentUser() async {

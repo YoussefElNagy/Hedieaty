@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hedeyeti/services/common_service.dart';
-import 'package:hedeyeti/services/gift_service.dart';
 import 'package:hedeyeti/services/users_service.dart';
 import '../../model/events.dart';
 import '../../model/users.dart';
