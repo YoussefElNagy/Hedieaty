@@ -38,6 +38,23 @@ class GiftService {
     }
   }
 
+  Future<List<Gift>> getUserPledgedGifts(String userId) async {
+    try {
+      QuerySnapshot snapshot = await _firestore
+          .collection(_collectionRef)
+          .where('pledgedById', isEqualTo: userId)
+          .get();
+      print("Fetched ${snapshot.docs.length} pledged gifts");
+
+      return snapshot.docs.map((doc) {
+        return Gift.fromMap(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    } catch (e) {
+      print("Error fetching pledged gifts: $e");
+      return [];
+    }
+  }
+
   Future<List<Gift>> getEventGifts(String eventId) async {
     try {
       QuerySnapshot snapshot = await _firestore
@@ -73,7 +90,6 @@ class GiftService {
       rethrow;
     }
   }
-
 
   Future<void> deleteGiftsByUser(String userId) async {
     try {

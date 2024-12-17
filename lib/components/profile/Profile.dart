@@ -5,7 +5,7 @@ import 'package:hedeyeti/components/mygifts/GiftManagement.dart';
 import 'package:hedeyeti/components/giftsettings/GiftSettings.dart';
 import 'package:hedeyeti/components/profile/ProfileVM.dart';
 import 'package:intl/intl.dart';
-import '../PledgedGifts.dart';
+import '../pledgedgifts/PledgedGifts.dart';
 
 class Profile extends StatefulWidget {
   @override

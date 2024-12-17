@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../model/events.dart';
 import '../model/users.dart';
-import 'EventDetails.dart';
+import 'eventdetails/EventDetails.dart';
 
 class Events extends StatefulWidget {
   @override

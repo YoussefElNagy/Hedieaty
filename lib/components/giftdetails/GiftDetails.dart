@@ -1,11 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../model/gifts.dart'; // Assuming Gift model/data resides here
+import 'package:hedeyeti/components/giftdetails/GiftDetailsVM.dart';
+import 'package:hedeyeti/components/myfriends/FriendProfile.dart';
+import 'package:hedeyeti/components/mygifts/MyGiftsVM.dart';
+import '../../model/gifts.dart'; // Assuming Gift model/data resides here
 
-class GiftDetails extends StatelessWidget {
+class GiftDetails extends StatefulWidget {
   final Gift gift;
 
   GiftDetails({required this.gift});
+
+  @override
+  State<GiftDetails> createState() => _GiftDetailsState();
+}
+
+class _GiftDetailsState extends State<GiftDetails> {
+  late Future<Map<String, dynamic>> futureData;
+
+  @override
+  void initState() {
+    super.initState();
+    futureData=GiftDetailsViewModel().initialiseEventData(widget.gift);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +56,7 @@ class GiftDetails extends StatelessWidget {
                     alignment: Alignment.center,
                     children: [
                       Image.asset(
-                        gift.image ?? 'assets/default_gift.png',
+                        widget.gift.image ?? 'assets/default_gift.png',
                         width: double
                             .infinity, // Stretch the image to fill the container width
                         height: double
@@ -62,7 +78,7 @@ class GiftDetails extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 6),
                           child: Text(
-                            gift.giftName,
+                            widget.gift.giftName,
                             style: GoogleFonts.cairo(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -89,14 +105,14 @@ class GiftDetails extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildDetailRow('Category:', gift.category.name),
+                    _buildDetailRow('Category:', widget.gift.category.name),
                     _buildDetailRow(
-                        'Price:', '\$${gift.price.toStringAsFixed(2)}'),
+                        'Price:', '\$${widget.gift.price.toStringAsFixed(2)}'),
                     SizedBox(height: 10),
                     Text(
-                      'Status: ${gift.isPledged ? "Pledged" : "Available"}',
+                      'Status: ${widget.gift.isPledged ? "Pledged" : "Available"}',
                       style: TextStyle(
-                          color: gift.isPledged ? Colors.orange : Colors.green),
+                          color: widget.gift.isPledged ? Colors.orange : theme.primaryColor),
                     ),
                   ],
                 ),
@@ -124,7 +140,7 @@ class GiftDetails extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        gift.description,
+                        widget.gift.description,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: Colors.black87,
                         ),
@@ -142,47 +158,63 @@ class GiftDetails extends StatelessWidget {
             SizedBox(height: 20),
 
             // Owner Information Section with Avatar
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                              gift.ownerId ?? 'assets/default_avatar.png'),
-                          backgroundColor: theme.colorScheme.primary,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'Requested by: ${gift.ownerId}',
-                          style: theme.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.person),
-                      onPressed: () {
-                        // Handle owner's profile navigation here
-                      },
-                    ),
-                  ],
+            FutureBuilder(
+    future: futureData,
+    builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+    return Center(child: CircularProgressIndicator());
+    } else if (snapshot.hasError) {
+    return Center(child: Text("Error loading event data"));
+    } else if (!snapshot.hasData || snapshot.data == null) {
+    return Center(child: Text("No event available"));
+    }
+    final user = snapshot.data!['owner'];
+              return Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
                 ),
-              ),
-            ),
+                elevation: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: AssetImage(
+                                user.profilePic ?? 'assets/default_avatar.png'),
+                            backgroundColor: theme.colorScheme.primary,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'Requested by: ${user.username}',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.person),
+                        onPressed: () {
+                          var variable= Navigator.push(context, MaterialPageRoute(builder: (context)=>FriendProfile(friend: user,)));
+                          if (variable == true) {
+                            setState(() {
+                             futureData=GiftDetailsViewModel().initialiseEventData(widget.gift);                          });
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
             SizedBox(height: 20),
 
             // Pledge Information Section with Secondary Background Color
-            if (gift.isPledged) ...[
+            if (widget.gift.isPledged) ...[
               Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
@@ -194,7 +226,7 @@ class GiftDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Pledged By: ${gift.pledgedById}',
+                        'Pledged By: ${widget.gift.pledgedById}',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                           color: Colors.orange,
@@ -208,7 +240,7 @@ class GiftDetails extends StatelessWidget {
             ],
 
             // Action Button: Pledge or Unpledge
-            if (!gift.isPledged)
+            if (!widget.gift.isPledged)
               ElevatedButton.icon(
                 onPressed: () {
                   // Add logic for pledging the gift
@@ -222,7 +254,7 @@ class GiftDetails extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 14),
                 ),
               ),
-            if (gift.isPledged)
+            if (widget.gift.isPledged)
               ElevatedButton.icon(
                 onPressed: () {
                   // Add logic for unpledging or updating the pledge

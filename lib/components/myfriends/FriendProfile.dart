@@ -1,7 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:hedeyeti/components/EventDetails.dart';
-import 'package:hedeyeti/components/GiftDetails.dart';
+import 'package:hedeyeti/components/eventdetails/EventDetails.dart';
+import 'package:hedeyeti/components/giftdetails/GiftDetails.dart';
 import 'package:hedeyeti/components/myfriends/MyFriendsVM.dart';
 import 'package:intl/intl.dart';
 
