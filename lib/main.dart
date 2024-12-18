@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'components/mygifts/MyGifts.dart';
 import 'components/myfriends/Home.dart';
-import 'components/EventPage.dart';
+import 'components/events/EventPage.dart';
 import 'components/myevents/MyEvents.dart';
 import 'components/profile/Profile.dart';
 import 'package:firebase_core/firebase_core.dart';

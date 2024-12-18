@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../model/events.dart';
 import '../model/gifts.dart';
 
 class GiftService {

@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hedeyeti/components/giftdetails/GiftDetails.dart';
 import 'package:hedeyeti/components/pledgedgifts/PledgedGiftsViewModel.dart';
 
-import '../../model/gifts.dart';
-
 class PledgedGiftsPage extends StatefulWidget {
   final String currentUserId; // Pass current user's ID
 
