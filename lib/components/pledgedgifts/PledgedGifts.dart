@@ -62,7 +62,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: DropdownButton<String>(
                     value: selectedSort,
-                    icon: Icon(Icons.arrow_drop_down, color: Colors.teal),
+                    icon: Icon(Icons.arrow_drop_down, color: theme.primaryColor),
                     dropdownColor: Colors.white,
                     style: TextStyle(
                       color: theme.primaryColor,
@@ -146,7 +146,8 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
                             SizedBox(width: 12),
                             Expanded(
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
                                     crossAxisAlignment:

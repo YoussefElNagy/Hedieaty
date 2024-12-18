@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hedeyeti/components/addfriend/AddFriend.dart';
 import 'package:hedeyeti/components/myfriends/MyFriendsVM.dart';
 import 'FriendProfile.dart';
 
@@ -55,8 +56,9 @@ class _HomeState extends State<Home> {
               Icons.person_add,
               color: theme.colorScheme.primary,
             ), // Icon for unfriend button
-            onPressed: ()async {
+            onPressed: () {
               print('Add friend logic');
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddFriend()));
             },
           ),
         ],
