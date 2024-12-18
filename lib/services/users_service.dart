@@ -208,6 +208,30 @@ class UsersService {
     }
   }
 
+  Future<void> addFriendToUser(String userId, String friendId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'friendIds': FieldValue.arrayUnion([friendId])
+      });
+      print("Friend added successfully to user $userId!");
+    } catch (e) {
+      print("Error adding friend: $e to user");
+      rethrow;
+    }
+  }
+
+  Future<void> removeFriendFromUser(String userId, String friendId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'friendIds': FieldValue.arrayRemove([friendId])
+      });
+      print("Friend removed successfully from user $userId!");
+    } catch (e) {
+      print("Error removing friend: $e from user");
+      rethrow;
+    }
+  }
+
   Future<void> removeGiftFromUser(String userId, String giftId) async {
     try {
       await _firestore.collection('users').doc(userId).update({

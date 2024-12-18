@@ -1,11 +1,12 @@
 // ViewModel Class
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:hedeyeti/services/friend_request_service.dart';
 import 'package:hedeyeti/services/users_service.dart';
-
 import '../../model/users.dart';
 
 class AddFriendViewModel {
   final UsersService usersService = UsersService();
+  final FriendRequestService friendRequestService= FriendRequestService();
   FirebaseAuth _auth= FirebaseAuth.instance;
 
   Future<List> fetchFriendToAdd(String searchQuery, String selectedSort) async {
@@ -45,7 +46,14 @@ class AddFriendViewModel {
     }
     return friends;
   }
-  void addFriend(String userId){
+  Future<void> sendFriendRequest(String userId)async{
+    try{
+      await friendRequestService.setFriendRequest(_auth.currentUser!.uid, userId);
+    }
+    catch(e){
+      print("Error sending request");
+    }
+
     print("object");
   }
 

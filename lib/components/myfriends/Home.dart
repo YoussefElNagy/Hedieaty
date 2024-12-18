@@ -22,8 +22,8 @@ class _HomeState extends State<Home> {
     setState(() {
       filteredFriends = allFriends.where((friend) {
         return friend.username
-            .toLowerCase()
-            .contains(searchController.text.toLowerCase()) ||
+                .toLowerCase()
+                .contains(searchController.text.toLowerCase()) ||
             (friend.email != null &&
                 friend.email!
                     .toLowerCase()
@@ -36,8 +36,10 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     futureData = MyFriendsViewModel().initialiseData();
-    searchController.addListener(_filterFriends);  // Add listener to search controller
+    searchController
+        .addListener(_filterFriends); // Add listener to search controller
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -58,7 +60,8 @@ class _HomeState extends State<Home> {
             ), // Icon for unfriend button
             onPressed: () {
               print('Add friend logic');
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>AddFriend()));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => AddFriend()));
             },
           ),
         ],
@@ -88,34 +91,39 @@ class _HomeState extends State<Home> {
                                   labelStyle: TextStyle(
                                       color: theme.colorScheme.primary),
                                   contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 10),
+                                      EdgeInsets.symmetric(horizontal: 10),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: theme.colorScheme.primary, // Primary Teal border
+                                      color: theme.colorScheme
+                                          .primary, // Primary Teal border
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                      color: theme.colorScheme.primary, // Primary Teal border when focused
+                                      color: theme.colorScheme
+                                          .primary, // Primary Teal border when focused
                                       width: 2,
                                     ),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                 ),
                                 keyboardType: TextInputType.text,
-                                onChanged: (_) {_filterFriends();},
+                                onChanged: (_) {
+                                  _filterFriends();
+                                },
                               ),
                             ),
                             Padding(
                               padding:
-                              const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
+                                  const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
                               child: IconButton(
                                 onPressed: _filterFriends,
                                 icon: Icon(
                                   Icons.search,
-                                  color: theme.colorScheme.primary, // Primary Teal search icon color
+                                  color: theme.colorScheme
+                                      .primary, // Primary Teal search icon color
                                   size: 30,
                                 ),
                               ),
@@ -131,62 +139,67 @@ class _HomeState extends State<Home> {
                   // Friends List
                   Expanded(
                     child: FutureBuilder(
-                      future: futureData,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text("Error loading data"));
-                        } else if (!snapshot.hasData || snapshot.data == null) {
-                          return Center(child: Text("No data available"));
-                        }
-                        final friends = snapshot.data!['friends'];
-                        debugPrint('Friends List: ${friends}');  // Check if friends data is correct
-                        allFriends = friends;  // Store all friends
-                        filteredFriends = friends;  // Initialize filtered list with all friends
-                        return ListView.builder(
-
-                          itemCount: filteredFriends.length,
-                          itemBuilder: (context, index) {
-                            final friend=filteredFriends[index];
-                            return Padding(
-                              padding:
-                              EdgeInsets.symmetric(horizontal: 1, vertical: 3),
-                              child: Card(
-                                color: Color(0xFFFAFAFA),
-                                elevation: 2,
-                                child: ListTile(
-                                  title: Text(
-                                    friend.username,
-                                    style: theme.textTheme.bodyLarge,
+                        future: futureData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return Center(child: CircularProgressIndicator());
+                          } else if (snapshot.hasError) {
+                            return Center(child: Text("Error loading data"));
+                          } else if (!snapshot.hasData ||
+                              snapshot.data == null) {
+                            return Center(child: Text("No data available"));
+                          }
+                          final friends = snapshot.data!['friends'];
+                          debugPrint(
+                              'Friends List: ${friends}'); // Check if friends data is correct
+                          allFriends = friends; // Store all friends
+                          filteredFriends =
+                              friends; // Initialize filtered list with all friends
+                          return ListView.builder(
+                            itemCount: filteredFriends.length,
+                            itemBuilder: (context, index) {
+                              final friend = filteredFriends[index];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 1, vertical: 3),
+                                child: Card(
+                                  color: Color(0xFFFAFAFA),
+                                  elevation: 2,
+                                  child: ListTile(
+                                    title: Text(
+                                      friend.username,
+                                      style: theme.textTheme.bodyLarge,
+                                    ),
+                                    leading: CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          friend.profilePic ??
+                                              "assets/default_avatar.png"),
+                                      // onBackgroundImageError: (_, __) => AssetImage('assets/default_avatar.png'),
+                                    ),
+                                    subtitle: Text(
+                                        '${friend.eventIds.length > 0 ? friend.eventIds.length : "No"} upcoming event${friend.eventIds.length == 1 ? "" : "s"}',
+                                        style: theme.textTheme.bodyMedium),
+                                    onTap: () async {
+                                      final variable = await Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  FriendProfile(
+                                                      friend: friend)));
+                                      if (variable == true) {
+                                        setState(() {
+                                          futureData = MyFriendsViewModel()
+                                              .initialiseData();
+                                        });
+                                      }
+                                    },
                                   ),
-                                  leading: CircleAvatar(
-                                    backgroundImage: AssetImage(
-                                        friend.profilePic ??
-                                            "assets/default_avatar.png"),
-                                    // onBackgroundImageError: (_, __) => AssetImage('assets/default_avatar.png'),
-                                  ),
-                                  subtitle: Text(
-                                      '${friend.eventIds.length > 0
-                                          ? friend.eventIds.length
-                                          : "No"} upcoming event${friend
-                                          .eventIds.length == 1 ? "" : "s"}',
-                                      style: theme.textTheme.bodyMedium),
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                FriendProfile(
-                                                    friend: friend)));
-                                  },
                                 ),
-                              ),
-                            );
-                          },
-                        );
-                      }),
+                              );
+                            },
+                          );
+                        }),
                   ),
                 ],
               ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hedeyeti/components/giftdetails/GiftDetailsVM.dart';
 import 'package:hedeyeti/components/myfriends/FriendProfile.dart';
-import 'package:hedeyeti/components/mygifts/MyGiftsVM.dart';
 import '../../model/gifts.dart'; // Assuming Gift model/data resides here
 
 class GiftDetails extends StatefulWidget {

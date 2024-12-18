@@ -96,7 +96,7 @@ class _PledgedGiftsPageState extends State<PledgedGiftsPage> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text("Error loading data"));
                 } else if (!snapshot.hasData || snapshot.data == null) {
-                  return Center(child: Text("No events available"));
+                  return Center(child: Text("No pledged gifts available"));
                 }
                 List pledgedGifts = (snapshot.data!['pledgedGifts'] as List)
                     .map((e) => e)

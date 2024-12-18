@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:hedeyeti/components/(auth)/LoginScreen.dart';
+import 'package:hedeyeti/components/friendrequests/FriendRequests.dart';
 import 'package:hedeyeti/components/mygifts/GiftManagement.dart';
 import 'package:hedeyeti/components/giftsettings/GiftSettings.dart';
 import 'package:hedeyeti/components/profile/ProfileVM.dart';
@@ -167,6 +168,32 @@ class _ProfileState extends State<Profile> {
                     ],
                   ),
                   SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              FriendRequests(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Friend Requests',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onPrimary,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: theme.colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                  ),
+                  // Display Events List
                   // Display Events List
                   Padding(
                     padding: const EdgeInsets.all(8.0),

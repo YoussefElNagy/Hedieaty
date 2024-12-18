@@ -16,7 +16,7 @@ class FriendProfile extends StatefulWidget {
 
 class _FriendProfileState extends State<FriendProfile> {
   late Future<Map<String, dynamic>> futureData;
-
+  final _viewModel= MyFriendsViewModel();
   @override
   void initState() {
     futureData = MyFriendsViewModel().initialiseFriendData(widget.friend.id);
@@ -39,7 +39,9 @@ class _FriendProfileState extends State<FriendProfile> {
               color: Colors.red,
             ), // Icon for unfriend button
             onPressed: () {
+              _viewModel.handleRemoveFriend(friend.id);
               print('Unfriended ${friend.username}');
+              Navigator.pop(context,true);
             },
           ),
         ],
@@ -293,7 +295,6 @@ class _FriendProfileState extends State<FriendProfile> {
                   } else if (!snapshot.hasData || snapshot.data == null) {
                     return Center(child: Text("No data available"));
                   }
-                  final events = snapshot.data!['events'];
                   final gifts = snapshot.data!['gifts'];
 
                   return ListView.builder(

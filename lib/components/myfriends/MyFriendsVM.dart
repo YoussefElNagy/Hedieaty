@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hedeyeti/model/users.dart';
 import '../../model/events.dart';
 import '../../model/gifts.dart';
@@ -9,6 +10,7 @@ class MyFriendsViewModel {
   UsersService userService = UsersService();
   EventsService eventsService = EventsService();
   GiftService giftService = GiftService();
+  FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<List<UserModel>> fetchCurrentUserFriends() async {
     List<UserModel> friends = await userService.getUserFriends();
@@ -39,5 +41,10 @@ class MyFriendsViewModel {
       'events': fetchedEvents,
       'gifts': fetchedGifts,
     };
+  }
+
+  Future<void> handleRemoveFriend(String userId) async {
+    await userService.removeFriendFromUser(_auth.currentUser!.uid, userId);
+    await userService.removeFriendFromUser(userId, _auth.currentUser!.uid);
   }
 }

@@ -51,19 +51,22 @@ class _AddFriendState extends State<AddFriend> {
                       labelText: "Find friends...",
                     ),
                     onChanged: (value) {
-                      searchQuery = value.toLowerCase(); // Update query, but no fetch here
+                      searchQuery = value
+                          .toLowerCase(); // Update query, but no fetch here
                     },
                   ),
                 ),
                 IconButton(
-                  onPressed: fetchFriends, // Fetch friends only when button is pressed
+                  onPressed:
+                      fetchFriends, // Fetch friends only when button is pressed
                   icon: Icon(Icons.search, color: theme.primaryColor),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                   child: DropdownButton<String>(
                     value: selectedSort,
-                    icon: Icon(Icons.arrow_drop_down, color: theme.primaryColor),
+                    icon:
+                        Icon(Icons.arrow_drop_down, color: theme.primaryColor),
                     dropdownColor: Colors.white,
                     style: TextStyle(
                       color: theme.primaryColor,
@@ -94,9 +97,9 @@ class _AddFriendState extends State<AddFriend> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text("Error loading data"));
+                  return Center(child: Text("Error loading users data"));
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text("Search.."));
+                  return Center(child: Text("Search for a friend.."));
                 }
                 List users = snapshot.data!;
                 return ListView.builder(
@@ -111,7 +114,7 @@ class _AddFriendState extends State<AddFriend> {
                         child: Container(
                           decoration: BoxDecoration(
                             color: theme.primaryColor,
-                              borderRadius: BorderRadius.circular(8),
+                            borderRadius: BorderRadius.circular(8),
                           ),
                           child: ListTile(
                             title: Text(
@@ -119,11 +122,18 @@ class _AddFriendState extends State<AddFriend> {
                               style: theme.textTheme.bodyLarge,
                             ),
                             leading: CircleAvatar(
-                              backgroundImage: AssetImage(
-                                  user.profilePic ?? "assets/default_avatar.png"),
+                              backgroundImage: AssetImage(user.profilePic ??
+                                  "assets/default_avatar.png"),
                             ),
                             subtitle: Text(user.email),
-                            trailing: IconButton(onPressed: (){_viewModel.addFriend(user.id);}, icon: Icon(Icons.person_add,color: theme.colorScheme.secondary,)),
+                            trailing: IconButton(
+                                onPressed: () {
+                                  _viewModel.sendFriendRequest(user.id);
+                                },
+                                icon: Icon(
+                                  Icons.person_add,
+                                  color: theme.colorScheme.secondary,
+                                )),
                           ),
                         ),
                       ),
