@@ -9,23 +9,42 @@ class Events extends StatefulWidget {
   @override
   State<Events> createState() => _EventsState();
 }
-class _EventsState extends State<Events> {
+
+class _EventsState extends State<Events> with SingleTickerProviderStateMixin {
   final _viewModel = EventsViewModel();
 
   String filterStatus = 'Upcoming';
   bool isSortedAscending = true;
   late Future<List<Event>> eventsFuture;
+  late AnimationController _animationController;
+  late Animation<double> _fadeAnimation;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
+    _fadeAnimation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    );
     fetchFilteredEvents();
   }
 
   void fetchFilteredEvents() {
     setState(() {
       eventsFuture = _viewModel.getFilteredEvents(filterStatus, isSortedAscending);
+      _animationController.reset();
+      _animationController.forward();
     });
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -73,7 +92,7 @@ class _EventsState extends State<Events> {
                       filterStatus = value!;
                       fetchFilteredEvents();
                     },
-                    underline: SizedBox(), // Removes the default underline
+                    underline: SizedBox(),
                     icon: Icon(
                       Icons.arrow_drop_down,
                       color: theme.colorScheme.primary,
@@ -114,92 +133,95 @@ class _EventsState extends State<Events> {
 
                   final events = snapshot.data!;
 
-                  return ListView.builder(
-                    itemCount: events.length,
-                    itemBuilder: (context, index) {
-                      final event = events[index];
+                  return FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: ListView.builder(
+                      itemCount: events.length,
+                      itemBuilder: (context, index) {
+                        final event = events[index];
 
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
-                        child: Card(
-                          color: theme.colorScheme.surface,
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: theme.colorScheme.primary, width: 3),
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 3),
+                          child: Card(
+                            color: theme.colorScheme.surface,
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20),
-                              color: theme.colorScheme.tertiary,
                             ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(4.0),
-                              child: FutureBuilder<Map<String, dynamic>>(
-                                future: _viewModel.getEventDetails(event),
-                                builder: (context, detailsSnapshot) {
-                                  if (detailsSnapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return ListTile(
-                                      title: Center(child: CircularProgressIndicator()),
-                                    );
-                                  } else if (detailsSnapshot.hasError) {
-                                    return ListTile(
-                                      title: Text("Error loading user details"),
-                                    );
-                                  } else if (detailsSnapshot.hasData) {
-                                    final details = detailsSnapshot.data!;
-                                    final username =
-                                        details['ownerDetails']['username'] ?? 'Unknown';
-                                    final profilePic =
-                                        details['ownerDetails']['profilePic'] ??
-                                            'assets/default_avatar.png';
+                            child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: theme.colorScheme.primary, width: 3),
+                                borderRadius: BorderRadius.circular(20),
+                                color: theme.colorScheme.tertiary,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: FutureBuilder<Map<String, dynamic>>(
+                                  future: _viewModel.getEventDetails(event),
+                                  builder: (context, detailsSnapshot) {
+                                    if (detailsSnapshot.connectionState ==
+                                        ConnectionState.waiting) {
+                                      return ListTile(
+                                        title: Center(child: CircularProgressIndicator()),
+                                      );
+                                    } else if (detailsSnapshot.hasError) {
+                                      return ListTile(
+                                        title: Text("Error loading user details"),
+                                      );
+                                    } else if (detailsSnapshot.hasData) {
+                                      final details = detailsSnapshot.data!;
+                                      final username =
+                                          details['ownerDetails']['username'] ?? 'Unknown';
+                                      final profilePic =
+                                          details['ownerDetails']['profilePic'] ??
+                                              'assets/default_avatar.png';
 
-                                    return ListTile(
-                                      leading: CircleAvatar(
-                                        backgroundColor: theme.primaryColor,
-                                        radius: 40,
-                                        child: CircleAvatar(
-                                          radius: 30,
-                                          backgroundImage: AssetImage(profilePic),
-                                        ),
-                                      ),
-                                      title: Text(
-                                        '$username\'s ${event.eventName}',
-                                        style: theme.textTheme.bodyLarge,
-                                      ),
-                                      subtitle: Padding(
-                                        padding:
-                                        const EdgeInsets.symmetric(vertical: 5.0),
-                                        child: Text(
-                                          DateFormat('dd-MM-yyyy HH:mm')
-                                              .format(event.dateTime),
-                                          style: theme.textTheme.bodyMedium,
-                                        ),
-                                      ),
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                EventDetails(event: event),
+                                      return ListTile(
+                                        leading: CircleAvatar(
+                                          backgroundColor: theme.primaryColor,
+                                          radius: 40,
+                                          child: CircleAvatar(
+                                            radius: 30,
+                                            backgroundImage: AssetImage(profilePic),
                                           ),
-                                        );
-                                      },
-                                    );
-                                  } else {
-                                    return ListTile(
-                                      title: Text("No details available"),
-                                    );
-                                  }
-                                },
+                                        ),
+                                        title: Text(
+                                          "$username's ${event.eventName}",
+                                          style: theme.textTheme.bodyLarge,
+                                        ),
+                                        subtitle: Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(vertical: 5.0),
+                                          child: Text(
+                                            DateFormat('dd-MM-yyyy HH:mm')
+                                                .format(event.dateTime),
+                                            style: theme.textTheme.bodyMedium,
+                                          ),
+                                        ),
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EventDetails(event: event),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    } else {
+                                      return ListTile(
+                                        title: Text("No details available"),
+                                      );
+                                    }
+                                  },
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   );
                 },
               ),
