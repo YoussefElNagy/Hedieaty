@@ -382,7 +382,7 @@ class _FriendProfileState extends State<FriendProfile> {
                                     ElevatedButton(
                                       onPressed: () {},
                                       child: Text(
-                                        'Pledge',
+                                        'Go to Gift',
                                         style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.bold,

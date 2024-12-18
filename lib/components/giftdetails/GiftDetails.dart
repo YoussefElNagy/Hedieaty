@@ -15,11 +15,11 @@ class GiftDetails extends StatefulWidget {
 
 class _GiftDetailsState extends State<GiftDetails> {
   late Future<Map<String, dynamic>> futureData;
-
+  final _viewModel = GiftDetailsViewModel();
   @override
   void initState() {
     super.initState();
-    futureData=GiftDetailsViewModel().initialiseEventData(widget.gift);
+    futureData = _viewModel.initialiseEventData(widget.gift);
   }
 
   @override
@@ -60,7 +60,8 @@ class _GiftDetailsState extends State<GiftDetails> {
                   ],
                 ),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(13), // Slightly inside the border
+                  borderRadius:
+                      BorderRadius.circular(13), // Slightly inside the border
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
@@ -85,7 +86,8 @@ class _GiftDetailsState extends State<GiftDetails> {
                             color: Colors.black.withOpacity(0.6),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 6),
                           child: Text(
                             widget.gift.giftName,
                             style: GoogleFonts.cairo(
@@ -121,7 +123,9 @@ class _GiftDetailsState extends State<GiftDetails> {
                     Text(
                       'Status: ${widget.gift.isPledged ? "Pledged" : "Available"}',
                       style: TextStyle(
-                          color: widget.gift.isPledged ? Colors.orange : theme.primaryColor),
+                          color: widget.gift.isPledged
+                              ? Colors.orange
+                              : theme.primaryColor),
                     ),
                   ],
                 ),
@@ -168,58 +172,65 @@ class _GiftDetailsState extends State<GiftDetails> {
 
             // Owner Information Section with Avatar
             FutureBuilder(
-    future: futureData,
-    builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-    return Center(child: CircularProgressIndicator());
-    } else if (snapshot.hasError) {
-    return Center(child: Text("Error loading event data"));
-    } else if (!snapshot.hasData || snapshot.data == null) {
-    return Center(child: Text("No event available"));
-    }
-    final user = snapshot.data!['owner'];
-              return Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+                future: futureData,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text("Error loading gift data"));
+                  } else if (!snapshot.hasData || snapshot.data == null) {
+                    return Center(child: Text("No gift available"));
+                  }
+                  final user = snapshot.data!['owner'];
+                  return Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 4,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CircleAvatar(
-                            backgroundImage: AssetImage(
-                                user.profilePic ?? 'assets/default_avatar.png'),
-                            backgroundColor: theme.colorScheme.primary,
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage(user.profilePic ??
+                                    'assets/default_avatar.png'),
+                                backgroundColor: theme.colorScheme.primary,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                'Requested by: ${user.username}',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: theme.colorScheme.primary,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(width: 10),
-                          Text(
-                            'Requested by: ${user.username}',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.primary,
-                            ),
+                          IconButton(
+                            icon: Icon(Icons.person),
+                            onPressed: () {
+                              var variable = Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => FriendProfile(
+                                            friend: user,
+                                          )));
+                              if (variable == true) {
+                                setState(() {
+                                  futureData = _viewModel
+                                      .initialiseEventData(widget.gift);
+                                });
+                              }
+                            },
                           ),
                         ],
                       ),
-                      IconButton(
-                        icon: Icon(Icons.person),
-                        onPressed: () {
-                          var variable= Navigator.push(context, MaterialPageRoute(builder: (context)=>FriendProfile(friend: user,)));
-                          if (variable == true) {
-                            setState(() {
-                             futureData=GiftDetailsViewModel().initialiseEventData(widget.gift);                          });
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }),
+                    ),
+                  );
+                }),
             SizedBox(height: 20),
 
             // Pledge Information Section with Secondary Background Color
@@ -252,9 +263,9 @@ class _GiftDetailsState extends State<GiftDetails> {
             if (!widget.gift.isPledged)
               ElevatedButton.icon(
                 onPressed: () {
-                  // Add logic for pledging the gift
+                  _viewModel.handlePledge(widget.gift);
                 },
-                icon: Icon(Icons.favorite_border),
+                icon: Icon(Icons.favorite),
                 label: Text('Pledge This Gift'),
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -264,19 +275,22 @@ class _GiftDetailsState extends State<GiftDetails> {
                 ),
               ),
             if (widget.gift.isPledged)
-              ElevatedButton.icon(
-                onPressed: () {
-                  // Add logic for unpledging or updating the pledge
-                },
-                icon: Icon(Icons.favorite),
-                label: Text('Unpledge This Gift'),
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 14),
-                ),
-              ),
+              _viewModel.isUnpledgeAllowed(widget.gift)
+                  ? ElevatedButton.icon(
+                      onPressed: () {
+                        _viewModel.handleUnpledge(widget.gift);
+                      },
+                      icon: Icon(Icons.favorite),
+                      label: Text('Unpledge This Gift'),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.orange[300],
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        padding: EdgeInsets.symmetric(vertical: 14),
+                      ),
+                    )
+                  : Text("Gift already pledged by another user!"),
           ],
         ),
       ),

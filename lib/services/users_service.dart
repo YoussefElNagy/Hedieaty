@@ -21,7 +21,7 @@ class UsersService {
         'profilePic': "assets/sample.jpg",
         'friendIds': [],
         'eventIds': [],
-        'giftsIds': [],
+        'giftIds': [],
         'pledgedGiftsIds': [],
       });
     }
@@ -208,6 +208,18 @@ class UsersService {
     }
   }
 
+  Future<void> addPledgedGiftToUser(String userId, String giftId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'pledgedGiftsIds': FieldValue.arrayUnion([giftId])
+      });
+      print("Gift pledged successfully by user $userId!");
+    } catch (e) {
+      print("Error pledging gift: $e by user");
+      rethrow;
+    }
+  }
+
   Future<void> addFriendToUser(String userId, String friendId) async {
     try {
       await _firestore.collection('users').doc(userId).update({
@@ -240,6 +252,18 @@ class UsersService {
       print("gift removed successfully from user!");
     } catch (e) {
       print("Error removing gift from user: $e");
+      rethrow;
+    }
+  }
+
+  Future<void> removePledgedGiftToUser(String userId, String giftId) async {
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'pledgedGiftsIds': FieldValue.arrayRemove([giftId])
+      });
+      print("Gift unpledged successfully by user $userId!");
+    } catch (e) {
+      print("Error unpledging gift: $e by user");
       rethrow;
     }
   }
