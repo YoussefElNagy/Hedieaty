@@ -14,9 +14,18 @@ class GiftDetailsViewModel {
     return owner;
   }
 
+  Future<UserModel?> fetchGiftPledgedBy(Gift gift) async {
+    String? pledgedById= gift.pledgedById;
+    UserModel? pledgedBy = await usersService.getUser(pledgedById!);
+    return pledgedBy;
+  }
+
   Future<Map<String, dynamic>> initialiseEventData(Gift gift) async {
     final fetchedUser = await fetchGiftOwner(gift);
-    return {'owner': fetchedUser};
+    final fetchPledgedBy= gift.isPledged?await fetchGiftPledgedBy(gift):"none";
+    return {'owner': fetchedUser,
+    'pledgedBy': fetchPledgedBy
+    };
   }
 
   Future<void> handlePledge(Gift gift) async {
@@ -69,5 +78,10 @@ class GiftDetailsViewModel {
         rethrow;
       }
     }
+  }
+
+  Future<Gift?> refreshGift (String giftId) async {
+    final gift= await giftService.getGift(giftId);
+    return gift;
   }
 }

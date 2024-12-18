@@ -183,7 +183,7 @@ class _MyGiftsPageState extends State<MyGiftsPage> {
                                         style: GoogleFonts.cairo(
                                           fontWeight: FontWeight.w500,
                                           color: gift.isPledged
-                                              ? Colors.green
+                                              ? theme.primaryColor
                                               : Colors.orangeAccent,
                                           fontSize: 14,
                                         ),
@@ -210,7 +210,7 @@ class _MyGiftsPageState extends State<MyGiftsPage> {
                                     ? Icons.check_circle
                                     : Icons.pending,
                                 color: gift.isPledged
-                                    ? Colors.green
+                                    ? theme.primaryColor
                                     : Colors.orangeAccent,
                                 size: 30,
                               ),

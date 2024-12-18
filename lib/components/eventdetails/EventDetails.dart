@@ -201,7 +201,11 @@ class _EventDetailsState extends State<EventDetails> {
                                     builder: (context) =>
                                         GiftDetails(gift: gift),
                                   ),
-                                );
+                                ).then((shouldRefresh) {
+                                  if (shouldRefresh == true) {
+                                    EventDetailsViewModel().initialiseEventData(widget.event);
+                                  }
+                                });;
                               },
                             ),
                           ),

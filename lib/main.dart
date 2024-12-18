@@ -41,8 +41,8 @@ class Hedieaty extends StatelessWidget {
           iconTheme: IconThemeData(color: Color(0xFF4ecdc4)),
           titleTextStyle: GoogleFonts.cairo(
             color: Color(0xFF4ecdc4),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
+            fontSize: 30,
+            fontWeight: FontWeight.w400,
           ),
         ),
 

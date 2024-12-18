@@ -5,7 +5,7 @@ import 'package:hedeyeti/components/myfriends/FriendProfile.dart';
 import '../../model/gifts.dart'; // Assuming Gift model/data resides here
 
 class GiftDetails extends StatefulWidget {
-  final Gift gift;
+  late Gift gift;
 
   GiftDetails({required this.gift});
 
@@ -16,6 +16,27 @@ class GiftDetails extends StatefulWidget {
 class _GiftDetailsState extends State<GiftDetails> {
   late Future<Map<String, dynamic>> futureData;
   final _viewModel = GiftDetailsViewModel();
+  bool _isActive = true; // Track active state
+
+  void refreshPage() async {
+    print("Refreshing gift data...");
+    final updatedGift = await _viewModel.refreshGift(widget.gift.id);
+    if (updatedGift != null && _isActive) {
+      // Use _isActive instead of mounted
+      setState(() {
+        widget.gift = updatedGift;
+      });
+    } else {
+      print("Failed to refresh gift data or widget is not active");
+    }
+  }
+
+  @override
+  void dispose() {
+    _isActive = false; // Mark widget as inactive
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -182,88 +203,102 @@ class _GiftDetailsState extends State<GiftDetails> {
                     return Center(child: Text("No gift available"));
                   }
                   final user = snapshot.data!['owner'];
-                  return Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 4,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
+                  final pledgedBy = snapshot.data!['pledgedBy'];
+                  return Column(
+                    children: [
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        elevation: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              CircleAvatar(
-                                backgroundImage: AssetImage(user.profilePic ??
-                                    'assets/default_avatar.png'),
-                                backgroundColor: theme.colorScheme.primary,
+                              Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: AssetImage(
+                                        user.profilePic ??
+                                            'assets/default_avatar.png'),
+                                    backgroundColor: theme.colorScheme.primary,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Text(
+                                    'Requested by: ${user.username}',
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      color: theme.colorScheme.primary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Requested by: ${user.username}',
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  color: theme.colorScheme.primary,
-                                ),
+                              IconButton(
+                                icon: Icon(Icons.person),
+                                onPressed: () {
+                                  var variable = Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => FriendProfile(
+                                                friend: user,
+                                              )));
+                                  if (variable == true) {
+                                    setState(() {
+                                      futureData = _viewModel
+                                          .initialiseEventData(widget.gift);
+                                    });
+                                  }
+                                },
                               ),
                             ],
                           ),
-                          IconButton(
-                            icon: Icon(Icons.person),
-                            onPressed: () {
-                              var variable = Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => FriendProfile(
-                                            friend: user,
-                                          )));
-                              if (variable == true) {
-                                setState(() {
-                                  futureData = _viewModel
-                                      .initialiseEventData(widget.gift);
-                                });
-                              }
-                            },
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
+
+                      // Pledge Information Section with Secondary Background Color
+                      if (widget.gift.isPledged && !_viewModel.isUnpledgeAllowed(widget.gift)) ...[
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          elevation: 4,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                CircleAvatar(
+                                  backgroundImage: AssetImage(user.profilePic ??
+                                      'assets/default_avatar.png'),
+                                  backgroundColor: theme.colorScheme.primary,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Pledged By: ${pledgedBy.username}',
+                                  style: theme.textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.orange,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                      ],
+                    ],
                   );
                 }),
             SizedBox(height: 20),
 
-            // Pledge Information Section with Secondary Background Color
-            if (widget.gift.isPledged) ...[
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pledged By: ${widget.gift.pledgedById}',
-                        style: theme.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.orange,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20),
-            ],
-
             // Action Button: Pledge or Unpledge
             if (!widget.gift.isPledged)
               ElevatedButton.icon(
-                onPressed: () {
-                  _viewModel.handlePledge(widget.gift);
+                onPressed: () async {
+                  await _viewModel.handlePledge(widget.gift);
+                  // await Future.delayed(Duration(seconds: 3));
+                  refreshPage();
                 },
                 icon: Icon(Icons.favorite),
                 label: Text('Pledge This Gift'),
@@ -277,8 +312,9 @@ class _GiftDetailsState extends State<GiftDetails> {
             if (widget.gift.isPledged)
               _viewModel.isUnpledgeAllowed(widget.gift)
                   ? ElevatedButton.icon(
-                      onPressed: () {
-                        _viewModel.handleUnpledge(widget.gift);
+                      onPressed: () async {
+                        await _viewModel.handleUnpledge(widget.gift);
+                        refreshPage();
                       },
                       icon: Icon(Icons.favorite),
                       label: Text('Unpledge This Gift'),
@@ -290,7 +326,7 @@ class _GiftDetailsState extends State<GiftDetails> {
                         padding: EdgeInsets.symmetric(vertical: 14),
                       ),
                     )
-                  : Text("Gift already pledged by another user!"),
+                  : SizedBox(height: 0,),
           ],
         ),
       ),
