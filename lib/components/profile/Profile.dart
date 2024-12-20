@@ -4,6 +4,7 @@ import 'package:hedeyeti/components/(auth)/LoginScreen.dart';
 import 'package:hedeyeti/components/friendrequests/FriendRequests.dart';
 import 'package:hedeyeti/components/mygifts/GiftManagement.dart';
 import 'package:hedeyeti/components/giftsettings/GiftSettings.dart';
+import 'package:hedeyeti/components/profile/ProfileSettings.dart';
 import 'package:hedeyeti/components/profile/ProfileVM.dart';
 import 'package:intl/intl.dart';
 import '../pledgedgifts/PledgedGifts.dart';
@@ -110,7 +111,9 @@ class _ProfileState extends State<Profile> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>ProfileSettingsPage()));
+                        },
                         child: Text(
                           'Edit profile',
                           style: TextStyle(
