@@ -25,8 +25,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     setState(() {
       filteredFriends = allFriends.where((friend) {
         return friend.username
-            .toLowerCase()
-            .contains(searchController.text.toLowerCase()) ||
+                .toLowerCase()
+                .contains(searchController.text.toLowerCase()) ||
             (friend.email != null &&
                 friend.email!
                     .toLowerCase()
@@ -44,7 +44,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     // Animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 2000),
     );
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
@@ -70,10 +70,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           tag: 'appBarTitle',
           child: Material(
             color: Colors.transparent,
-            child: Text(
-              'Hedieaty',
-              style: theme.appBarTheme.titleTextStyle
-            ),
+            child: Text('Hedieaty', style: theme.appBarTheme.titleTextStyle),
           ),
         ),
         centerTitle: true,
@@ -121,7 +118,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     labelStyle: TextStyle(
                                         color: theme.colorScheme.primary),
                                     contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 10),
+                                        EdgeInsets.symmetric(horizontal: 10),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: theme.colorScheme.primary,
@@ -144,7 +141,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
+                                padding:
+                                    const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
                                 child: IconButton(
                                   onPressed: _filterFriends,
                                   icon: Icon(
@@ -230,9 +228,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                         );
                                         if (variable == true) {
                                           setState(() {
-                                            futureData =
-                                                MyFriendsViewModel()
-                                                    .initialiseData();
+                                            futureData = MyFriendsViewModel()
+                                                .initialiseData();
                                           });
                                         }
                                       },

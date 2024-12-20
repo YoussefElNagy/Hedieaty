@@ -12,7 +12,7 @@ class MyEvents extends StatefulWidget {
 }
 
 class _MyEventsState extends State<MyEvents> {
-  void _deleteEvent(String eventId,String userId) {
+  void _deleteEvent(String eventId, String userId) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -27,8 +27,8 @@ class _MyEventsState extends State<MyEvents> {
             child: const Text("Cancel"),
           ),
           ElevatedButton(
-            onPressed: () async{
-              await MyEventsViewModel().deleteCurrentEvent(eventId,userId);
+            onPressed: () async {
+              await MyEventsViewModel().deleteCurrentEvent(eventId, userId);
               Navigator.pop(context);
               refreshData();
             },
@@ -53,12 +53,13 @@ class _MyEventsState extends State<MyEvents> {
       futureData = MyEventsViewModel().initialiseData();
     });
   }
+
   Future<void> _createOrEditEvent({Event? event, UserModel? user}) async {
     final isEditing = event != null;
     final TextEditingController nameController =
-    TextEditingController(text: event?.eventName ?? '');
+        TextEditingController(text: event?.eventName ?? '');
     final TextEditingController locationController =
-    TextEditingController(text: event?.location ?? '');
+        TextEditingController(text: event?.location ?? '');
     final TextEditingController dateController = TextEditingController(
       text: event != null
           ? DateFormat('yyyy-MM-dd HH:mm').format(event.dateTime)
@@ -70,7 +71,9 @@ class _MyEventsState extends State<MyEvents> {
       context: context,
       builder: (BuildContext context) {
         return Dialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          key: const Key('eventDialog'),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             padding: const EdgeInsets.all(20.0),
@@ -127,7 +130,8 @@ class _MyEventsState extends State<MyEvents> {
                           );
                           if (pickedDate.isBefore(DateTime.now())) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Please select a valid date")),
+                              SnackBar(
+                                  content: Text("Please select a valid date")),
                             );
                           }
                           setState(() {
@@ -151,6 +155,7 @@ class _MyEventsState extends State<MyEvents> {
                   ),
                   const SizedBox(height: 15),
                   DropdownButtonFormField<EventCategory>(
+                    key: const Key('eventDropDown'),
                     value: selectedCategory,
                     decoration: InputDecoration(
                       labelText: "Category",
@@ -194,8 +199,8 @@ class _MyEventsState extends State<MyEvents> {
                             if (eventDate.isBefore(DateTime.now())) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content:
-                                  Text("The event date cannot be in the past."),
+                                  content: Text(
+                                      "The event date cannot be in the past."),
                                 ),
                               );
                               return; // Prevent event creation
@@ -237,7 +242,8 @@ class _MyEventsState extends State<MyEvents> {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                  content: Text('Please fill all required fields.')),
+                                  content:
+                                      Text('Please fill all required fields.')),
                             );
                           }
                         },
@@ -311,26 +317,33 @@ class _MyEventsState extends State<MyEvents> {
                             children: [
                               Row(
                                 children: [
-                                  Icon(Icons.date_range_outlined,color: theme.colorScheme.primary,),
-                                  SizedBox(width: 5,),
+                                  Icon(
+                                    Icons.date_range_outlined,
+                                    color: theme.colorScheme.primary,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
                                   Text(
                                     '${DateFormat('dd-MM-yyyy HH:mm').format(event.dateTime)}',
                                     style: GoogleFonts.cairo(),
                                   ),
                                 ],
                               ),
-
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 6.0),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 6.0),
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Icon(Icons.pin_drop,color: theme.colorScheme.primary,),
+                                    Icon(
+                                      Icons.pin_drop,
+                                      color: theme.colorScheme.primary,
+                                    ),
                                     Text(
-                                      '${event.location?? "Not defined..."}',
+                                      '${event.location ?? "Not defined..."}',
                                       style: GoogleFonts.cairo(
-                                        fontWeight: FontWeight.w600
-                                      ),
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ],
                                 ),
@@ -338,8 +351,7 @@ class _MyEventsState extends State<MyEvents> {
                               Text(
                                 'Category: ${event.category.name}',
                                 style: GoogleFonts.cairo(
-                                    fontWeight: FontWeight.w600
-                                ),
+                                    fontWeight: FontWeight.w600),
                               ),
                             ],
                           ),
@@ -357,7 +369,7 @@ class _MyEventsState extends State<MyEvents> {
                                   color: Colors.red,
                                 ),
                                 onPressed: () {
-                                  _deleteEvent(event.id,user.id);
+                                  _deleteEvent(event.id, user.id);
                                   refreshData();
                                 },
                               ),

@@ -24,7 +24,7 @@ class _EventsState extends State<Events> with SingleTickerProviderStateMixin {
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 2000),
     );
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
