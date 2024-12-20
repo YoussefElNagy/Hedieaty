@@ -430,6 +430,7 @@ class _ProfileState extends State<Profile> {
                         style: TextStyle(color: Colors.red),
                       ),
                       IconButton(
+                        key: Key("logoutBtn"),
                           onPressed: () {
                             ProfileViewModel().handleLogout();
                             Navigator.pushReplacement(

@@ -16,35 +16,19 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
 
-  TextEditingController searchController = TextEditingController();
   List<dynamic> allFriends = [];
   List<dynamic> filteredFriends = [];
-
-  void _filterFriends() {
-    debugPrint('Search query: ${searchController.text}');
-    setState(() {
-      filteredFriends = allFriends.where((friend) {
-        return friend.username
-                .toLowerCase()
-                .contains(searchController.text.toLowerCase()) ||
-            (friend.email != null &&
-                friend.email!
-                    .toLowerCase()
-                    .contains(searchController.text.toLowerCase()));
-      }).toList();
-    });
-  }
+  String searchQuery = "";
 
   @override
   void initState() {
     super.initState();
     futureData = MyFriendsViewModel().initialiseData();
-    searchController.addListener(_filterFriends);
 
     // Animation controller
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 1500),
     );
     _fadeAnimation = CurvedAnimation(
       parent: _animationController,
@@ -56,7 +40,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
-    searchController.dispose();
     super.dispose();
   }
 
@@ -112,7 +95,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 height: 60,
                                 width: 240,
                                 child: TextField(
-                                  controller: searchController,
                                   decoration: InputDecoration(
                                     labelText: "Search for a friend..",
                                     labelStyle: TextStyle(
@@ -135,8 +117,10 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                     ),
                                   ),
                                   keyboardType: TextInputType.text,
-                                  onChanged: (_) {
-                                    _filterFriends();
+                                  onChanged: (value) {
+                                    setState(() {
+                                      searchQuery = value.toLowerCase();
+                                    });
                                   },
                                 ),
                               ),
@@ -144,7 +128,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                                 padding:
                                     const EdgeInsets.fromLTRB(15.0, 0, 0, 10),
                                 child: IconButton(
-                                  onPressed: _filterFriends,
+                                  onPressed: (){},
                                   icon: Icon(
                                     Icons.search,
                                     color: theme.colorScheme.primary,
@@ -172,18 +156,24 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                             return Center(child: Text("Error loading data"));
                           } else if (!snapshot.hasData ||
                               snapshot.data == null) {
-                            return Center(child: Text("No data available"));
+                            return Center(
+                                child: Text("No friends data available"));
                           }
-                          final friends = snapshot.data!['friends'];
+                          List friends = (snapshot.data!['friends'] as List)
+                              .map((e) => e)
+                              .toList();
                           debugPrint(
                               'Friends List: $friends'); // Check if friends data is correct
-                          allFriends = friends; // Store all friends
-                          filteredFriends =
-                              friends; // Initialize filtered list with all friends
+                          // allFriends = friends; // Store all friends
+                          // filteredFriends =
+                          //friends; // Initialize filtered list with all friends
+                          friends = MyFriendsViewModel()
+                              .applySearch(friends, searchQuery);
+
                           return ListView.builder(
-                            itemCount: filteredFriends.length,
+                            itemCount: friends.length,
                             itemBuilder: (context, index) {
-                              final friend = filteredFriends[index];
+                              final friend = friends[index];
                               return SlideTransition(
                                 position: Tween<Offset>(
                                   begin: const Offset(-1, 0),

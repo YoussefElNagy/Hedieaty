@@ -64,5 +64,18 @@ class MyEventsViewModel {
       rethrow; // Handle exceptions
     }
   }
+  String? validateEventName(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Event name is required';
+    }
+    return null;
+  }
+
+  String? validateEventLocation(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Event location is required';
+    }
+    return null;
+  }
 
 }

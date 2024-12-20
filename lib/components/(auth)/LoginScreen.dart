@@ -112,6 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Form(
                 key: formKey,
                 child: Column(
+                  key: Key("loginForm"),
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     TextFormField(

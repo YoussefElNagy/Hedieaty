@@ -47,4 +47,16 @@ class MyFriendsViewModel {
     await userService.removeFriendFromUser(_auth.currentUser!.uid, userId);
     await userService.removeFriendFromUser(userId, _auth.currentUser!.uid);
   }
+
+
+  List applySearch(List friends, String searchQuery) {
+    // Apply filtering based on searchQuery, selectedSort, and selectedFilter
+    if (searchQuery.isNotEmpty) {
+      friends = friends
+          .where((friend) => friend.username.toLowerCase().contains(searchQuery))
+          .toList();
+    }
+
+    return friends;
+  }
 }

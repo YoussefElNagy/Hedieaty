@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hedeyeti/components/(auth)/LoginScreen.dart';
 import 'package:hedeyeti/components/myevents/MyEvents.dart';
-import 'package:hedeyeti/components/myfriends/Home.dart';
 import 'package:hedeyeti/main.dart';
 import 'package:integration_test/integration_test.dart';
 
@@ -71,8 +69,8 @@ void main() {
     testWidgets("loginSuccess", (tester) async {
       await tester.pumpWidget(Hedieaty());
       await tester.enterText(
-          find.byType(TextFormField).at(0), "nognog@gmail.com");
-      await tester.enterText(find.byType(TextFormField).at(1), "nognog");
+          find.byType(TextFormField).at(0), "integration@gmail.com");
+      await tester.enterText(find.byType(TextFormField).at(1), "222222");
       await tester.pump(); //setState
       await tester.tap(find.byType(ElevatedButton));
       await tester.pumpAndSettle(Duration(seconds: 2));
@@ -106,17 +104,17 @@ void main() {
     //
     //   // Fill out the form fields
     //   await tester.enterText(
-    //       find.widgetWithText(TextField, 'Event Name'), 'Integration Party');
+    //       find.widgetWithText(TextField, 'Event Name'), 'Create Party');
     //   await tester.enterText(
     //       find.widgetWithText(TextField, 'Date & Time (yyyy-MM-dd HH:mm)'),
     //       '2024-12-25 18:00');
     //   await tester.enterText(
-    //       find.widgetWithText(TextField, 'Event Location'), 'My House');
+    //       find.widgetWithText(TextField, 'Event Location'), 'Place');
     //
     //   // Select a category from the dropdown
     //   await tester.tap(find.byKey(const Key('eventDropDown')));
     //   await tester.pumpAndSettle();
-    //   await tester.tap(find.text('engagement').last);
+    //   await tester.tap(find.text('other').last);
     //   await tester.pumpAndSettle();
     //
     //   // Tap the Create button
@@ -199,6 +197,39 @@ void main() {
 
       // Verify that the event is deleted from the list
       expect(find.widgetWithText(ListTile, 'Integration Party'), findsNothing);
+    });
+
+    testWidgets('logout', (WidgetTester tester) async {
+      await tester.pumpWidget(Hedieaty());
+      await tester.enterText(
+          find.byType(TextFormField).at(0), "integration@gmail.com");
+      await tester.enterText(find.byType(TextFormField).at(1), "222222");
+      await tester.pump(); //setState
+      await tester.tap(find.byType(ElevatedButton));
+      await tester.pumpAndSettle(Duration(seconds: 2));
+
+      //check if in home
+      expect(find.byIcon(Icons.person_add), findsOneWidget);
+      await tester.tap(find.byIcon(Icons.person));
+      await tester.pumpAndSettle();
+
+      // Verify the expected result
+      expect(find.text('Profile'), findsOneWidget);
+
+      //scroll to reach button
+      await tester.drag(
+        find.byType(SingleChildScrollView),
+        const Offset(0, -1000), // Negative Y value to scroll down
+      );
+      await tester.pumpAndSettle();
+
+      // Verify the logout button exists
+      expect(find.byKey(const Key('logoutBtn')), findsOneWidget);
+      await tester.tap(find.byKey(const Key('logoutBtn')));
+      await tester.pumpAndSettle(Duration(seconds: 2));
+
+      // Verify the login form exists
+      expect(find.byKey(const Key('loginForm')), findsOneWidget);
     });
   });
 }

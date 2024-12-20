@@ -40,17 +40,19 @@ class _MyEventsState extends State<MyEvents> {
   }
 
   late Future<Map<String, dynamic>> futureData;
+  final _formKey = GlobalKey<FormState>();
+  final _viewModel = MyEventsViewModel();
 
   @override
   void initState() {
-    futureData = MyEventsViewModel().initialiseData();
+    futureData = _viewModel.initialiseData();
     print('init ${futureData}');
     super.initState();
   }
 
   void refreshData() {
     setState(() {
-      futureData = MyEventsViewModel().initialiseData();
+      futureData = _viewModel.initialiseData();
     });
   }
 
@@ -77,181 +79,188 @@ class _MyEventsState extends State<MyEvents> {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             padding: const EdgeInsets.all(20.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    isEditing ? "Edit Event" : "Create Event",
-                    style: GoogleFonts.cairo(
-                        textStyle: Theme.of(context).textTheme.headlineSmall),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      labelText: "Event Name",
-                      labelStyle: GoogleFonts.cairo(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      isEditing ? "Edit Event" : "Create Event",
+                      style: GoogleFonts.cairo(
+                          textStyle: Theme.of(context).textTheme.headlineSmall),
                     ),
-                  ),
-                  const SizedBox(height: 15),
-                  TextField(
-                    controller: dateController,
-                    decoration: InputDecoration(
-                      labelText: "Date & Time (yyyy-MM-dd HH:mm)",
-                      labelStyle: GoogleFonts.cairo(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onTap: () async {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2020),
-                        lastDate: DateTime(2100),
-                      );
-                      if (pickedDate != null) {
-                        TimeOfDay? pickedTime = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        );
-                        if (pickedTime != null) {
-                          final fullDateTime = DateTime(
-                            pickedDate.year,
-                            pickedDate.month,
-                            pickedDate.day,
-                            pickedTime.hour,
-                            pickedTime.minute,
-                          );
-                          if (pickedDate.isBefore(DateTime.now())) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content: Text("Please select a valid date")),
-                            );
-                          }
-                          setState(() {
-                            dateController.text = DateFormat('yyyy-MM-dd HH:mm')
-                                .format(fullDateTime);
-                          });
-                        }
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  TextField(
-                    controller: locationController,
-                    decoration: InputDecoration(
-                      labelText: "Event Location",
-                      labelStyle: GoogleFonts.cairo(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 15),
-                  DropdownButtonFormField<EventCategory>(
-                    key: const Key('eventDropDown'),
-                    value: selectedCategory,
-                    decoration: InputDecoration(
-                      labelText: "Category",
-                      labelStyle: GoogleFonts.cairo(),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    items: EventCategory.values.map((EventCategory category) {
-                      return DropdownMenuItem<EventCategory>(
-                        value: category,
-                        child: Text(
-                          category.toString().split('.').last,
-                          style: GoogleFonts.cairo(),
+                    const SizedBox(height: 20),
+                    TextFormField(
+                      validator: _viewModel.validateEventName,
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        labelText: "Event Name",
+                        labelStyle: GoogleFonts.cairo(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      );
-                    }).toList(),
-                    onChanged: (EventCategory? value) {
-                      setState(() {
-                        selectedCategory = value!;
-                      });
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text("Cancel"),
                       ),
-                      const SizedBox(width: 10),
-                      ElevatedButton(
-                        onPressed: () async {
-                          if (nameController.text.isNotEmpty &&
-                              dateController.text.isNotEmpty) {
-                            final eventDate = DateFormat('yyyy-MM-dd HH:mm')
-                                .parse(dateController.text);
-
-                            // Check if event date is in the past
-                            if (eventDate.isBefore(DateTime.now())) {
+                    ),
+                    const SizedBox(height: 15),
+                    TextField(
+                      controller: dateController,
+                      decoration: InputDecoration(
+                        labelText: "Date & Time (yyyy-MM-dd HH:mm)",
+                        labelStyle: GoogleFonts.cairo(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onTap: () async {
+                        FocusScope.of(context).requestFocus(FocusNode());
+                        DateTime? pickedDate = await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2100),
+                        );
+                        if (pickedDate != null) {
+                          TimeOfDay? pickedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+                          if (pickedTime != null) {
+                            final fullDateTime = DateTime(
+                              pickedDate.year,
+                              pickedDate.month,
+                              pickedDate.day,
+                              pickedTime.hour,
+                              pickedTime.minute,
+                            );
+                            if (pickedDate.isBefore(DateTime.now())) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(
-                                      "The event date cannot be in the past."),
-                                ),
-                              );
-                              return; // Prevent event creation
-                            }
-
-                            if (isEditing) {
-                              // Update event using ViewModel
-                              await MyEventsViewModel().updateEvent(
-                                Event(
-                                  id: event.id,
-                                  eventName: nameController.text,
-                                  ownerId: user!.id,
-                                  dateTime: eventDate,
-                                  category: selectedCategory,
-                                  location: locationController.text,
-                                  giftIds: event.giftIds,
-                                ),
-                              );
-                            } else {
-                              // Create event using ViewModel
-                              await MyEventsViewModel().createEvent(
-                                Event(
-                                  id: MyEventsViewModel().generateEventId(),
-                                  eventName: nameController.text,
-                                  ownerId: user!.id,
-                                  dateTime: eventDate,
-                                  category: selectedCategory,
-                                  location: locationController.text,
-                                  giftIds: [],
-                                ),
+                                    content:
+                                        Text("Please select a valid date")),
                               );
                             }
-
-                            Navigator.pop(context);
                             setState(() {
-                              futureData = MyEventsViewModel()
-                                  .initialiseData(); // Refresh data after add/update
+                              dateController.text =
+                                  DateFormat('yyyy-MM-dd HH:mm')
+                                      .format(fullDateTime);
                             });
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content:
-                                      Text('Please fill all required fields.')),
-                            );
                           }
-                        },
-                        child: Text(isEditing ? "Save" : "Create"),
+                        }
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    TextFormField(
+                      validator: _viewModel.validateEventLocation,
+                      controller: locationController,
+                      decoration: InputDecoration(
+                        labelText: "Event Location",
+                        labelStyle: GoogleFonts.cairo(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    const SizedBox(height: 15),
+                    DropdownButtonFormField<EventCategory>(
+                      key: const Key('eventDropDown'),
+                      value: selectedCategory,
+                      decoration: InputDecoration(
+                        labelText: "Category",
+                        labelStyle: GoogleFonts.cairo(),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      items: EventCategory.values.map((EventCategory category) {
+                        return DropdownMenuItem<EventCategory>(
+                          value: category,
+                          child: Text(
+                            category.toString().split('.').last,
+                            style: GoogleFonts.cairo(),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (EventCategory? value) {
+                        setState(() {
+                          selectedCategory = value!;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text("Cancel"),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () async {
+                            if (nameController.text.isNotEmpty &&
+                                dateController.text.isNotEmpty) {
+                              final eventDate = DateFormat('yyyy-MM-dd HH:mm')
+                                  .parse(dateController.text);
+
+                              // Check if event date is in the past
+                              if (eventDate.isBefore(DateTime.now())) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        "The event date cannot be in the past."),
+                                  ),
+                                );
+                                return; // Prevent event creation
+                              }
+
+                              if (isEditing) {
+                                // Update event using ViewModel
+                                await _viewModel.updateEvent(
+                                  Event(
+                                    id: event.id,
+                                    eventName: nameController.text,
+                                    ownerId: user!.id,
+                                    dateTime: eventDate,
+                                    category: selectedCategory,
+                                    location: locationController.text,
+                                    giftIds: event.giftIds,
+                                  ),
+                                );
+                              } else {
+                                // Create event using ViewModel
+                                await _viewModel.createEvent(
+                                  Event(
+                                    id: _viewModel.generateEventId(),
+                                    eventName: nameController.text,
+                                    ownerId: user!.id,
+                                    dateTime: eventDate,
+                                    category: selectedCategory,
+                                    location: locationController.text,
+                                    giftIds: [],
+                                  ),
+                                );
+                              }
+
+                              Navigator.pop(context);
+                              setState(() {
+                                futureData = _viewModel
+                                    .initialiseData(); // Refresh data after add/update
+                              });
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                    content: Text(
+                                        'Please fill all required fields.')),
+                              );
+                            }
+                          },
+                          child: Text(isEditing ? "Save" : "Create"),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
