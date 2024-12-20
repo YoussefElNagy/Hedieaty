@@ -7,10 +7,10 @@ class AuthenticationViewModel {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore store = FirebaseFirestore.instance;
 
-  Future<void> signUp({email, password, username, phone}) async {
+  Future<void> signUp({email, password, username, phone,gender}) async {
     await Auth().signUp(email: email, password: password);
     await UsersService()
-        .saveUserData(username: username, email: email, phone: phone);
+        .saveUserData(username: username, email: email, phone: phone,gender:gender);
   }
 
   Future<User?> signIn({email, password}) async {

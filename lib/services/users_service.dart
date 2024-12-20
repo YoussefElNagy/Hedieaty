@@ -9,16 +9,18 @@ class UsersService {
   Future<void> saveUserData(
       {required String username,
       required String email,
-      required String phone}) async {
+      required String phone,
+      required String gender}) async {
     User? user = _auth.currentUser;
     if (user != null) {
       String uid = user.uid;
+      String profilePic= gender=="male"?"assets/male.png":"assets/female.jpg";
       _firestore.collection('users').doc(uid).set({
         'id': user.uid,
         'username': username,
         'email': email,
         'phone': phone,
-        'profilePic': "assets/sample.jpg",
+        'profilePic': profilePic,
         'friendIds': [],
         'eventIds': [],
         'giftIds': [],

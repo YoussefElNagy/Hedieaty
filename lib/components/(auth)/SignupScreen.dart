@@ -32,7 +32,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final phone = _phoneController.text.trim();
 
 
-      AuthenticationViewModel().signUp(email:email,password:password,username:username,phone:phone);
+      AuthenticationViewModel().signUp(email:email,password:password,username:username,phone:phone,gender:gender);
 
       Navigator.pushReplacement(
         context,
@@ -81,6 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
+  String gender = 'male';
 
   @override
   void dispose() {
@@ -166,6 +167,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                           return null;
                         },
+                      ),
+                      const SizedBox(height: 16),
+                      DropdownButtonFormField<String>(
+                        decoration: InputDecoration(labelText: "Gender"),
+                        value: gender,
+                        items: [
+                          DropdownMenuItem(value: 'male', child: Text("Male")),
+                          DropdownMenuItem(value: 'female', child: Text("Female")),
+                        ],
+                        onChanged: (value) => setState(() => gender = value!),
                       ),
                       const SizedBox(height: 16),
                       TextFormField(
